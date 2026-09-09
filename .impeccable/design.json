@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-09T12:35:17.609Z",
+  "title": "Design System: GAZALEZ",
+  "extensions": {
+    "shadows": [],
+    "motion": [
+      {
+        "name": "interaction",
+        "value": "140ms cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Press feedback"
+      },
+      {
+        "name": "menu-enter",
+        "value": "420ms power3.out",
+        "purpose": "Occasional full-screen navigation reveal"
+      },
+      {
+        "name": "menu-exit",
+        "value": "240ms",
+        "purpose": "Menu dismissal; immediate on keyboard"
+      },
+      {
+        "name": "welcome",
+        "value": "1150ms + 240ms",
+        "purpose": "Document entry and refresh; skippable; CSS fail-open at 1800ms"
+      },
+      {
+        "name": "hero-scroll",
+        "value": "440px desktop / inline mobile",
+        "purpose": "Matter assembles into a ribbon with native scroll; static reduced-motion fallback"
+      },
+      {
+        "name": "route-cover",
+        "value": "180ms + 25ms stagger",
+        "purpose": "Cover before routing; reveal after arrival at top"
+      },
+      {
+        "name": "dropdown",
+        "value": "160ms enter / immediate exit",
+        "purpose": "Desktop navigation feedback"
+      },
+      {
+        "name": "drilldown",
+        "value": "520 stiffness / 46 damping",
+        "purpose": "Stable parent rows and reversible child navigation"
+      },
+      {
+        "name": "transformation",
+        "value": "720ms + 130ms stagger",
+        "purpose": "Four conceptual material states; single visible pass"
+      },
+      {
+        "name": "research",
+        "value": "650–1500ms bounded interaction",
+        "purpose": "Explore hydrogel, water and beneficial bacteria"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "290px"
+      },
+      {
+        "name": "small",
+        "value": "380px"
+      },
+      {
+        "name": "stack",
+        "value": "760px"
+      },
+      {
+        "name": "navigation",
+        "value": "1000px"
+      },
+      {
+        "name": "dock",
+        "value": "1000px"
+      },
+      {
+        "name": "compact",
+        "value": "1100px"
+      },
+      {
+        "name": "wide",
+        "value": "1700px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Technical enquiry action",
+      "html": "<button class=\"button\">Hablemos de tu desafío</button>",
+      "css": ".button{\n  display: inline-flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: 24px;\n  min-height: 54px;\n  padding: 15px 23px;\n  font-size: 12px;\n  font-weight: 450;\n  border: 1px solid #163024;\n  background: #163024;\n  color: #f7f8f3;\n  line-height: 1.45;\n  transition:\n    background-color 0.2s ease,\n    color 0.2s ease;\n  max-width: 100%;\n  text-align: left;\n}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Compact Radix Menubar with semantic Lucide icons and anchored green dropdowns",
+      "html": "<div role=\"menubar\" class=\"desktop-nav topbar-navigation\"><button role=\"menuitem\" class=\"topbar-trigger\" aria-haspopup=\"menu\">Soluciones</button></div>",
+      "css": ".topbar-navigation{display:flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:8px;background:var(--canvas)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Materia que se transforma",
+    "overview": "Industrial clarity with light mint fields, sage material and forest ink. Evidence stays distinct from conceptual imagery.",
+    "keyCharacteristics": [
+      "Pastel greens",
+      "Original emblem",
+      "Editorial hierarchy",
+      "Finite motion"
+    ],
+    "rules": [
+      {
+        "name": "The Concept Label Rule",
+        "body": "Label conceptual art and preserve factual evidence boundaries.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Preserve the supplied logo.",
+      "Keep keyboard controls immediate.",
+      "Honor reduced motion."
+    ],
+    "donts": [
+      "Do not introduce gold.",
+      "Do not invent social profiles or technical claims.",
+      "Do not lock scrolling for visual effects."
+    ]
+  }
+}
