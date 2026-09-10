@@ -29,11 +29,15 @@ export function BrandIntro() {
       if (reduce.matches) dismiss(true);
     };
     addEventListener("keydown", keyboard, { once: true });
+    addEventListener("touchstart", keyboard, { once: true, passive: true });
+    addEventListener("wheel", keyboard, { once: true, passive: true });
     reduce.addEventListener("change", preference);
     return () => {
       clearTimeout(end);
       if (timer.current) clearTimeout(timer.current);
       removeEventListener("keydown", keyboard);
+      removeEventListener("touchstart", keyboard);
+      removeEventListener("wheel", keyboard);
       reduce.removeEventListener("change", preference);
     };
   }, [dismiss]);

@@ -1,38 +1,41 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Dna, Droplets, Network, Layers3 } from "lucide-react";
-import gsap from "gsap";
+import { useId, useState, type CSSProperties } from "react";
+import { hydrobacPlanePositions } from "@/lib/hydrobac-layout.mjs";
+import { Dna, Droplets, Network, Layers3, RotateCcw } from "lucide-react";
 
 const stages = [
   {
     label: "Hidrogel",
     icon: Network,
+    title: "Una matriz que conecta.",
     text: "Una red de polímeros capaz de incorporar agua en su estructura.",
   },
   {
     label: "Agua",
     icon: Droplets,
+    title: "El agua, dentro de la red.",
     text: "Explora cómo el agua se integra en la matriz del hidrogel.",
   },
   {
     label: "Bacterias benéficas",
     icon: Dna,
+    title: "Biología y materiales, juntos.",
     text: "HIDROBAC combina hidrogeles y bacterias benéficas para abordar el estrés hídrico en plantas.",
   },
 ];
 const nodes = [
-  [140, 170],
-  [215, 130],
-  [300, 150],
-  [365, 210],
-  [355, 300],
-  [280, 355],
-  [195, 335],
-  [125, 275],
-  [220, 225],
-  [285, 260],
-  [235, 295],
-  [170, 240],
+  [105, -8],
+  [160, -42],
+  [240, -48],
+  [320, -25],
+  [350, 12],
+  [285, 44],
+  [205, 51],
+  [130, 28],
+  [190, -8],
+  [265, 10],
+  [220, 28],
+  [150, 7],
 ];
 const bonds = [
   [0, 1],
@@ -58,282 +61,285 @@ const bonds = [
   [10, 11],
   [6, 11],
 ];
+const water = [
+  [115, 0, 12],
+  [172, -26, 18],
+  [254, -29, 14],
+  [321, 0, 18],
+  [270, 33, 12],
+  [190, 29, 16],
+  [228, 2, 10],
+];
+const bacteria = [
+  [135, -4, -34],
+  [202, -27, 24],
+  [287, -13, -30],
+  [302, 25, 30],
+  [211, 30, -32],
+];
 
 export function HydrobacExplorer() {
+  const id = useId().replace(/:/g, "");
   const [active, setActive] = useState(0);
-  const [separated, setSeparated] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
-  const keyboard = useRef(false);
-  useEffect(() => {
-    const element = root.current;
-    if (!element) return;
-    const media = gsap.matchMedia();
-    media.add("(prefers-reduced-motion: no-preference)", () => {
-      if (keyboard.current) return;
-      let contextCleanup = () => {};
-      const context = gsap.context(() => {
-        const timeline = gsap.timeline({ paused: true });
-        if (active === 1)
-          timeline.fromTo(
-            ".hydrobac-water",
-            {
-              x: -48,
-              y: -10,
-              scale: 0.72,
-              transformOrigin: "center",
-              opacity: 0.25,
-            },
-            {
-              x: 0,
-              y: 0,
-              scale: 1,
-              opacity: 1,
-              duration: 0.65,
-              stagger: { amount: 0.2 },
-              ease: "power2.out",
-            },
-          );
-        else if (active === 2)
-          timeline.fromTo(
-            ".hydrobac-bacteria",
-            {
-              rotation: -22,
-              scale: 0.7,
-              transformOrigin: "center",
-              opacity: 0.3,
-            },
-            {
-              rotation: 0,
-              scale: 1,
-              opacity: 1,
-              duration: 0.65,
-              stagger: 0.07,
-              ease: "power3.out",
-            },
-          );
-        else
-          timeline.fromTo(
-            ".hydrobac-bond",
-            { strokeDashoffset: 140 },
-            {
-              strokeDashoffset: 0,
-              duration: 1.2,
-              stagger: { amount: 0.3 },
-              ease: "power2.out",
-            },
-          );
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting && !document.hidden) timeline.play();
-            else timeline.pause();
-          },
-          { threshold: 0.25 },
-        );
-        const graphic = element.querySelector(".hydrobac-figure") ?? element;
-        observer.observe(graphic);
-        const visibility = () => {
-          if (document.hidden) timeline.pause();
-          else if (
-            graphic.getBoundingClientRect().bottom > 0 &&
-            graphic.getBoundingClientRect().top < innerHeight
-          )
-            timeline.play();
-        };
-        document.addEventListener("visibilitychange", visibility);
-        contextCleanup = () => {
-          observer.disconnect();
-          document.removeEventListener("visibilitychange", visibility);
-        };
-      }, element);
-      // Observer callbacks run asynchronously; cleanup is retained with this media context.
-      return () => {
-        contextCleanup();
-        context.revert();
-      };
-    });
-    return () => media.revert();
-  }, [active]);
+  const [opening, setOpening] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const amount = opening / 100;
+  const positions = hydrobacPlanePositions(opening);
+  const select = (index: number) => setActive(index);
+  const plane = (index: number): CSSProperties => ({
+    transform: `translateY(${positions[index]}px)`,
+  });
   return (
     <div
       className="hydrobac-explorer"
-      ref={root}
       data-active={active}
-      data-separated={separated}
+      data-open={opening > 45}
+      data-dragging={dragging}
     >
+      <div className="hb-heading">
+        <h3>Explora HIDROBAC</h3>
+        <button
+          type="button"
+          className="hb-reset"
+          aria-label="Restablecer exploración"
+          onClick={() => {
+            setActive(0);
+            setOpening(0);
+          }}
+        >
+          <RotateCcw size={17} aria-hidden="true" />
+        </button>
+      </div>
       <div className="hydrobac-figure">
         <svg
-          viewBox="0 0 500 440"
-          role="img"
-          aria-label={`HIDROBAC: ${stages[active].label}. Representación conceptual sin escala.`}
+          viewBox="0 0 540 550"
+          role="group"
+          aria-label="Componentes de HIDROBAC. Representación conceptual sin escala."
         >
           <defs>
-            <radialGradient id="hydrobac-gel">
-              <stop offset="0" stopColor="#eef8df" stopOpacity="0.9" />
-              <stop offset="1" stopColor="#6b956f" stopOpacity="0.3" />
-            </radialGradient>
+            <linearGradient id={`${id}-gel`} x1="0" y1="0" x2="0.8" y2="1">
+              <stop stopColor="#eff8e0" />
+              <stop offset="1" stopColor="#86ad82" />
+            </linearGradient>
+            <linearGradient id={`${id}-water`} x1="0" y1="0" x2="0.8" y2="1">
+              <stop stopColor="#effcf5" />
+              <stop offset="1" stopColor="#6eafa5" />
+            </linearGradient>
           </defs>
-          <g className="hydrobac-strata" aria-hidden="true">
-            <path
-              d="M105 157Q172 70 286 105Q410 123 402 254Q399 356 297 384Q163 410 107 325Q57 239 105 157Z"
-              transform="translate(12 18)"
-              fill="#80a48a"
-              fillOpacity="0.2"
-              stroke="#769982"
-            />
-            <path
-              d="M105 157Q172 70 286 105Q410 123 402 254Q399 356 297 384Q163 410 107 325Q57 239 105 157Z"
-              transform="translate(6 9)"
-              fill="#bbd5ae"
-              fillOpacity="0.35"
-              stroke="#91b18b"
-            />
-          </g>
           <path
-            className="hydrobac-envelope"
-            d="M105 157Q172 70 286 105Q410 123 402 254Q399 356 297 384Q163 410 107 325Q57 239 105 157Z"
-            fill="url(#hydrobac-gel)"
-            stroke="#72966e"
-            strokeWidth="1.5"
+            className="hb-axis"
+            d="M228 48V495"
+            stroke="#a2b7a0"
+            strokeDasharray="3 7"
+            fill="none"
+            opacity={amount * 0.65}
           />
-          <g className="hydrobac-network">
-            {bonds.map(([a, b], i) => (
-              <line
-                className="hydrobac-bond"
-                key={i}
-                x1={nodes[a][0]}
-                y1={nodes[a][1]}
-                x2={nodes[b][0]}
-                y2={nodes[b][1]}
-                stroke="#507f59"
-                strokeWidth="2"
-                strokeDasharray="140"
-              />
-            ))}
-            {nodes.map(([x, y], i) => (
-              <circle
-                key={i}
-                cx={x}
-                cy={y}
-                r={i % 3 === 0 ? 7 : 4}
-                fill="#426b49"
-                stroke="#d8e9d0"
-                strokeWidth="3"
-              />
-            ))}
-          </g>
-          <g
-            className="hydrobac-water-group"
-            fill="#aeddd6"
-            stroke="#366d64"
-            strokeWidth="1.8"
-          >
-            {[
-              [88, 190],
-              [157, 208],
-              [244, 179],
-              [330, 234],
-              [174, 296],
-              [295, 316],
-              [355, 160],
-            ].map(([x, y], i) => (
-              <g className="hydrobac-water" key={i}>
-                <circle cx={x} cy={y} r={10 + (i % 3) * 3} />
-                <path
-                  d={`M${x - 4} ${y - 3}q2 -4 6 -3`}
+          {[0, 1, 2].map((index) => (
+            <g
+              key={index}
+              className={`hb-plane hb-plane-${index}`}
+              style={plane(index)}
+            >
+              <g
+                className="hb-plane-content"
+                role="button"
+                tabIndex={0}
+                aria-label={`Explorar ${stages[index].label}`}
+                aria-pressed={active === index}
+                onClick={() => select(index)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    select(index);
+                  }
+                }}
+              >
+                <ellipse
+                  className="hb-plane-edge"
+                  cx="225"
+                  cy="12"
+                  rx="165"
+                  ry="66"
+                  fill={index === 1 ? "#a1c9bd" : "#a5bea0"}
+                />
+                <ellipse
+                  className="hb-plane-surface"
+                  cx="225"
+                  cy="0"
+                  rx="165"
+                  ry="66"
+                  fill={
+                    index === 1
+                      ? "#d1e7dd"
+                      : index === 2
+                        ? "#e4eed8"
+                        : `url(#${id}-gel)`
+                  }
+                  stroke={index === 1 ? "#57948a" : "#678e60"}
+                  strokeWidth="1.5"
+                />
+                {index === 0 && (
+                  <g fill="#315e40" stroke="#edf5e4">
+                    {bonds.map(([a, b], i) => (
+                      <line
+                        key={i}
+                        x1={nodes[a][0]}
+                        y1={nodes[a][1]}
+                        x2={nodes[b][0]}
+                        y2={nodes[b][1]}
+                        stroke="#436e4d"
+                        strokeWidth="2"
+                      />
+                    ))}
+                    {nodes.map(([x, y], i) => (
+                      <circle
+                        key={i}
+                        cx={x}
+                        cy={y}
+                        r={i % 3 === 0 ? 6 : 4}
+                        strokeWidth="2"
+                      />
+                    ))}
+                  </g>
+                )}
+                {index === 1 && (
+                  <g>
+                    {water.map(([x, y, r], i) => (
+                      <g key={i}>
+                        <circle
+                          cx={x}
+                          cy={y - 4}
+                          r={r}
+                          fill={`url(#${id}-water)`}
+                          stroke="#367c75"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d={`M${x - 5} ${y - 8}q3 -5 7 -4`}
+                          stroke="#f5fff9"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          fill="none"
+                        />
+                      </g>
+                    ))}
+                  </g>
+                )}
+                {index === 2 && (
+                  <g>
+                    {bacteria.map(([x, y, a], i) => (
+                      <g
+                        key={i}
+                        transform={`translate(${x} ${y}) rotate(${a})`}
+                      >
+                        <rect
+                          x="-8"
+                          y="-20"
+                          width="16"
+                          height="40"
+                          rx="8"
+                          fill="#234c36"
+                          stroke="#a8c791"
+                          strokeWidth="2"
+                        />
+                        <path
+                          d="M-2 -10v18"
+                          stroke="#d2e5bc"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </g>
+                    ))}
+                  </g>
+                )}
+                <ellipse
+                  className="hb-focus-ring"
+                  cx="225"
+                  cy="0"
+                  rx="174"
+                  ry="74"
                   fill="none"
-                  stroke="#fff"
-                  strokeWidth="2"
+                  stroke="#287452"
+                  strokeWidth="3"
                 />
               </g>
-            ))}
-          </g>
-          <g
-            className="hydrobac-bacteria-group"
-            fill="#234c36"
-            stroke="#a6c893"
-            strokeWidth="2"
-          >
-            {[
-              [193, 180, 30],
-              [298, 210, -35],
-              [253, 318, 25],
-              [136, 257, -20],
-              [345, 287, 45],
-            ].map(([x, y, a], i) => (
-              <g key={i} transform={`translate(${x} ${y}) rotate(${a})`}>
-                <g className="hydrobac-bacteria">
-                  <rect x="-7" y="-18" width="14" height="36" rx="7" />
-                  <path d="M0 -9v18" stroke="#c4d9ae" strokeWidth="2" />
-                </g>
+              <g
+                className="hb-plane-label"
+                style={{ opacity: amount }}
+                aria-hidden="true"
+              >
+                <path d="M395 0H417" stroke="#688468" />
+                <text x="431" y="6" fill="#2b503a">
+                  {index === 0 ? "Matriz" : index === 1 ? "Agua" : "Biología"}
+                </text>
               </g>
-            ))}
-          </g>
-          <g
-            className="hydrobac-callouts"
-            fill="none"
-            stroke="#8b7752"
-            strokeWidth="1"
-            visibility={separated ? "hidden" : "visible"}
+            </g>
+          ))}
+          <text
+            className="hb-system-label"
+            x="225"
+            y="452"
+            textAnchor="middle"
+            opacity={1 - amount}
           >
-            <path d="M140 170L84 105H38" />
-            <path d="M355 300L424 340H469" />
-          </g>
-          <g className="hydrobac-svg-label" fill="#294b37">
-            <text x="38" y="94">
-              Matriz de hidrogel
-            </text>
-            <text x="348" y="364">
-              Sistema HIDROBAC
-            </text>
-          </g>
+            Sistema HIDROBAC
+          </text>
         </svg>
-        <span className="hydrobac-concept">
-          {separated
-            ? "Capas separadas para explorar el sistema · sin escala"
-            : "Visualización conceptual · sin escala"}
-        </span>
+      </div>
+      <div className="hb-spread">
+        <button
+          className="hydrobac-depth-toggle"
+          type="button"
+          aria-pressed={opening > 0}
+          onClick={() => setOpening(opening > 0 ? 0 : 100)}
+        >
+          <Layers3 size={18} aria-hidden="true" />
+          {opening > 0 ? "Reunir capas" : "Separar capas"}
+        </button>
+        <label className="hb-range">
+          <span className="sr-only">Separación de las capas</span>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={opening}
+            aria-valuetext={
+              opening === 0
+                ? "Sistema unido"
+                : opening === 100
+                  ? "Capas separadas"
+                  : `Separación ${opening}%`
+            }
+            onChange={(event) => setOpening(Number(event.target.value))}
+            onPointerDown={() => setDragging(true)}
+            onPointerUp={() => setDragging(false)}
+            onPointerCancel={() => setDragging(false)}
+            onBlur={() => setDragging(false)}
+          />
+        </label>
       </div>
       <div
         className="hydrobac-controls"
         role="group"
         aria-label="Explorar componentes de HIDROBAC"
       >
-        {stages.map(({ label, icon: StageIcon }, i) => (
+        {stages.map(({ label, icon: StageIcon }, index) => (
           <button
             key={label}
             type="button"
-            aria-pressed={active === i}
-            onPointerDown={() => {
-              keyboard.current = false;
-            }}
-            onKeyDown={() => {
-              keyboard.current = true;
-            }}
-            onClick={() => setActive(i)}
+            aria-pressed={active === index}
+            onClick={() => select(index)}
           >
-            <StageIcon size={17} aria-hidden="true" />
+            <StageIcon size={18} aria-hidden="true" />
             {label}
           </button>
         ))}
       </div>
-      <button
-        className="hydrobac-depth-toggle"
-        type="button"
-        aria-pressed={separated}
-        onPointerDown={() => {
-          if (root.current) root.current.dataset.instant = "false";
-        }}
-        onKeyDown={() => {
-          if (root.current) root.current.dataset.instant = "true";
-        }}
-        onClick={() => setSeparated((value) => !value)}
-      >
-        <Layers3 size={17} aria-hidden="true" />
-        {separated ? "Reunir capas" : "Separar capas"}
-      </button>
-      <p className="hydrobac-description" aria-live="polite">
-        {stages[active].text}
-      </p>
+      <div className="hb-detail" aria-live="polite" aria-atomic="true">
+        <h4>{stages[active].title}</h4>
+        <p>{stages[active].text}</p>
+      </div>
+      <p className="hydrobac-concept">Representación conceptual · sin escala</p>
     </div>
   );
 }

@@ -3642,6 +3642,7 @@ input[type="file"]::file-selector-button {
 .hero-universe canvas[data-ready="true"] {
   background: transparent;
 }
+/* Compact scenes use the document's native scroll, never a pinned scrub. */
 .hero-mobile-matter {
   display: none;
 }
@@ -3654,118 +3655,44 @@ input[type="file"]::file-selector-button {
   .hero-mobile-matter img {
     width: 100%;
     height: 100%;
-    object-fit: fill;
-  }
-  .hero-mobile-formed {
-    opacity: 0;
-  }
-  .hero-journey .hero-universe {
-    clip-path: none;
+    object-fit: contain;
   }
   .hero-universe canvas,
   .hero-ribbon-fallback {
     display: none;
   }
-  .hero-journey[data-in-view="true"] .hero-mobile-matter {
-    will-change: transform, opacity;
-  }
-  .hero-journey[data-native-scroll="true"] .hero-stage-track {
-    view-timeline-name: --matter-story;
-    view-timeline-axis: block;
-    view-timeline-inset: var(--hero-top) 0;
-  }
-  .hero-journey[data-native-scroll="true"]
-    :is(
-      .hero-mobile-matter,
-      .hero-depth-back,
-      .hero-depth-front,
-      .hero-finale,
-      .hero-progress-fill
-    ) {
-    animation-duration: 1ms;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: --matter-story;
-    animation-range: contain 0% contain 100%;
-  }
-  .hero-journey[data-native-scroll="true"] .hero-mobile-scattered {
-    animation-name: matter-scatter;
-  }
-  .hero-journey[data-native-scroll="true"] .hero-mobile-formed {
-    animation-name: matter-form;
-  }
-  .hero-journey[data-native-scroll="true"] .hero-depth-back {
-    animation-name: matter-back;
-  }
-  .hero-journey[data-native-scroll="true"] .hero-depth-front {
-    animation-name: matter-front;
-  }
-  .hero-journey[data-native-scroll="true"] .hero-finale {
-    animation-name: matter-finale;
-  }
-  .hero-journey[data-native-scroll="true"] .hero-progress-fill {
-    animation-name: matter-progress;
+}
+@supports (animation-timeline: view()) {
+  @media (max-width: 1000px) and (prefers-reduced-motion: no-preference) {
+    .hero-stage-track {
+      view-timeline-name: --matter-pass;
+    }
+    .hero-mobile-matter {
+      animation: matter-pass 1ms linear both;
+      animation-timeline: --matter-pass;
+      animation-range: entry 0% exit 100%;
+    }
+    .hero-depth-front {
+      animation: matter-near 1ms linear both;
+      animation-timeline: --matter-pass;
+      animation-range: entry 0% exit 100%;
+    }
   }
 }
-@keyframes matter-scatter {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  68%,
-  100% {
-    opacity: 0;
-    transform: translateY(-4%) scale(0.94);
-  }
-}
-@keyframes matter-form {
-  0%,
-  16% {
-    opacity: 0;
-    transform: translateY(4%) scale(0.94);
-  }
-  84%,
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-@keyframes matter-back {
-  to {
-    transform: translateY(7%);
-  }
-}
-@keyframes matter-front {
-  to {
-    transform: translate(4%, -22%);
-  }
-}
-@keyframes matter-finale {
-  0%,
-  65% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  95%,
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes matter-progress {
+@keyframes matter-pass {
   from {
-    transform: scaleX(0);
+    transform: translateY(4%);
   }
   to {
-    transform: scaleX(1);
+    transform: translateY(-4%);
   }
 }
-@media (max-width: 1000px) and (prefers-reduced-motion: reduce) {
-  .hero-mobile-scattered {
-    display: none;
+@keyframes matter-near {
+  from {
+    transform: translateY(6%);
   }
-  .hero-mobile-formed {
-    opacity: 1;
+  to {
+    transform: translateY(-9%);
   }
 }
 .hero-universe:has(canvas[data-ready="true"]) .hero-ribbon-fallback {
@@ -3868,133 +3795,182 @@ input[type="file"]::file-selector-button {
   transform: scaleX(0);
   transform-origin: left;
 }
+/* HIDROBAC: an exploded system, with three independent selectable planes. */
 .hydrobac-explorer {
   width: 100%;
-  padding: 34px 28px;
+  padding: 32px;
+  background: #e4eedc;
+}
+.hb-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.hb-heading h3 {
+  font: 500 clamp(22px, 2.2vw, 32px)/1.2 var(--font-display);
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+.hb-reset {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #a7bea0;
+  background: transparent;
+  color: var(--ink);
+  border-radius: 50%;
 }
 .hydrobac-figure {
   width: 100%;
-  max-width: 560px;
+  max-width: 600px;
   margin: auto;
+  contain: layout paint;
 }
 .hydrobac-figure svg {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
+  overflow: hidden;
 }
-.hydrobac-svg-label {
-  font-size: 10px;
-  font-family: var(--font-body);
+.hb-plane {
+  transition: transform 520ms var(--ease-out);
 }
-.hydrobac-water-group,
-.hydrobac-bacteria-group,
-.hydrobac-network,
-.hydrobac-envelope,
-.hydrobac-strata {
-  transform-origin: 250px 240px;
-  transition:
-    opacity 220ms var(--ease-out),
-    transform 400ms var(--ease-out);
+.hb-plane-content {
+  cursor: pointer;
+  transition: opacity 200ms ease;
+  outline: none;
 }
-.hydrobac-explorer[data-separated="true"] .hydrobac-envelope {
-  transform: translate(-28px, 38px) scale(0.92);
-  opacity: 0.7;
+.hb-plane-surface {
+  fill-opacity: 0.55;
 }
-.hydrobac-explorer[data-separated="true"] .hydrobac-strata {
-  transform: translate(-30px, 48px) scale(0.9);
-  opacity: 0.45;
+.hb-plane-edge {
+  opacity: 0.24;
 }
-.hydrobac-explorer[data-separated="true"] .hydrobac-network {
-  transform: translate(-12px, 12px) scale(0.94);
+.hb-plane-label {
+  font-size: 16px;
+  transition: opacity 180ms ease;
 }
-.hydrobac-explorer[data-separated="true"] .hydrobac-water-group {
-  transform: translate(24px, -42px);
+.hb-system-label {
+  font: 15px var(--font-body);
+  fill: #36573d;
 }
-.hydrobac-explorer[data-separated="true"] .hydrobac-bacteria-group {
-  transform: translate(62px, -14px);
+.hb-focus-ring {
+  opacity: 0;
 }
-.hydrobac-explorer[data-instant="true"]
-  :is(
-    .hydrobac-envelope,
-    .hydrobac-strata,
-    .hydrobac-network,
-    .hydrobac-water-group,
-    .hydrobac-bacteria-group
-  ) {
+.hb-plane-content:focus-visible .hb-focus-ring {
+  opacity: 1;
+}
+.hydrobac-explorer[data-active="0"]
+  :is(.hb-plane-1, .hb-plane-2)
+  .hb-plane-content,
+.hydrobac-explorer[data-active="1"]
+  :is(.hb-plane-0, .hb-plane-2)
+  .hb-plane-content,
+.hydrobac-explorer[data-active="2"]
+  :is(.hb-plane-0, .hb-plane-1)
+  .hb-plane-content {
+  opacity: 0.5;
+}
+.hydrobac-explorer[data-open="true"] .hb-plane-surface {
+  fill-opacity: 0.9;
+}
+.hydrobac-explorer[data-dragging="true"] :is(.hb-plane, .hb-plane-label) {
   transition: none;
+}
+.hb-spread {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  border-block: 1px solid #a7bea0;
+  padding: 7px 0;
 }
 .hydrobac-depth-toggle {
   display: flex;
-  gap: 9px;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 8px;
   min-height: 44px;
-  margin: 0 auto 18px;
-  padding: 10px 16px;
-  font-size: 12px;
-  border: 0;
   background: transparent;
-  text-decoration: underline;
-  text-underline-offset: 5px;
+  border: 0;
+  color: var(--ink);
+  padding: 8px 0;
+  font-size: 13px;
+  cursor: pointer;
 }
-.hydrobac-depth-toggle:active {
-  background: #cbdcc3;
+.hb-range {
+  display: flex;
+  align-items: center;
+  min-width: 100px;
+  flex: 1;
+  min-height: 44px;
 }
-.process-controls + .process-stage {
-  margin-top: 30px;
-}
-.hydrobac-explorer[data-active="0"] .hydrobac-water-group,
-.hydrobac-explorer[data-active="0"] .hydrobac-bacteria-group {
-  opacity: 0.6;
-}
-.hydrobac-explorer[data-active="1"] .hydrobac-bacteria-group {
-  opacity: 0.5;
-}
-.hydrobac-explorer[data-active="2"] .hydrobac-water-group {
-  opacity: 0.6;
-}
-.hydrobac-concept {
-  display: block;
-  text-align: center;
-  color: var(--body);
-  font-size: 9px;
+.hb-range input {
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  accent-color: #315e40;
+  cursor: ew-resize;
 }
 .hydrobac-controls {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 7px;
-  margin: 25px 0 15px;
+  gap: 6px;
+  margin: 20px 0;
 }
 .hydrobac-controls button {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 7px;
   min-height: 44px;
-  border: 1px solid #98b390;
+  padding: 10px 12px;
+  border: 1px solid #94ae8c;
   background: transparent;
   color: var(--ink);
-  padding: 10px 12px;
-  font-size: 11px;
+  font-size: 12px;
+  cursor: pointer;
   transition:
     background-color 160ms ease,
     color 160ms ease;
 }
 .hydrobac-controls button[aria-pressed="true"] {
-  background: var(--charcoal);
-  color: #eff6e8;
-  border-color: var(--charcoal);
+  background: #244632;
+  color: #f3f7eb;
+  border-color: #244632;
 }
-.hydrobac-description {
-  font-size: 12px;
-  text-align: center;
-  line-height: 1.7;
-  max-width: 400px;
-  min-height: 62px;
-  margin: auto;
-  color: #354f3a;
+.hb-detail {
+  min-height: 112px;
+}
+.hb-detail h4 {
+  margin: 0 0 8px;
+  font: 500 clamp(20px, 2vw, 27px)/1.2 var(--font-display);
+  letter-spacing: -0.02em;
+}
+.hb-detail p {
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+  color: #3e5943;
+  max-width: 48ch;
+}
+.hydrobac-concept {
+  color: #45624a;
+  font-size: 10px;
+  margin: 18px 0 0;
+}
+.process-controls + .process-stage {
+  margin-top: 30px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hb-plane,
+  .hb-plane-content,
+  .hb-plane-label {
+    transition: none;
+  }
 }
 .innovation-feature > span:first-child {
   color: var(--brass-ink);
@@ -4123,14 +4099,12 @@ input[type="file"]::file-selector-button {
   .hero-stage-track {
     position: relative;
     inset: auto;
-    height: calc(max(240px, 100svh - var(--hero-top)) + var(--hero-travel));
+    height: auto;
   }
   .hero-stage {
-    position: sticky;
+    position: relative;
     inset: auto;
-    top: var(--hero-top);
-    height: calc(100svh - var(--hero-top));
-    min-height: 240px;
+    height: clamp(520px, 80svh, 820px);
     overflow: hidden;
     isolation: isolate;
   }
@@ -4139,7 +4113,7 @@ input[type="file"]::file-selector-button {
     inset: 0;
     width: 100%;
     height: 100%;
-    clip-path: inset(7% 6% 12% 6% round 24px);
+    clip-path: none;
   }
   .hero-universe figcaption {
     left: 24px;
@@ -4149,6 +4123,7 @@ input[type="file"]::file-selector-button {
   }
   .hero-finale {
     display: block;
+    opacity: 1;
     inset: auto var(--space) 125px;
     font-size: clamp(25px, 6vw, 48px);
   }
@@ -4231,6 +4206,9 @@ input[type="file"]::file-selector-button {
   }
 }
 @media (max-width: 1000px) and (max-height: 500px) {
+  .hero-stage {
+    height: 420px;
+  }
   .hero-universe::after {
     content: "";
     position: absolute;
@@ -4412,5 +4390,30 @@ input[type="file"]::file-selector-button {
   }
   .brand {
     gap: 5px;
+  }
+}
+
+@media (max-width: 1000px) {
+  html {
+    scroll-behavior: auto;
+  }
+  .hero-progress {
+    display: none;
+  }
+  .hero-universe::after {
+    content: "";
+    position: absolute;
+    inset: 50% 0 0;
+    background: linear-gradient(transparent, #18211ef5 72%);
+    pointer-events: none;
+  }
+  .hero-universe figcaption {
+    z-index: 1;
+  }
+  .drilldown-grid {
+    transition: none;
+  }
+  .matter-particle:not(:nth-of-type(3n + 1)) {
+    display: none;
   }
 }

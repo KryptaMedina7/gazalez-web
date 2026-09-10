@@ -41,6 +41,8 @@ export function Process() {
   const [announce, setAnnounce] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const manual = useRef(false);
+  const requested = useRef(false);
+  const initialized = useRef(false);
   const instant = useRef(false);
   const autoplay = useRef<gsap.core.Timeline | null>(null);
   const nodes = useRef<SVGCircleElement[]>([]);
@@ -67,7 +69,13 @@ export function Process() {
       autoplay.current = sequence;
       let inView = false;
       const sync = () => {
-        if (inView && !document.hidden && !manual.current) sequence.play();
+        if (
+          inView &&
+          !document.hidden &&
+          !manual.current &&
+          (!matchMedia("(max-width: 1000px)").matches || requested.current)
+        )
+          sequence.play();
         else sequence.pause();
       };
       const observer = new IntersectionObserver(
@@ -92,18 +100,27 @@ export function Process() {
 
   useLayoutEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+    const compactQuery = matchMedia("(max-width: 1000px)");
     let timeline: gsap.core.Timeline;
     const animate = () => {
       timeline?.kill();
-      const immediate = reduce.matches || instant.current;
+      const compact = compactQuery.matches;
+      const immediate =
+        reduce.matches || instant.current || !initialized.current;
+      initialized.current = true;
+      const animatedNodes = nodes.current.filter(
+        (_, i) => !compact || i % 3 === 0,
+      );
       timeline = gsap.timeline({ defaults: { ease: "power3.inOut" } });
       timeline.to(
-        nodes.current,
+        animatedNodes,
         {
-          x: (i) => position(step, i).x,
-          y: (i) => position(step, i).y,
-          duration: immediate ? 0 : 0.72,
-          stagger: immediate ? 0 : { amount: 0.13, from: "center" },
+          x: (_i, node: SVGCircleElement) =>
+            position(step, Number(node.dataset.particle)).x,
+          y: (_i, node: SVGCircleElement) =>
+            position(step, Number(node.dataset.particle)).y,
+          duration: immediate ? 0 : compact ? 0.38 : 0.72,
+          stagger: immediate || compact ? 0 : { amount: 0.13, from: "center" },
           overwrite: "auto",
         },
         0,
@@ -128,9 +145,11 @@ export function Process() {
     };
     animate();
     reduce.addEventListener("change", animate);
+    compactQuery.addEventListener("change", animate);
     return () => {
       timeline?.kill();
       reduce.removeEventListener("change", animate);
+      compactQuery.removeEventListener("change", animate);
     };
   }, [step]);
 
@@ -145,6 +164,7 @@ export function Process() {
     choose(0, keyboard);
     if (!keyboard && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       manual.current = false;
+      requested.current = true;
       autoplay.current?.restart();
     }
   };
@@ -190,6 +210,7 @@ export function Process() {
                   if (node) nodes.current[i] = node;
                 }}
                 className="matter-particle"
+                data-particle={i}
                 cx="0"
                 cy="0"
                 r={p.r}

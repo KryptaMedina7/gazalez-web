@@ -35,13 +35,11 @@ const chars = {
   hidden: {
     opacity: 0,
     scale: 0.9,
-    filter: "blur(2px)",
     transition: { duration: 0.1 },
   },
   visible: {
     opacity: 1,
     scale: 1,
-    filter: "blur(0px)",
     transition: { duration: 0.22, ease: [0.23, 1, 0.32, 1] as const },
   },
 };
@@ -130,14 +128,10 @@ function DrillRow({
       <span className="drill-label" aria-hidden="true">
         {item.label.split(" ").map((word, index) => (
           <span className="drill-word" key={index}>
-            {Array.from(word).map((char, i) =>
-              reduce ? (
-                <span key={i}>{char}</span>
-              ) : (
-                <motion.span key={i} variants={chars}>
-                  {char}
-                </motion.span>
-              ),
+            {reduce ? (
+              <span>{word}</span>
+            ) : (
+              <motion.span variants={chars}>{word}</motion.span>
             )}
             {"\u00a0"}
           </span>
@@ -162,7 +156,7 @@ function DrillRow({
     },
     transition: reduce
       ? { duration: 0 }
-      : { staggerChildren: 0.005, staggerDirection: present ? 1 : -1 },
+      : { staggerChildren: 0.025, staggerDirection: present ? 1 : -1 },
   };
   return (
     <motion.div

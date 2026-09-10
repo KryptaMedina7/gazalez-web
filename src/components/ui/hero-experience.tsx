@@ -12,253 +12,137 @@ export function HeroExperience({ children }: { children: ReactNode }) {
     const section = root.current;
     const surface = canvas.current;
     if (!section || !surface) return;
-    const ctx = surface.getContext("2d");
-    if (!ctx) return;
-    let disposed = false;
-    let cleanup = () => {};
-    const state = { progress: 0 };
-    const copy = section.querySelector<HTMLElement>(".hero-copy");
-    let width = 1;
-    let height = 1;
-    const compactQuery = matchMedia("(max-width: 1000px)");
-    let field: ReturnType<typeof createMatterField> | null = null;
-    let fieldCompact = compactQuery.matches;
-    let frame = 0;
-    let visible = true;
-    let paintCount = 0;
-    let paintTotal = 0;
-    const draw = () => {
-      frame = 0;
-      if (
-        compactQuery.matches ||
-        disposed ||
-        !visible ||
-        document.hidden ||
-        width < 1 ||
-        height < 1
-      )
-        return;
-      const started = performance.now();
-      if (!field || fieldCompact !== compactQuery.matches) {
-        fieldCompact = compactQuery.matches;
-        field = createMatterField(fieldCompact);
-      }
-      ctx.clearRect(0, 0, width, height);
-      field.update(width, height, state.progress);
-      field.paint(ctx);
-      surface.dataset.ready = "true";
-      // Local diagnostics only, without network reporting or visitor data.
-      paintTotal += performance.now() - started;
-      paintCount++;
-      if (paintCount % 30 === 0)
-        surface.dataset.paintMs = (paintTotal / paintCount).toFixed(2);
-    };
-    const scheduleDraw = () => {
-      if (
-        !compactQuery.matches &&
-        !frame &&
-        visible &&
-        !document.hidden &&
-        !disposed
-      )
-        frame = requestAnimationFrame(draw);
-    };
-    const visibility = () => {
-      if (document.hidden) {
-        cancelAnimationFrame(frame);
-        frame = 0;
-      } else scheduleDraw();
-    };
-    document.addEventListener("visibilitychange", visibility);
-    const viewObserver = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      section.dataset.inView = String(visible);
-      if (visible) scheduleDraw();
-      else {
-        cancelAnimationFrame(frame);
-        frame = 0;
-      }
-    });
-    viewObserver.observe(section.querySelector(".hero-stage")!);
-    const resize = () => {
-      if (compactQuery.matches) {
-        surface.width = 1;
-        surface.height = 1;
-        field = null;
-        return;
-      }
-      const box = surface.getBoundingClientRect();
-      width = box.width;
-      height = box.height;
-      const dpr = matterPixelRatio(
-        width,
-        height,
-        devicePixelRatio,
-        compactQuery.matches,
-      );
-      surface.width = Math.floor(width * dpr);
-      surface.height = Math.floor(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      scheduleDraw();
-    };
-    const observer = new ResizeObserver(resize);
-    observer.observe(surface);
-    void import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-      if (disposed) return;
-      gsap.registerPlugin(ScrollTrigger);
-      const media = gsap.matchMedia();
-      media.add(
-        {
-          motion: "(prefers-reduced-motion: no-preference)",
-          desktop: "(min-width: 1001px)",
-        },
-        (mediaContext) => {
-          if (!mediaContext.conditions?.motion) return;
-          section.dataset.motion = "ready";
-          const desktop = mediaContext.conditions.desktop;
-          // Native scroll timelines let the compositor follow touch scrolling.
-          // Other engines retain the same transform-only GSAP choreography.
+    const desktopQuery = matchMedia("(min-width: 1001px)");
+    const reduceQuery = matchMedia("(prefers-reduced-motion: reduce)");
+    let disposeScene = () => {};
+    let generation = 0;
+    const configure = () => {
+      const current = ++generation;
+      disposeScene();
+      disposeScene = () => {};
+      delete section.dataset.motion;
+      surface.width = surface.height = 1;
+      // Mobile uses normal document scrolling and one prepainted scene.
+      // No Canvas context, JS scroll listener, pinning or ScrollTrigger import.
+      if (!desktopQuery.matches) return;
+      void import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        if (generation !== current) return;
+        gsap.registerPlugin(ScrollTrigger);
+        const ctx = surface.getContext("2d");
+        if (!ctx) return;
+        const field = createMatterField(false);
+        const state = { progress: reduceQuery.matches ? 1 : 0 };
+        const copy = section.querySelector<HTMLElement>(".hero-copy");
+        let width = 0,
+          height = 0,
+          visible = true;
+        const paint = () => {
+          if (!visible || document.hidden || !width || !height) return;
+          ctx.clearRect(0, 0, width, height);
+          field.update(width, height, state.progress);
+          field.paint(ctx);
+          surface.dataset.ready = "true";
           if (
-            !desktop &&
-            CSS.supports("animation-timeline: view()") &&
-            CSS.supports("animation-range: contain 0% contain 100%")
-          ) {
-            section.dataset.nativeScroll = "true";
-            return () => {
-              delete section.dataset.nativeScroll;
-              delete section.dataset.motion;
-            };
-          }
-          const context = gsap.context(() => {
-            const timeline = gsap.timeline({
+            copy &&
+            copy.inert !== state.progress > 0.3 &&
+            !reduceQuery.matches
+          )
+            copy.inert = state.progress > 0.3;
+        };
+        const resize = () => {
+          const box = surface.getBoundingClientRect();
+          if (box.width === width && box.height === height) return;
+          width = box.width;
+          height = box.height;
+          const ratio = matterPixelRatio(
+            width,
+            height,
+            devicePixelRatio,
+            false,
+          );
+          surface.width = Math.floor(width * ratio);
+          surface.height = Math.floor(height * ratio);
+          ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+          paint();
+        };
+        const observer = new ResizeObserver(resize);
+        observer.observe(surface);
+        const visibility = new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting;
+          if (visible) paint();
+        });
+        visibility.observe(section);
+        document.addEventListener("visibilitychange", paint);
+        const context = gsap.context(() => {
+          if (reduceQuery.matches) return;
+          section.dataset.motion = "ready";
+          gsap
+            .timeline({
               scrollTrigger: {
-                trigger: desktop
-                  ? section
-                  : section.querySelector(".hero-stage-track"),
+                trigger: section,
                 start: () =>
                   `top top+=${parseFloat(getComputedStyle(section).getPropertyValue("--hero-top"))}`,
                 end: () =>
-                  desktop
-                    ? `+=${parseFloat(getComputedStyle(section).getPropertyValue("--hero-travel"))}`
-                    : `+=${section.querySelector(".hero-stage-track")!.getBoundingClientRect().height - section.querySelector(".hero-stage")!.getBoundingClientRect().height}`,
-                scrub: desktop ? 0.35 : true,
+                  `+=${parseFloat(getComputedStyle(section).getPropertyValue("--hero-travel"))}`,
+                scrub: 0.25,
                 invalidateOnRefresh: true,
               },
-            });
-            if (desktop)
-              timeline.to(
-                state,
-                {
-                  progress: 1,
-                  duration: 1,
-                  ease: "none",
-                  onUpdate: () => {
-                    // GSAP already runs on the animation frame: avoid a second
-                    // frame queue that makes the canvas trail its DOM layers.
-                    cancelAnimationFrame(frame);
-                    draw();
-                    if (copy && copy.inert !== state.progress > 0.3)
-                      copy.inert = state.progress > 0.3;
-                  },
-                },
-                0,
-              );
-            timeline
-              .to(
-                ".hero-depth-back",
-                {
-                  yPercent: 7,
-                  scale: desktop ? 1.04 : 1,
-                  duration: 1,
-                  ease: "none",
-                },
-                0,
-              )
-              .to(
-                ".hero-depth-front",
-                {
-                  yPercent: -22,
-                  xPercent: desktop ? -6 : 4,
-                  scale: desktop ? 1.16 : 1,
-                  duration: 1,
-                  ease: "none",
-                },
-                0,
-              );
-            if (desktop)
-              timeline.to(
-                ".hero-copy",
-                { y: -38, opacity: 0, duration: 0.25 },
-                0,
-              );
-            else {
-              timeline
-                .to(
-                  ".hero-mobile-scattered",
-                  {
-                    opacity: 0,
-                    scale: 0.94,
-                    yPercent: -4,
-                    duration: 0.68,
-                    ease: "none",
-                  },
-                  0,
-                )
-                .fromTo(
-                  ".hero-mobile-formed",
-                  { opacity: 0, scale: 0.94, yPercent: 4 },
-                  {
-                    opacity: 1,
-                    scale: 1,
-                    yPercent: 0,
-                    duration: 0.68,
-                    ease: "none",
-                  },
-                  0.16,
-                );
-            }
-            if (desktop)
-              timeline.to(
-                ".hero-universe",
-                {
-                  clipPath: "inset(0 0 0 0%)",
-                  duration: 0.35,
-                  ease: "power2.inOut",
-                },
-                0.1,
-              );
-            timeline
-              .fromTo(
-                ".hero-finale",
-                { y: 20, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.3 },
-                0.65,
-              )
-              .to(
-                ".hero-progress-fill",
-                { scaleX: 1, duration: 1, ease: "none" },
-                0,
-              );
-          }, section);
-          return () => {
-            context.revert();
-            delete section.dataset.motion;
-            state.progress = 0;
-            scheduleDraw();
-            const copy = section.querySelector<HTMLElement>(".hero-copy");
-            if (copy) copy.inert = false;
-          };
-        },
-      );
-      cleanup = () => media.revert();
-    });
+            })
+            .to(
+              state,
+              { progress: 1, duration: 1, ease: "none", onUpdate: paint },
+              0,
+            )
+            .to(
+              ".hero-depth-back",
+              { yPercent: 7, duration: 1, ease: "none" },
+              0,
+            )
+            .to(
+              ".hero-depth-front",
+              { yPercent: -22, xPercent: -6, duration: 1, ease: "none" },
+              0,
+            )
+            .to(".hero-copy", { y: -38, opacity: 0, duration: 0.25 }, 0)
+            .to(
+              ".hero-universe",
+              {
+                clipPath: "inset(0 0 0 0%)",
+                duration: 0.35,
+                ease: "power2.inOut",
+              },
+              0.1,
+            )
+            .fromTo(
+              ".hero-finale",
+              { y: 20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.3 },
+              0.65,
+            )
+            .to(
+              ".hero-progress-fill",
+              { scaleX: 1, duration: 1, ease: "none" },
+              0,
+            );
+        }, section);
+        disposeScene = () => {
+          observer.disconnect();
+          visibility.disconnect();
+          document.removeEventListener("visibilitychange", paint);
+          context.revert();
+          if (copy) copy.inert = false;
+          delete surface.dataset.ready;
+        };
+      });
+    };
+    configure();
+    desktopQuery.addEventListener("change", configure);
+    reduceQuery.addEventListener("change", configure);
     return () => {
-      disposed = true;
-      observer.disconnect();
-      viewObserver.disconnect();
-      document.removeEventListener("visibilitychange", visibility);
-      cancelAnimationFrame(frame);
-      cleanup();
+      generation++;
+      disposeScene();
+      desktopQuery.removeEventListener("change", configure);
+      reduceQuery.removeEventListener("change", configure);
     };
   }, []);
 
@@ -302,7 +186,7 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                 ))}
               </svg>
               <canvas ref={canvas} aria-hidden="true" />
-              {(["scattered", "formed"] as const).map((phase) => (
+              {(["formed"] as const).map((phase) => (
                 <picture
                   className={`hero-mobile-matter hero-mobile-${phase}`}
                   key={phase}
