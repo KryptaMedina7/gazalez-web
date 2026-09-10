@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import { ArrowDown } from "lucide-react";
+import { createMatterField, matterPixelRatio } from "@/lib/matter-field.mjs";
 import gsap from "gsap";
 
 export function HeroExperience({ children }: { children: ReactNode }) {
@@ -19,67 +19,64 @@ export function HeroExperience({ children }: { children: ReactNode }) {
     let width = 1;
     let height = 1;
     const compactQuery = matchMedia("(max-width: 1000px)");
-    const noise = (n: number) => {
-      const v = Math.sin(n * 127.1 + 311.7) * 43758.5453;
-      return v - Math.floor(v);
-    };
-    const seeds = Array.from({ length: 2200 }, (_, i) => [
-      noise(i),
-      noise(i + 87),
-      noise(i + 16),
-    ]);
+    let field = createMatterField(compactQuery.matches);
+    let fieldCompact = compactQuery.matches;
+    let frame = 0;
+    let visible = true;
+    let paintCount = 0;
+    let paintTotal = 0;
     const draw = () => {
-      ctx.clearRect(0, 0, width, height);
-      surface.dataset.ready = "true";
-      const p = state.progress;
-      const mobile = compactQuery.matches;
-      const center = width * (mobile ? 0.5 : 0.76 - p * 0.26);
-      const span = width * (mobile ? 0.95 : 0.53 + p * 0.36);
-      const count = mobile ? 1100 : 2200;
-      // A deterministic sheet of matter gathers into an ordered, twisting ribbon.
-      for (let i = 0; i < count; i++) {
-        const u = (i % 110) / 109;
-        const v = Math.floor(i / 110) / (count / 110 - 1) - 0.5;
-        const angle = u * Math.PI * 2.15 - 1.3 + p * 0.7;
-        const scatter = (1 - p) * Math.pow(1 - u, 2);
-        const depth = Math.cos(angle) * v;
-        const x = mobile
-          ? width * 0.5 +
-            Math.sin(angle) * width * 0.23 +
-            v * Math.cos(angle) * width * 0.38 +
-            (seeds[i][0] - 0.5) * width * scatter
-          : center + (u - 0.5) * span + (noise(i) - 0.5) * span * 0.4 * scatter;
-        const y = mobile
-          ? height * 0.38 +
-            (u - 0.5) * height * 0.61 +
-            (seeds[i][1] - 0.5) * height * 0.48 * scatter
-          : height * 0.48 +
-            Math.sin(angle) * height * 0.19 +
-            v * Math.cos(angle) * height * 0.3 +
-            (noise(i + 87) - 0.5) * height * 0.65 * scatter;
-        const radius = Math.max(
-          0.65,
-          (mobile ? 1.8 : 2.3) + depth * 1.6 + seeds[i][2] * (1 - p),
-        );
-        const light = 61 + depth * 32 + u * 17;
-        ctx.fillStyle =
-          i % 67 === 0
-            ? `hsla(41, 39%, 65%, ${0.5 + p * 0.3})`
-            : `hsla(102, 25%, ${light}%, ${0.5 + (depth + 0.5) * 0.4})`;
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fill();
+      frame = 0;
+      if (disposed || !visible || document.hidden || width < 1 || height < 1)
+        return;
+      const started = performance.now();
+      if (fieldCompact !== compactQuery.matches) {
+        fieldCompact = compactQuery.matches;
+        field = createMatterField(fieldCompact);
       }
+      ctx.clearRect(0, 0, width, height);
+      field.update(width, height, state.progress);
+      field.paint(ctx);
+      surface.dataset.ready = "true";
+      // Local diagnostics only, without network reporting or visitor data.
+      paintTotal += performance.now() - started;
+      paintCount++;
+      surface.dataset.paintMs = (paintTotal / paintCount).toFixed(2);
     };
+    const scheduleDraw = () => {
+      if (!frame && visible && !document.hidden && !disposed)
+        frame = requestAnimationFrame(draw);
+    };
+    const visibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      } else scheduleDraw();
+    };
+    document.addEventListener("visibilitychange", visibility);
+    const viewObserver = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) scheduleDraw();
+      else {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    });
+    viewObserver.observe(surface);
     const resize = () => {
       const box = surface.getBoundingClientRect();
       width = box.width;
       height = box.height;
-      const dpr = Math.min(devicePixelRatio, compactQuery.matches ? 1.5 : 1.75);
-      surface.width = Math.round(width * dpr);
-      surface.height = Math.round(height * dpr);
+      const dpr = matterPixelRatio(
+        width,
+        height,
+        devicePixelRatio,
+        compactQuery.matches,
+      );
+      surface.width = Math.floor(width * dpr);
+      surface.height = Math.floor(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      draw();
+      scheduleDraw();
     };
     const observer = new ResizeObserver(resize);
     observer.observe(surface);
@@ -94,6 +91,7 @@ export function HeroExperience({ children }: { children: ReactNode }) {
         },
         (mediaContext) => {
           if (!mediaContext.conditions?.motion) return;
+          section.dataset.motion = "ready";
           const desktop = mediaContext.conditions.desktop;
           const context = gsap.context(() => {
             const timeline = gsap.timeline({
@@ -107,7 +105,7 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                   desktop
                     ? `+=${parseFloat(getComputedStyle(section).getPropertyValue("--hero-travel"))}`
                     : `+=${section.querySelector(".hero-stage-track")!.getBoundingClientRect().height - section.querySelector(".hero-stage")!.getBoundingClientRect().height}`,
-                scrub: 0.35,
+                scrub: desktop ? 0.35 : 0.18,
                 invalidateOnRefresh: true,
               },
             });
@@ -118,13 +116,30 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                 duration: 1,
                 ease: "none",
                 onUpdate: () => {
-                  draw();
+                  scheduleDraw();
                   const copy = section.querySelector<HTMLElement>(".hero-copy");
                   if (copy && desktop) copy.inert = state.progress > 0.3;
                 },
               },
               0,
             );
+            timeline
+              .to(
+                ".hero-depth-back",
+                { yPercent: 7, scale: 1.04, duration: 1, ease: "none" },
+                0,
+              )
+              .to(
+                ".hero-depth-front",
+                {
+                  yPercent: -22,
+                  xPercent: desktop ? -6 : 4,
+                  scale: 1.16,
+                  duration: 1,
+                  ease: "none",
+                },
+                0,
+              );
             if (desktop)
               timeline.to(
                 ".hero-copy",
@@ -146,7 +161,7 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                 section,
                 {
                   "--hero-reveal": "0%",
-                  duration: 0.7,
+                  duration: desktop ? 0.35 : 0.7,
                   ease: "power2.inOut",
                 },
                 0.1,
@@ -165,8 +180,9 @@ export function HeroExperience({ children }: { children: ReactNode }) {
           }, section);
           return () => {
             context.revert();
+            delete section.dataset.motion;
             state.progress = 0;
-            draw();
+            scheduleDraw();
             const copy = section.querySelector<HTMLElement>(".hero-copy");
             if (copy) copy.inert = false;
           };
@@ -177,6 +193,9 @@ export function HeroExperience({ children }: { children: ReactNode }) {
     return () => {
       disposed = true;
       observer.disconnect();
+      viewObserver.disconnect();
+      document.removeEventListener("visibilitychange", visibility);
+      cancelAnimationFrame(frame);
       cleanup();
     };
   }, []);
@@ -207,7 +226,34 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                   strokeWidth="34"
                 />
               </svg>
+              <svg
+                className="hero-depth-back"
+                viewBox="0 0 1000 800"
+                preserveAspectRatio="xMidYMid slice"
+                aria-hidden="true"
+              >
+                {Array.from({ length: 9 }, (_, i) => (
+                  <path
+                    key={i}
+                    d={`M${-180 + i * 47} 850 C${100 + i * 37} 590 ${720 - i * 24} 700 ${730 + i * 39} -100`}
+                  />
+                ))}
+              </svg>
               <canvas ref={canvas} aria-hidden="true" />
+              <svg
+                className="hero-depth-front"
+                viewBox="0 0 1000 800"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path d="M-80 140 Q80 62 150 126 Q178 184 88 246 L-44 294Z" />
+                <path d="M830 -65 Q948 10 1020 142 L1080 -50Z" />
+                <path d="M930 550 Q872 592 914 674 L1040 756 L1070 565Z" />
+                <path
+                  className="hero-fragment-edge"
+                  d="M-70 163 Q80 83 145 132 M939 566 Q899 600 936 662"
+                />
+              </svg>
               <figcaption>
                 Materia en transformación <span>Visualización conceptual</span>
               </figcaption>
@@ -218,8 +264,7 @@ export function HeroExperience({ children }: { children: ReactNode }) {
               <span>Nuevas posibilidades.</span>
             </div>
             <a className="hero-scroll-invitation" href="#nuevo-comienzo">
-              Descubre la transformación{" "}
-              <ArrowDown aria-hidden="true" size={15} />
+              Conoce nuestro enfoque
             </a>
             <span className="hero-progress" aria-hidden="true">
               <span className="hero-progress-fill" />

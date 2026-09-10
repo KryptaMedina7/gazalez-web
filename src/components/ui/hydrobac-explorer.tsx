@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Dna, Droplets, Network } from "lucide-react";
+import { Dna, Droplets, Network, Layers3 } from "lucide-react";
 import gsap from "gsap";
 
 const stages = [
@@ -61,6 +61,7 @@ const bonds = [
 
 export function HydrobacExplorer() {
   const [active, setActive] = useState(0);
+  const [separated, setSeparated] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const keyboard = useRef(false);
   useEffect(() => {
@@ -145,7 +146,12 @@ export function HydrobacExplorer() {
     return () => media.revert();
   }, [active]);
   return (
-    <div className="hydrobac-explorer" ref={root} data-active={active}>
+    <div
+      className="hydrobac-explorer"
+      ref={root}
+      data-active={active}
+      data-separated={separated}
+    >
       <div className="hydrobac-figure">
         <svg
           viewBox="0 0 500 440"
@@ -238,7 +244,13 @@ export function HydrobacExplorer() {
               </g>
             ))}
           </g>
-          <g fill="none" stroke="#8b7752" strokeWidth="1">
+          <g
+            className="hydrobac-callouts"
+            fill="none"
+            stroke="#8b7752"
+            strokeWidth="1"
+            visibility={separated ? "hidden" : "visible"}
+          >
             <path d="M140 170L84 105H38" />
             <path d="M355 300L424 340H469" />
           </g>
@@ -252,7 +264,9 @@ export function HydrobacExplorer() {
           </g>
         </svg>
         <span className="hydrobac-concept">
-          Visualización conceptual · sin escala
+          {separated
+            ? "Capas separadas para explorar el sistema · sin escala"
+            : "Visualización conceptual · sin escala"}
         </span>
       </div>
       <div
@@ -278,6 +292,21 @@ export function HydrobacExplorer() {
           </button>
         ))}
       </div>
+      <button
+        className="hydrobac-depth-toggle"
+        type="button"
+        aria-pressed={separated}
+        onPointerDown={() => {
+          if (root.current) root.current.dataset.instant = "false";
+        }}
+        onKeyDown={() => {
+          if (root.current) root.current.dataset.instant = "true";
+        }}
+        onClick={() => setSeparated((value) => !value)}
+      >
+        <Layers3 size={17} aria-hidden="true" />
+        {separated ? "Reunir capas" : "Separar capas"}
+      </button>
       <p className="hydrobac-description" aria-live="polite">
         {stages[active].text}
       </p>

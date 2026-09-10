@@ -162,6 +162,19 @@ export function Process() {
           aportar.
         </p>
       </div>
+      <div className="process-controls" aria-label="Etapas de transformación">
+        {processSteps.map((p, i) => (
+          <button
+            key={p.title}
+            aria-pressed={step === i}
+            onClick={(event) => choose(i, event.detail === 0)}
+          >
+            <span>0{i + 1}</span>
+            <span>{p.label}</span>
+            <Icon name="arrow" />
+          </button>
+        ))}
+      </div>
       <div className="process-stage" data-stage={step}>
         <div className="matter-graphic">
           <svg
@@ -207,19 +220,6 @@ export function Process() {
       </div>
       <div className="process-progress" aria-hidden="true">
         <span ref={progress} />
-      </div>
-      <div className="process-controls" aria-label="Etapas de transformación">
-        {processSteps.map((p, i) => (
-          <button
-            key={p.title}
-            aria-pressed={step === i}
-            onClick={(event) => choose(i, event.detail === 0)}
-          >
-            <span>0{i + 1}</span>
-            <span>{p.label}</span>
-            <Icon name="arrow" />
-          </button>
-        ))}
       </div>
       <div className="process-bottom">
         <p>Explora cada etapa de la transformación.</p>
