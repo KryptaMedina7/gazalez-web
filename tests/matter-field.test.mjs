@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { stat } from "node:fs/promises";
+import sharp from "sharp";
 import {
   createMatterField,
   matterPixelRatio,
@@ -71,5 +73,24 @@ test("paint batches every particle into at most nine fills", () => {
     });
     assert.equal(arcs, field.count);
     assert.ok(fills <= 9);
+  }
+});
+
+test("mobile scenes decode with transparency within transfer and texture budgets", async () => {
+  for (const format of ["portrait", "landscape"]) {
+    let bytes = 0,
+      pixels = 0;
+    for (const phase of ["scattered", "formed"]) {
+      const path = `public/assets/matter/${format}-${phase}.webp`;
+      const meta = await sharp(path).metadata();
+      assert.equal(meta.format, "webp");
+      assert.equal(meta.hasAlpha, true);
+      assert.ok(meta.width > 500 && meta.height > 400);
+      await sharp(path).raw().toBuffer();
+      bytes += (await stat(path)).size;
+      pixels += meta.width * meta.height;
+    }
+    assert.ok(bytes < 130_000, `transfer budget: ${format}`);
+    assert.ok(pixels < 1_500_000, `decoded texture budget: ${format}`);
   }
 });

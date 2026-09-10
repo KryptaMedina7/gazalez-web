@@ -3,6 +3,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { createMatterField, matterPixelRatio } from "@/lib/matter-field.mjs";
 import gsap from "gsap";
+import Image from "next/image";
 
 export function HeroExperience({ children }: { children: ReactNode }) {
   const root = useRef<HTMLElement>(null);
@@ -16,10 +17,11 @@ export function HeroExperience({ children }: { children: ReactNode }) {
     let disposed = false;
     let cleanup = () => {};
     const state = { progress: 0 };
+    const copy = section.querySelector<HTMLElement>(".hero-copy");
     let width = 1;
     let height = 1;
     const compactQuery = matchMedia("(max-width: 1000px)");
-    let field = createMatterField(compactQuery.matches);
+    let field: ReturnType<typeof createMatterField> | null = null;
     let fieldCompact = compactQuery.matches;
     let frame = 0;
     let visible = true;
@@ -27,10 +29,17 @@ export function HeroExperience({ children }: { children: ReactNode }) {
     let paintTotal = 0;
     const draw = () => {
       frame = 0;
-      if (disposed || !visible || document.hidden || width < 1 || height < 1)
+      if (
+        compactQuery.matches ||
+        disposed ||
+        !visible ||
+        document.hidden ||
+        width < 1 ||
+        height < 1
+      )
         return;
       const started = performance.now();
-      if (fieldCompact !== compactQuery.matches) {
+      if (!field || fieldCompact !== compactQuery.matches) {
         fieldCompact = compactQuery.matches;
         field = createMatterField(fieldCompact);
       }
@@ -41,10 +50,17 @@ export function HeroExperience({ children }: { children: ReactNode }) {
       // Local diagnostics only, without network reporting or visitor data.
       paintTotal += performance.now() - started;
       paintCount++;
-      surface.dataset.paintMs = (paintTotal / paintCount).toFixed(2);
+      if (paintCount % 30 === 0)
+        surface.dataset.paintMs = (paintTotal / paintCount).toFixed(2);
     };
     const scheduleDraw = () => {
-      if (!frame && visible && !document.hidden && !disposed)
+      if (
+        !compactQuery.matches &&
+        !frame &&
+        visible &&
+        !document.hidden &&
+        !disposed
+      )
         frame = requestAnimationFrame(draw);
     };
     const visibility = () => {
@@ -56,14 +72,21 @@ export function HeroExperience({ children }: { children: ReactNode }) {
     document.addEventListener("visibilitychange", visibility);
     const viewObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
+      section.dataset.inView = String(visible);
       if (visible) scheduleDraw();
       else {
         cancelAnimationFrame(frame);
         frame = 0;
       }
     });
-    viewObserver.observe(surface);
+    viewObserver.observe(section.querySelector(".hero-stage")!);
     const resize = () => {
+      if (compactQuery.matches) {
+        surface.width = 1;
+        surface.height = 1;
+        field = null;
+        return;
+      }
       const box = surface.getBoundingClientRect();
       width = box.width;
       height = box.height;
@@ -93,6 +116,19 @@ export function HeroExperience({ children }: { children: ReactNode }) {
           if (!mediaContext.conditions?.motion) return;
           section.dataset.motion = "ready";
           const desktop = mediaContext.conditions.desktop;
+          // Native scroll timelines let the compositor follow touch scrolling.
+          // Other engines retain the same transform-only GSAP choreography.
+          if (
+            !desktop &&
+            CSS.supports("animation-timeline: view()") &&
+            CSS.supports("animation-range: contain 0% contain 100%")
+          ) {
+            section.dataset.nativeScroll = "true";
+            return () => {
+              delete section.dataset.nativeScroll;
+              delete section.dataset.motion;
+            };
+          }
           const context = gsap.context(() => {
             const timeline = gsap.timeline({
               scrollTrigger: {
@@ -105,28 +141,37 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                   desktop
                     ? `+=${parseFloat(getComputedStyle(section).getPropertyValue("--hero-travel"))}`
                     : `+=${section.querySelector(".hero-stage-track")!.getBoundingClientRect().height - section.querySelector(".hero-stage")!.getBoundingClientRect().height}`,
-                scrub: desktop ? 0.35 : 0.18,
+                scrub: desktop ? 0.35 : true,
                 invalidateOnRefresh: true,
               },
             });
-            timeline.to(
-              state,
-              {
-                progress: 1,
-                duration: 1,
-                ease: "none",
-                onUpdate: () => {
-                  scheduleDraw();
-                  const copy = section.querySelector<HTMLElement>(".hero-copy");
-                  if (copy && desktop) copy.inert = state.progress > 0.3;
+            if (desktop)
+              timeline.to(
+                state,
+                {
+                  progress: 1,
+                  duration: 1,
+                  ease: "none",
+                  onUpdate: () => {
+                    // GSAP already runs on the animation frame: avoid a second
+                    // frame queue that makes the canvas trail its DOM layers.
+                    cancelAnimationFrame(frame);
+                    draw();
+                    if (copy && copy.inert !== state.progress > 0.3)
+                      copy.inert = state.progress > 0.3;
+                  },
                 },
-              },
-              0,
-            );
+                0,
+              );
             timeline
               .to(
                 ".hero-depth-back",
-                { yPercent: 7, scale: 1.04, duration: 1, ease: "none" },
+                {
+                  yPercent: 7,
+                  scale: desktop ? 1.04 : 1,
+                  duration: 1,
+                  ease: "none",
+                },
                 0,
               )
               .to(
@@ -134,7 +179,7 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                 {
                   yPercent: -22,
                   xPercent: desktop ? -6 : 4,
-                  scale: 1.16,
+                  scale: desktop ? 1.16 : 1,
                   duration: 1,
                   ease: "none",
                 },
@@ -146,26 +191,43 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                 { y: -38, opacity: 0, duration: 0.25 },
                 0,
               );
-            else
+            else {
+              timeline
+                .to(
+                  ".hero-mobile-scattered",
+                  {
+                    opacity: 0,
+                    scale: 0.94,
+                    yPercent: -4,
+                    duration: 0.68,
+                    ease: "none",
+                  },
+                  0,
+                )
+                .fromTo(
+                  ".hero-mobile-formed",
+                  { opacity: 0, scale: 0.94, yPercent: 4 },
+                  {
+                    opacity: 1,
+                    scale: 1,
+                    yPercent: 0,
+                    duration: 0.68,
+                    ease: "none",
+                  },
+                  0.16,
+                );
+            }
+            if (desktop)
               timeline.to(
                 ".hero-universe",
                 {
-                  clipPath: "inset(0% 0% 0% 0% round 0px)",
-                  duration: 0.7,
-                  ease: "power2.inOut",
-                },
-                0.05,
-              );
-            timeline
-              .to(
-                section,
-                {
-                  "--hero-reveal": "0%",
-                  duration: desktop ? 0.35 : 0.7,
+                  clipPath: "inset(0 0 0 0%)",
+                  duration: 0.35,
                   ease: "power2.inOut",
                 },
                 0.1,
-              )
+              );
+            timeline
               .fromTo(
                 ".hero-finale",
                 { y: 20, opacity: 0 },
@@ -240,6 +302,29 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                 ))}
               </svg>
               <canvas ref={canvas} aria-hidden="true" />
+              {(["scattered", "formed"] as const).map((phase) => (
+                <picture
+                  className={`hero-mobile-matter hero-mobile-${phase}`}
+                  key={phase}
+                >
+                  <source
+                    media="(min-width: 1001px)"
+                    srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                  />
+                  <source
+                    media="(max-height: 500px)"
+                    srcSet={`/assets/matter/landscape-${phase}.webp`}
+                  />
+                  <Image
+                    src={`/assets/matter/portrait-${phase}.webp`}
+                    alt=""
+                    width={585}
+                    height={1149}
+                    unoptimized
+                    loading="eager"
+                  />
+                </picture>
+              ))}
               <svg
                 className="hero-depth-front"
                 viewBox="0 0 1000 800"

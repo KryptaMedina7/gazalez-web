@@ -76,12 +76,20 @@ export function HydrobacExplorer() {
         if (active === 1)
           timeline.fromTo(
             ".hydrobac-water",
-            { x: -38, opacity: 0.15 },
+            {
+              x: -48,
+              y: -10,
+              scale: 0.72,
+              transformOrigin: "center",
+              opacity: 0.25,
+            },
             {
               x: 0,
+              y: 0,
+              scale: 1,
               opacity: 1,
-              duration: 0.85,
-              stagger: 0.06,
+              duration: 0.65,
+              stagger: { amount: 0.2 },
               ease: "power2.out",
             },
           );
@@ -160,16 +168,32 @@ export function HydrobacExplorer() {
         >
           <defs>
             <radialGradient id="hydrobac-gel">
-              <stop offset="0" stopColor="#e4f2d8" stopOpacity="0.7" />
-              <stop offset="1" stopColor="#83a883" stopOpacity="0.15" />
+              <stop offset="0" stopColor="#eef8df" stopOpacity="0.9" />
+              <stop offset="1" stopColor="#6b956f" stopOpacity="0.3" />
             </radialGradient>
           </defs>
+          <g className="hydrobac-strata" aria-hidden="true">
+            <path
+              d="M105 157Q172 70 286 105Q410 123 402 254Q399 356 297 384Q163 410 107 325Q57 239 105 157Z"
+              transform="translate(12 18)"
+              fill="#80a48a"
+              fillOpacity="0.2"
+              stroke="#769982"
+            />
+            <path
+              d="M105 157Q172 70 286 105Q410 123 402 254Q399 356 297 384Q163 410 107 325Q57 239 105 157Z"
+              transform="translate(6 9)"
+              fill="#bbd5ae"
+              fillOpacity="0.35"
+              stroke="#91b18b"
+            />
+          </g>
           <path
             className="hydrobac-envelope"
             d="M105 157Q172 70 286 105Q410 123 402 254Q399 356 297 384Q163 410 107 325Q57 239 105 157Z"
             fill="url(#hydrobac-gel)"
             stroke="#72966e"
-            strokeWidth="1"
+            strokeWidth="1.5"
           />
           <g className="hydrobac-network">
             {bonds.map(([a, b], i) => (
@@ -180,8 +204,8 @@ export function HydrobacExplorer() {
                 y1={nodes[a][1]}
                 x2={nodes[b][0]}
                 y2={nodes[b][1]}
-                stroke="#719b73"
-                strokeWidth="1.5"
+                stroke="#507f59"
+                strokeWidth="2"
                 strokeDasharray="140"
               />
             ))}
@@ -199,9 +223,9 @@ export function HydrobacExplorer() {
           </g>
           <g
             className="hydrobac-water-group"
-            fill="#d7ede8"
-            stroke="#487e76"
-            strokeWidth="1.2"
+            fill="#aeddd6"
+            stroke="#366d64"
+            strokeWidth="1.8"
           >
             {[
               [88, 190],
