@@ -45,6 +45,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es-CL">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `history.scrollRestoration="manual";`,
+          }}
+        />
+      </head>
       <body>
         <BrandIntro />
         <PageMotion />

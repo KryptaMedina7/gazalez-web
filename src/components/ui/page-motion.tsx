@@ -6,7 +6,7 @@ import { motionPolicy } from "@/lib/motion-policy";
 
 export function PageMotion() {
   const path = usePathname();
-  const previousPath = useRef(path);
+  const previousPath = useRef<string | null>(null);
   const router = useRouter();
   const curtain = useRef<HTMLDivElement>(null);
   const pending = useRef<string | null>(null);

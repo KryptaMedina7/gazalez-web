@@ -4,10 +4,12 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { createMatterField, matterPixelRatio } from "@/lib/matter-field.mjs";
 import gsap from "gsap";
 import Image from "next/image";
+import { mountMobileMatter } from "@/lib/mobile-matter";
 
 export function HeroExperience({ children }: { children: ReactNode }) {
   const root = useRef<HTMLElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
+  const mobileCanvas = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const section = root.current;
     const surface = canvas.current;
@@ -22,9 +24,11 @@ export function HeroExperience({ children }: { children: ReactNode }) {
       disposeScene = () => {};
       delete section.dataset.motion;
       surface.width = surface.height = 1;
-      // Mobile uses normal document scrolling and one prepainted scene.
-      // No Canvas context, JS scroll listener, pinning or ScrollTrigger import.
-      if (!desktopQuery.matches) return;
+      if (!desktopQuery.matches) {
+        if (!reduceQuery.matches && mobileCanvas.current)
+          disposeScene = mountMobileMatter(section, mobileCanvas.current);
+        return;
+      }
       void import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
         if (generation !== current) return;
         gsap.registerPlugin(ScrollTrigger);
@@ -209,6 +213,11 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                   />
                 </picture>
               ))}
+              <canvas
+                className="hero-mobile-canvas"
+                ref={mobileCanvas}
+                aria-hidden="true"
+              />
               <svg
                 className="hero-depth-front"
                 viewBox="0 0 1000 800"

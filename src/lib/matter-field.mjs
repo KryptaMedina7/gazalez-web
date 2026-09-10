@@ -25,8 +25,8 @@ export function matterPixelRatio(width, height, deviceRatio, compact) {
 }
 
 /** Reusable geometry buffers: no particle objects or trigonometry per draw. */
-export function createMatterField(compact) {
-  const count = compact ? 1100 : 2200;
+export function createMatterField(compact, rows = compact ? 10 : 20) {
+  const count = 110 * Math.max(2, Math.min(20, rows));
   const seeds = Array.from({ length: count }, (_, i) => {
     const u = (i % 110) / 109;
     const angle = u * Math.PI * 2.15 - 1.3;
