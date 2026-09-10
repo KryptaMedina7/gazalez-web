@@ -4244,6 +4244,7 @@ input[type="file"]::file-selector-button {
   }
   .hero-universe figcaption {
     bottom: 70px;
+    z-index: 1;
   }
 }
 /* Fallback does not reserve an inactive scroll sequence. */
