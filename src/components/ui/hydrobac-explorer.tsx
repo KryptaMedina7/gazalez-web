@@ -120,12 +120,13 @@ export function HydrobacExplorer() {
           },
           { threshold: 0.25 },
         );
-        observer.observe(element);
+        const graphic = element.querySelector(".hydrobac-figure") ?? element;
+        observer.observe(graphic);
         const visibility = () => {
           if (document.hidden) timeline.pause();
           else if (
-            element.getBoundingClientRect().bottom > 0 &&
-            element.getBoundingClientRect().top < innerHeight
+            graphic.getBoundingClientRect().bottom > 0 &&
+            graphic.getBoundingClientRect().top < innerHeight
           )
             timeline.play();
         };

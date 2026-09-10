@@ -77,7 +77,7 @@ export function Process() {
         },
         { threshold: 0.4 },
       );
-      const graphic = root.querySelector(".process-stage");
+      const graphic = root.querySelector(".matter-graphic");
       if (graphic) observer.observe(graphic);
       document.addEventListener("visibilitychange", sync);
       return () => {
