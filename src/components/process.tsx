@@ -1,50 +1,25 @@
 "use client";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { RotateCcw } from "lucide-react";
+import { Pause, RotateCcw } from "lucide-react";
 import { processSteps } from "@/lib/content";
 import { Icon } from "./icon";
 
-// Four views of the same conceptual matter: scattered, sorted, formulated, connected.
-const particles = Array.from({ length: 120 }, (_, i) => ({
-  x: 48 + ((i * 173) % 505),
-  y: 43 + ((i * 97) % 261),
-  r: 2.5 + (i % 5) * 0.6,
-}));
-function position(stage: number, i: number) {
-  const p = particles[i];
-  if (stage === 0) return { x: p.x, y: p.y };
-  if (stage === 1)
-    return {
-      x: 74 + (i % 30) * 15.5,
-      y: 92 + Math.floor(i / 30) * 54 + Math.sin(i * 0.7) * 4,
-    };
-  if (stage === 2) {
-    const n = i % 40,
-      angle = n * 2.4,
-      radius = 12 + Math.sqrt(n) * 7;
-    return {
-      x: 140 + Math.floor(i / 40) * 160 + Math.cos(angle) * radius,
-      y: 175 + Math.sin(angle) * radius,
-    };
-  }
-  const t = (i % 30) / 29,
-    band = Math.floor(i / 30) - 1.5;
-  return {
-    x: 65 + t * 470,
-    y: 175 + Math.sin(t * Math.PI * 2 - 0.8) * 68 + band * 9,
-  };
-}
+import {
+  processParticles as particles,
+  processPosition as position,
+} from "@/lib/process-layout.mjs";
 
 export function Process() {
   const [step, setStep] = useState(0);
   const [announce, setAnnounce] = useState(false);
+  const [playing, setPlaying] = useState(true);
   const ref = useRef<HTMLElement>(null);
   const manual = useRef(false);
-  const requested = useRef(false);
   const initialized = useRef(false);
   const instant = useRef(false);
   const autoplay = useRef<gsap.core.Timeline | null>(null);
+  const syncPlayback = useRef<(() => void) | null>(null);
   const nodes = useRef<SVGCircleElement[]>([]);
   const copy = useRef<HTMLDivElement>(null);
   const progress = useRef<HTMLSpanElement>(null);
@@ -54,7 +29,10 @@ export function Process() {
     if (!root) return;
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
-      const sequence = gsap.timeline({ paused: true });
+      const sequence = gsap.timeline({
+        paused: true,
+        onComplete: () => setPlaying(false),
+      });
       for (let stage = 1; stage < 4; stage++)
         sequence.call(
           () => {
@@ -64,23 +42,18 @@ export function Process() {
             }
           },
           [],
-          stage * 1.15,
+          stage * 4.5,
         );
       autoplay.current = sequence;
       let inView = false;
       const sync = () => {
-        if (
-          inView &&
-          !document.hidden &&
-          !manual.current &&
-          (!matchMedia("(max-width: 1000px)").matches || requested.current)
-        )
-          sequence.play();
+        if (inView && !document.hidden && !manual.current) sequence.play();
         else sequence.pause();
       };
+      syncPlayback.current = sync;
       const observer = new IntersectionObserver(
         ([entry]) => {
-          inView = entry.isIntersecting;
+          inView = entry.isIntersecting && entry.intersectionRatio >= 0.4;
           sync();
         },
         { threshold: 0.4 },
@@ -93,6 +66,7 @@ export function Process() {
         document.removeEventListener("visibilitychange", sync);
         sequence.kill();
         autoplay.current = null;
+        syncPlayback.current = null;
       };
     });
     return () => media.revert();
@@ -155,6 +129,7 @@ export function Process() {
 
   const choose = (index: number, keyboard: boolean) => {
     manual.current = true;
+    setPlaying(false);
     autoplay.current?.pause();
     instant.current = keyboard;
     setAnnounce(true);
@@ -162,10 +137,12 @@ export function Process() {
   };
   const replay = (keyboard: boolean) => {
     choose(0, keyboard);
-    if (!keyboard && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
       manual.current = false;
-      requested.current = true;
-      autoplay.current?.restart();
+      setPlaying(true);
+      setAnnounce(false);
+      autoplay.current?.restart().pause();
+      syncPlayback.current?.();
     }
   };
 
@@ -202,7 +179,63 @@ export function Process() {
             role="img"
             aria-label={`Representación conceptual: ${processSteps[step].title}`}
           >
-            <path className="process-axis" d="M25 175H575" />
+            <g className="process-guides" aria-hidden="true">
+              <g className="process-guide" data-active={step === 0}>
+                <path d="M173 73H145V103 M427 73H455V103 M145 244V274H173 M455 244V274H427" />
+                <path
+                  className="process-guide-faint"
+                  d="M300 82V263 M153 174H447"
+                />
+                <text x="300" y="45">
+                  CARACTERIZAR
+                </text>
+                <text x="300" y="312">
+                  Origen · composición · volumen
+                </text>
+              </g>
+              <g className="process-guide" data-active={step === 1}>
+                {[65, 235, 405].map((x) => (
+                  <rect key={x} x={x} y="99" width="128" height="135" rx="14" />
+                ))}
+                <text x="300" y="45">
+                  RECUPERAR Y ACONDICIONAR
+                </text>
+                <text x="300" y="312">
+                  Separar para reconocer su valor
+                </text>
+              </g>
+              <g className="process-guide" data-active={step === 2}>
+                <rect x="193" y="80" width="214" height="184" rx="24" />
+                <path d="M155 174H181 M419 174H445 M174 167L181 174L174 181 M438 167L445 174L438 181" />
+                <text x="300" y="45">
+                  FORMULAR CON UN OBJETIVO
+                </text>
+                <text x="300" y="312">
+                  Propiedades + requerimiento técnico
+                </text>
+              </g>
+              <g className="process-guide" data-active={step === 3}>
+                {[130, 300, 470].map((x) => (
+                  <circle key={x} cx={x} cy="174" r="58" />
+                ))}
+                <path d="M190 174H240 M360 174H410 M232 167L240 174L232 181 M402 167L410 174L402 181" />
+                <text x="300" y="45">
+                  DAR CONTINUIDAD AL RECURSO
+                </text>
+                <text x="130" y="267">
+                  Origen
+                </text>
+                <text x="300" y="267">
+                  Proceso
+                </text>
+                <text x="470" y="267">
+                  Aplicación
+                </text>
+                <text x="300" y="312">
+                  Trazabilidad a lo largo de la cadena
+                </text>
+              </g>
+            </g>
             {particles.map((p, i) => (
               <circle
                 key={i}
@@ -214,13 +247,31 @@ export function Process() {
                 cx="0"
                 cy="0"
                 r={p.r}
-                fill={
-                  i % 3 === 0 ? "#b8d8bc" : i % 3 === 1 ? "#75a58a" : "#e0eddb"
-                }
+                fill={["#b8d8bc", "#75a58a", "#e0eddb"][Math.floor(i / 40)]}
                 style={{ transform: `translate(${p.x}px,${p.y}px)` }}
               />
             ))}
           </svg>
+          <button
+            className="process-playback"
+            aria-label={
+              playing ? "Pausar transformación" : "Reproducir transformación"
+            }
+            onClick={() => {
+              if (playing) {
+                manual.current = true;
+                autoplay.current?.pause();
+                setPlaying(false);
+              } else replay(false);
+            }}
+          >
+            {playing ? (
+              <Pause size={14} aria-hidden="true" />
+            ) : (
+              <RotateCcw size={14} aria-hidden="true" />
+            )}
+            {playing ? "Pausar" : "Reproducir"}
+          </button>
           <div className="graphic-caption">
             <span>Materia → nueva aplicación</span>
             <span>Esquema conceptual</span>
