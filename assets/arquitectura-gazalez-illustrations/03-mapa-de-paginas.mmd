@@ -1,0 +1,60 @@
+flowchart LR
+subgraph entry_group["ACCESO"]
+visit["Visitante"]
+home["Inicio<br/>/"]
+navigation["Topbar / menú móvil / enlaces internos"]
+end
+subgraph family0_group["SOLUCIONES"]
+r0_0["Todas las soluciones<br/>/soluciones/"]
+r0_1["Nutrición animal<br/>/soluciones/nutricion-animal/"]
+r0_2["Núcleos proteicos<br/>/soluciones/nucleos-proteicos/"]
+r0_3["Formulación técnica<br/>/soluciones/formulacion-tecnica/"]
+r0_4["Valorización industrial<br/>/soluciones/valorizacion-industrial/"]
+r0_5["Bioprocesos<br/>/soluciones/bioprocesos/"]
+end
+subgraph family1_group["INNOVACIÓN"]
+r1_0["Investigación e industria<br/>/innovacion/"]
+r1_1["HIDROBAC<br/>/innovacion/hidrobac/"]
+r1_2["Transferencia tecnológica<br/>/innovacion/transferencia-tecnologica/"]
+r1_3["Proyectos e iniciativas<br/>/innovacion/proyectos/"]
+end
+subgraph family2_group["EMPRESA"]
+r2_0["Conoce GAZALEZ<br/>/empresa/"]
+r2_1["Sostenibilidad<br/>/sostenibilidad/"]
+r2_2["Aplicaciones industriales<br/>/casos/"]
+r2_3["Actualidad<br/>/actualidad/"]
+end
+subgraph family3_group["CALIDAD Y TRAZABILIDAD"]
+r3_0["Calidad y trazabilidad<br/>/calidad-trazabilidad/"]
+r3_1["Contacto comercial<br/>/contacto/"]
+r3_2["Preguntas frecuentes<br/>/preguntas-frecuentes/"]
+r3_3["Privacidad<br/>/privacidad/"]
+r3_4["Términos de uso<br/>/terminos/"]
+end
+subgraph aux_group["RECURSOS DE ENRUTAMIENTO Y SEO"]
+missing["Ruta no generada → 404<br/>dynamicParams = false"]
+seo["robots.txt · sitemap.xml<br/>NEXT_PUBLIC_INDEXABLE controla indexación"]
+end
+visit -->|"entra"| home
+home -->|"explora"| navigation
+navigation --> r0_0
+navigation --> r0_1
+navigation --> r0_2
+navigation --> r0_3
+navigation --> r0_4
+navigation --> r0_5
+navigation --> r1_0
+navigation --> r1_1
+navigation --> r1_2
+navigation --> r1_3
+navigation --> r2_0
+navigation --> r2_1
+navigation --> r2_2
+navigation --> r2_3
+navigation --> r3_0
+navigation --> r3_1
+navigation --> r3_2
+navigation --> r3_3
+navigation --> r3_4
+navigation -->|"ruta inexistente"| missing
+home -->|"descubrimiento"| seo

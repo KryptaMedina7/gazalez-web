@@ -1,0 +1,61 @@
+flowchart TB
+subgraph source_group["01 · FUENTES DEL PROYECTO"]
+repo["Repositorio GitHub<br/>KryptaMedina7/gazalez-web · main"]
+content["Contenido y rutas<br/>content.ts · navigation.ts · site.ts"]
+assets["Recursos locales<br/>public/assets · imágenes · logos<br/>Manrope / Lexend · globals.css"]
+code["Interfaz y configuración<br/>App Router · componentes React<br/>TypeScript · Tailwind CSS"]
+end
+subgraph build_group["02 · COMPILACIÓN Y ENTREGA"]
+ci["Vercel · instalación y build<br/>npm ci → npm run build"]
+next["Next.js 16 · exportación estática<br/>generateStaticParams · dynamicParams=false"]
+out["out/<br/>HTML · CSS · JavaScript · recursos<br/>robots.txt · sitemap.xml · 404"]
+cdn["Vercel<br/>Entrega de archivos estáticos"]
+checks["Verificaciones locales<br/>ESLint · TypeScript · node:test<br/>qa.mjs: páginas y referencias"]
+end
+subgraph browser_group["03 · NAVEGADOR DEL VISITANTE"]
+browser["PC / tableta / teléfono<br/>Carga HTML y recursos · hidrata React 19"]
+layout["RootLayout · estructura común<br/>Header · main · Footer · SocialLinks<br/>Metadatos · canonical · OpenGraph · JSON-LD"]
+nav["Navegación compartida<br/>TopbarNavigation → AppMenuBar → Menubar<br/>SterlingGateNavigation → DrilldownMenu<br/>Radix: teclado, foco y diálogo"]
+pages["Páginas precompiladas<br/>page.tsx: inicio<br/>[...slug]/page.tsx: páginas interiores<br/>not-found.tsx: ruta inexistente"]
+home["Inicio · secciones<br/>Hero → presentación → Process → soluciones<br/>HIDROBAC → trazabilidad → testimonios<br/>FAQ → ContactBand → instituciones"]
+parts["Contenido reutilizable<br/>shared.tsx · CompanyFaq · Icon / Lucide<br/>LeadershipVoices · InstitutionStrip"]
+end
+subgraph motion_group["04 · INTERACCIÓN Y MOVIMIENTO LOCAL"]
+globalmotion["BrandIntro / TextRoll · Motion<br/>PageMotion · ContentMotion · GSAP<br/>motion-policy.ts · inicio de página al navegar"]
+hero["HeroExperience<br/>PC: Canvas 2D + ScrollTrigger<br/>Móvil: WebGL → Canvas 2D → imagen<br/>mobile-matter.ts · matter-field.mjs"]
+process["Process · transformación conceptual<br/>GSAP · reproducción, pausa y selección<br/>process-layout.mjs · 4 etapas"]
+hydro["HydrobacExplorer<br/>SVG + CSS · capas seleccionables<br/>Control de separación · hydrobac-layout.mjs"]
+access["Condiciones de movimiento<br/>prefers-reduced-motion · tamaño de pantalla<br/>Visibilidad y limpieza según componente"]
+end
+subgraph contact_group["05 · CONSULTA Y SALIDA EXTERNA"]
+form["EnquiryForm + enquiry.mjs<br/>Validación y resumen en el navegador<br/>Interés de consulta en URL"]
+mail["Aplicación de correo del visitante<br/>mailto:contacto@empresagazalez.cl<br/>El visitante revisa, adjunta y envía"]
+download["Alternativa local<br/>Descargar resumen .txt"]
+external["Enlaces de evidencia<br/>Noticias UdeC / publicación en LinkedIn<br/>Sin integración de datos"]
+end
+repo -->|"push"| ci
+content -->|"datos en build"| next
+assets -->|"copia / empaquetado"| out
+code -->|"compila"| next
+ci -->|"ejecuta"| next
+next -->|"genera"| out
+checks -.->|"validación local"| code
+out -->|"publica"| cdn
+cdn -->|"HTML / CSS / JS"| browser
+browser -->|"renderiza"| layout
+layout -->|"incluye"| nav
+layout -->|"main"| pages
+pages -->|"ruta /"| home
+pages -->|"compone"| parts
+content -.->|"menú común"| nav
+layout -->|"monta"| globalmotion
+home -->|"apertura"| hero
+home -->|"transformación"| process
+home -->|"investigación"| hydro
+access -.->|"adapta"| hero
+access -.->|"adapta"| process
+access -.->|"adapta"| globalmotion
+pages -->|"ruta /contacto/"| form
+form -->|"abrir borrador"| mail
+form -->|"descargar"| download
+pages -->|"enlaces externos"| external

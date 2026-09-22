@@ -1,0 +1,40 @@
+flowchart TB
+subgraph start_group["ENTRADA"]
+cta["CTA o contacto directo"]
+open["/contacto/?interes=…<br/>normalizeIntent: valor válido o general"]
+intent["Elegir interés<br/>Subproducto · formulación<br/>Colaboración · general"]
+end
+subgraph prepare_group["EN EL DISPOSITIVO DEL VISITANTE"]
+fields["Completar datos y campos técnicos<br/>Nombre · empresa · correo · requerimiento<br/>Consentimiento obligatorio"]
+attachment["Archivo opcional<br/>PDF / JPG / PNG · máximo 10 MB<br/>Solo se conserva el nombre en el resumen"]
+valid{"¿Datos obligatorios válidos?"}
+error["Mostrar error y corregir"]
+summary["formatEnquiry<br/>Resumen revisable · aún no enviado"]
+choice{"Elegir siguiente acción"}
+edit["Editar / nueva consulta"]
+txt["Descargar consulta-tecnica-gazalez.txt"]
+end
+subgraph outside_group["APLICACIÓN EXTERNA"]
+mailto["Enlace mailto<br/>Abrir aplicación de correo<br/>buildMailto para consulta preparada"]
+manual["Revisar destinatario y texto<br/>Adjuntar archivo manualmente"]
+send["El visitante pulsa Enviar<br/>contacto@empresagazalez.cl"]
+receipt["Entrega depende del proveedor de correo<br/>La web no confirma recepción"]
+end
+cta -->|"formulario"| open
+cta -->|"enlace directo de correo"| mailto
+open -->|"normaliza interés"| intent
+intent -->|"adapta campos"| fields
+fields -->|"opcional"| attachment
+attachment -->|"revisar"| valid
+valid -->|"no"| error
+error -->|"corregir"| fields
+valid -->|"sí"| summary
+summary -->|"revisar"| choice
+choice -->|"editar"| edit
+edit -->|"volver"| fields
+choice -->|"guardar"| txt
+choice -->|"abrir correo"| mailto
+txt -.->|"copiar en correo si hace falta"| manual
+mailto -->|"borrador"| manual
+manual -->|"acción explícita"| send
+send -->|"fuera del sitio"| receipt

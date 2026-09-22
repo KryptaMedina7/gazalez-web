@@ -1,0 +1,61 @@
+digraph G { graph [rankdir=LR, bgcolor="white", pad=0.35, nodesep=0.35, ranksep=0.6, fontname="Arial", fontsize=18, compound=true]; node [shape=box, style="rounded,filled", fillcolor="#f2f7ef", color="#8bad94", fontcolor="#193d2e", fontname="Arial", fontsize=13, margin="0.18,0.12"]; edge [color="#63816e", fontname="Arial", fontsize=10, fontcolor="#435b4b", arrowsize=0.7];
+subgraph cluster_entry {label="ACCESO"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+visit [label="Visitante"];
+home [label="Inicio\n/"];
+navigation [label="Topbar / menú móvil / enlaces internos"];
+}
+subgraph cluster_family0 {label="SOLUCIONES"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+r0_0 [label="Todas las soluciones\n/soluciones/"];
+r0_1 [label="Nutrición animal\n/soluciones/nutricion-animal/"];
+r0_2 [label="Núcleos proteicos\n/soluciones/nucleos-proteicos/"];
+r0_3 [label="Formulación técnica\n/soluciones/formulacion-tecnica/"];
+r0_4 [label="Valorización industrial\n/soluciones/valorizacion-industrial/"];
+r0_5 [label="Bioprocesos\n/soluciones/bioprocesos/"];
+}
+subgraph cluster_family1 {label="INNOVACIÓN"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+r1_0 [label="Investigación e industria\n/innovacion/"];
+r1_1 [label="HIDROBAC\n/innovacion/hidrobac/"];
+r1_2 [label="Transferencia tecnológica\n/innovacion/transferencia-tecnologica/"];
+r1_3 [label="Proyectos e iniciativas\n/innovacion/proyectos/"];
+}
+subgraph cluster_family2 {label="EMPRESA"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+r2_0 [label="Conoce GAZALEZ\n/empresa/"];
+r2_1 [label="Sostenibilidad\n/sostenibilidad/"];
+r2_2 [label="Aplicaciones industriales\n/casos/"];
+r2_3 [label="Actualidad\n/actualidad/"];
+}
+subgraph cluster_family3 {label="CALIDAD Y TRAZABILIDAD"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+r3_0 [label="Calidad y trazabilidad\n/calidad-trazabilidad/"];
+r3_1 [label="Contacto comercial\n/contacto/"];
+r3_2 [label="Preguntas frecuentes\n/preguntas-frecuentes/"];
+r3_3 [label="Privacidad\n/privacidad/"];
+r3_4 [label="Términos de uso\n/terminos/"];
+}
+subgraph cluster_aux {label="RECURSOS DE ENRUTAMIENTO Y SEO"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+missing [label="Ruta no generada → 404\ndynamicParams = false"];
+seo [label="robots.txt · sitemap.xml\nNEXT_PUBLIC_INDEXABLE controla indexación"];
+}
+visit -> home [label="entra"];
+home -> navigation [label="explora"];
+navigation -> r0_0 [label=""];
+navigation -> r0_1 [label=""];
+navigation -> r0_2 [label=""];
+navigation -> r0_3 [label=""];
+navigation -> r0_4 [label=""];
+navigation -> r0_5 [label=""];
+navigation -> r1_0 [label=""];
+navigation -> r1_1 [label=""];
+navigation -> r1_2 [label=""];
+navigation -> r1_3 [label=""];
+navigation -> r2_0 [label=""];
+navigation -> r2_1 [label=""];
+navigation -> r2_2 [label=""];
+navigation -> r2_3 [label=""];
+navigation -> r3_0 [label=""];
+navigation -> r3_1 [label=""];
+navigation -> r3_2 [label=""];
+navigation -> r3_3 [label=""];
+navigation -> r3_4 [label=""];
+navigation -> missing [label="ruta inexistente"];
+home -> seo [label="descubrimiento"];
+}

@@ -1,0 +1,62 @@
+digraph G { graph [rankdir=TB, bgcolor="white", pad=0.35, nodesep=0.35, ranksep=0.6, fontname="Arial", fontsize=18, compound=true]; node [shape=box, style="rounded,filled", fillcolor="#f2f7ef", color="#8bad94", fontcolor="#193d2e", fontname="Arial", fontsize=13, margin="0.18,0.12"]; edge [color="#63816e", fontname="Arial", fontsize=10, fontcolor="#435b4b", arrowsize=0.7];
+subgraph cluster_source {label="01 · FUENTES DEL PROYECTO"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+repo [label="Repositorio GitHub\nKryptaMedina7/gazalez-web · main"];
+content [label="Contenido y rutas\ncontent.ts · navigation.ts · site.ts"];
+assets [label="Recursos locales\npublic/assets · imágenes · logos\nManrope / Lexend · globals.css"];
+code [label="Interfaz y configuración\nApp Router · componentes React\nTypeScript · Tailwind CSS"];
+}
+subgraph cluster_build {label="02 · COMPILACIÓN Y ENTREGA"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+ci [label="Vercel · instalación y build\nnpm ci → npm run build"];
+next [label="Next.js 16 · exportación estática\ngenerateStaticParams · dynamicParams=false"];
+out [label="out/\nHTML · CSS · JavaScript · recursos\nrobots.txt · sitemap.xml · 404"];
+cdn [label="Vercel\nEntrega de archivos estáticos"];
+checks [label="Verificaciones locales\nESLint · TypeScript · node:test\nqa.mjs: páginas y referencias"];
+}
+subgraph cluster_browser {label="03 · NAVEGADOR DEL VISITANTE"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+browser [label="PC / tableta / teléfono\nCarga HTML y recursos · hidrata React 19"];
+layout [label="RootLayout · estructura común\nHeader · main · Footer · SocialLinks\nMetadatos · canonical · OpenGraph · JSON-LD"];
+nav [label="Navegación compartida\nTopbarNavigation → AppMenuBar → Menubar\nSterlingGateNavigation → DrilldownMenu\nRadix: teclado, foco y diálogo"];
+pages [label="Páginas precompiladas\npage.tsx: inicio\n[...slug]/page.tsx: páginas interiores\nnot-found.tsx: ruta inexistente"];
+home [label="Inicio · secciones\nHero → presentación → Process → soluciones\nHIDROBAC → trazabilidad → testimonios\nFAQ → ContactBand → instituciones"];
+parts [label="Contenido reutilizable\nshared.tsx · CompanyFaq · Icon / Lucide\nLeadershipVoices · InstitutionStrip"];
+}
+subgraph cluster_motion {label="04 · INTERACCIÓN Y MOVIMIENTO LOCAL"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+globalmotion [label="BrandIntro / TextRoll · Motion\nPageMotion · ContentMotion · GSAP\nmotion-policy.ts · inicio de página al navegar"];
+hero [label="HeroExperience\nPC: Canvas 2D + ScrollTrigger\nMóvil: WebGL → Canvas 2D → imagen\nmobile-matter.ts · matter-field.mjs"];
+process [label="Process · transformación conceptual\nGSAP · reproducción, pausa y selección\nprocess-layout.mjs · 4 etapas"];
+hydro [label="HydrobacExplorer\nSVG + CSS · capas seleccionables\nControl de separación · hydrobac-layout.mjs"];
+access [label="Condiciones de movimiento\nprefers-reduced-motion · tamaño de pantalla\nVisibilidad y limpieza según componente"];
+}
+subgraph cluster_contact {label="05 · CONSULTA Y SALIDA EXTERNA"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+form [label="EnquiryForm + enquiry.mjs\nValidación y resumen en el navegador\nInterés de consulta en URL"];
+mail [label="Aplicación de correo del visitante\nmailto:contacto@empresagazalez.cl\nEl visitante revisa, adjunta y envía"];
+download [label="Alternativa local\nDescargar resumen .txt"];
+external [label="Enlaces de evidencia\nNoticias UdeC / publicación en LinkedIn\nSin integración de datos"];
+}
+repo -> ci [label="push"];
+content -> next [label="datos en build"];
+assets -> out [label="copia / empaquetado"];
+code -> next [label="compila"];
+ci -> next [label="ejecuta"];
+next -> out [label="genera"];
+checks -> code [label="validación local",style=dashed];
+out -> cdn [label="publica"];
+cdn -> browser [label="HTML / CSS / JS"];
+browser -> layout [label="renderiza"];
+layout -> nav [label="incluye"];
+layout -> pages [label="main"];
+pages -> home [label="ruta /"];
+pages -> parts [label="compone"];
+content -> nav [label="menú común",style=dashed];
+layout -> globalmotion [label="monta"];
+home -> hero [label="apertura"];
+home -> process [label="transformación"];
+home -> hydro [label="investigación"];
+access -> hero [label="adapta",style=dashed];
+access -> process [label="adapta",style=dashed];
+access -> globalmotion [label="adapta",style=dashed];
+pages -> form [label="ruta /contacto/"];
+form -> mail [label="abrir borrador"];
+form -> download [label="descargar"];
+pages -> external [label="enlaces externos"];
+}

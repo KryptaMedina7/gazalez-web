@@ -1,0 +1,41 @@
+digraph G { graph [rankdir=TB, bgcolor="white", pad=0.35, nodesep=0.35, ranksep=0.6, fontname="Arial", fontsize=18, compound=true]; node [shape=box, style="rounded,filled", fillcolor="#f2f7ef", color="#8bad94", fontcolor="#193d2e", fontname="Arial", fontsize=13, margin="0.18,0.12"]; edge [color="#63816e", fontname="Arial", fontsize=10, fontcolor="#435b4b", arrowsize=0.7];
+subgraph cluster_start {label="ENTRADA"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+cta [label="CTA o contacto directo"];
+open [label="/contacto/?interes=…\nnormalizeIntent: valor válido o general"];
+intent [label="Elegir interés\nSubproducto · formulación\nColaboración · general"];
+}
+subgraph cluster_prepare {label="EN EL DISPOSITIVO DEL VISITANTE"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+fields [label="Completar datos y campos técnicos\nNombre · empresa · correo · requerimiento\nConsentimiento obligatorio"];
+attachment [label="Archivo opcional\nPDF / JPG / PNG · máximo 10 MB\nSolo se conserva el nombre en el resumen"];
+valid [label="¿Datos obligatorios válidos?", shape=diamond];
+error [label="Mostrar error y corregir"];
+summary [label="formatEnquiry\nResumen revisable · aún no enviado"];
+choice [label="Elegir siguiente acción", shape=diamond];
+edit [label="Editar / nueva consulta"];
+txt [label="Descargar consulta-tecnica-gazalez.txt"];
+}
+subgraph cluster_outside {label="APLICACIÓN EXTERNA"; color="#c9d9c5"; style="rounded"; fontcolor="#315e46";
+mailto [label="Enlace mailto\nAbrir aplicación de correo\nbuildMailto para consulta preparada"];
+manual [label="Revisar destinatario y texto\nAdjuntar archivo manualmente"];
+send [label="El visitante pulsa Enviar\ncontacto@empresagazalez.cl"];
+receipt [label="Entrega depende del proveedor de correo\nLa web no confirma recepción"];
+}
+cta -> open [label="formulario"];
+cta -> mailto [label="enlace directo de correo"];
+open -> intent [label="normaliza interés"];
+intent -> fields [label="adapta campos"];
+fields -> attachment [label="opcional"];
+attachment -> valid [label="revisar"];
+valid -> error [label="no"];
+error -> fields [label="corregir"];
+valid -> summary [label="sí"];
+summary -> choice [label="revisar"];
+choice -> edit [label="editar"];
+edit -> fields [label="volver"];
+choice -> txt [label="guardar"];
+choice -> mailto [label="abrir correo"];
+txt -> manual [label="copiar en correo si hace falta",style=dashed];
+mailto -> manual [label="borrador"];
+manual -> send [label="acción explícita"];
+send -> receipt [label="fuera del sitio"];
+}
