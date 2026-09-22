@@ -1,0 +1,2 @@
+<?php defined("GAZALEZ_APP") || exit; ?>
+<div class="not-found"><span>404</span><h1>Este camino no está disponible.</h1><p>Puedes volver al inicio o explorar nuestras soluciones.</p><a class="button " href="/">Volver a GAZALEZ<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a></div>

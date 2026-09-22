@@ -1,0 +1,107 @@
+{
+  "/": {
+    "view": "inicio",
+    "title": "GAZALEZ · De subproducto a solución",
+    "description": "Valorización industrial, nutrición animal y ciencia aplicada. Gazalez e Hija SpA, Coronel, Biobío, Chile."
+  },
+  "/empresa/": {
+    "view": "empresa",
+    "title": "Industria con una mirada de transformación. | GAZALEZ",
+    "description": "Somos Gazalez e Hija SpA. Desde Coronel, en la Región del Biobío, conectamos la valorización industrial con la nutrición animal y el conocimiento aplicado."
+  },
+  "/soluciones/": {
+    "view": "soluciones",
+    "title": "Soluciones industriales | GAZALEZ",
+    "description": "Soluciones industriales. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/soluciones/nutricion-animal/": {
+    "view": "soluciones--nutricion-animal",
+    "title": "Nutrición animal | GAZALEZ",
+    "description": "Conectamos la valorización de materias primas con las necesidades de la alimentación animal, para evaluar soluciones acordes a cada operación productiva."
+  },
+  "/soluciones/nucleos-proteicos/": {
+    "view": "soluciones--nucleos-proteicos",
+    "title": "Núcleos proteicos avícolas | GAZALEZ",
+    "description": "Soluciones proteicas orientadas a la alimentación avícola, con una conversación técnica que parte de la especie, la etapa productiva y el objetivo de la formulación."
+  },
+  "/soluciones/formulacion-tecnica/": {
+    "view": "soluciones--formulacion-tecnica",
+    "title": "Formulación técnica | GAZALEZ",
+    "description": "Evaluación de materias primas y alternativas de formulación según las necesidades nutricionales y los objetivos productivos de cada cliente."
+  },
+  "/soluciones/valorizacion-industrial/": {
+    "view": "soluciones--valorizacion-industrial",
+    "title": "Valorización industrial | GAZALEZ",
+    "description": "Evaluamos oportunidades para recuperar y reincorporar corrientes secundarias y subproductos a nuevas cadenas productivas."
+  },
+  "/soluciones/bioprocesos/": {
+    "view": "soluciones--bioprocesos",
+    "title": "Bioprocesos | GAZALEZ",
+    "description": "Una línea de desarrollo que conecta biomasa, procesamiento y conocimiento aplicado para estudiar nuevas oportunidades de valorización."
+  },
+  "/innovacion/": {
+    "view": "innovacion",
+    "title": "Innovación y transferencia tecnológica | GAZALEZ",
+    "description": "Innovación y transferencia tecnológica. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/innovacion/hidrobac/": {
+    "view": "innovacion--hidrobac",
+    "title": "HIDROBAC: transferencia tecnológica UdeC | GAZALEZ",
+    "description": "HIDROBAC: transferencia tecnológica UdeC. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/innovacion/transferencia-tecnologica/": {
+    "view": "innovacion--transferencia-tecnologica",
+    "title": "Conectar conocimiento y aplicación. | GAZALEZ",
+    "description": "La transferencia tecnológica acerca resultados de investigación a los desafíos productivos. Es un proceso de colaboración, evaluación y desarrollo."
+  },
+  "/innovacion/proyectos/": {
+    "view": "innovacion--proyectos",
+    "title": "Desafíos que conectan ciencia e industria. | GAZALEZ",
+    "description": "Un espacio para conocer la transferencia tecnológica y abrir conversaciones de investigación aplicada."
+  },
+  "/calidad-trazabilidad/": {
+    "view": "calidad-trazabilidad",
+    "title": "Conocer el origen. Comprender cada etapa. | GAZALEZ",
+    "description": "La trazabilidad conecta la materia prima con el producto terminado. Una secuencia de información que acompaña la transformación."
+  },
+  "/sostenibilidad/": {
+    "view": "sostenibilidad",
+    "title": "El valor puede continuar. | GAZALEZ",
+    "description": "La circularidad se concreta cuando un material recuperado encuentra una nueva aplicación productiva."
+  },
+  "/casos/": {
+    "view": "casos",
+    "title": "Aplicaciones industriales | GAZALEZ",
+    "description": "Aplicaciones industriales. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/actualidad/": {
+    "view": "actualidad",
+    "title": "Actualidad | GAZALEZ",
+    "description": "Actualidad. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/contacto/": {
+    "view": "contacto",
+    "title": "Hablemos de tu desafío | GAZALEZ",
+    "description": "Hablemos de tu desafío. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/preguntas-frecuentes/": {
+    "view": "preguntas-frecuentes",
+    "title": "Preguntas frecuentes | GAZALEZ",
+    "description": "Preguntas frecuentes. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/privacidad/": {
+    "view": "privacidad",
+    "title": "Privacidad | GAZALEZ",
+    "description": "Privacidad. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/terminos/": {
+    "view": "terminos",
+    "title": "Términos de uso | GAZALEZ",
+    "description": "Términos de uso. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío."
+  },
+  "/404/": {
+    "view": "404",
+    "title": "Página no encontrada | GAZALEZ",
+    "description": "Valorización industrial, nutrición animal y ciencia aplicada. Gazalez e Hija SpA, Coronel, Biobío, Chile."
+  }
+}

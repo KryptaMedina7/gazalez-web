@@ -6,7 +6,7 @@ import gsap from "gsap";
 import Image from "next/image";
 import { mountMobileMatter } from "@/lib/mobile-matter";
 
-export function HeroExperience({ children }: { children: ReactNode }) {
+export function HeroExperience({ children, assetBase = "" }: { children: ReactNode; assetBase?: string }) {
   const root = useRef<HTMLElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const mobileCanvas = useRef<HTMLCanvasElement>(null);
@@ -201,7 +201,7 @@ export function HeroExperience({ children }: { children: ReactNode }) {
                   />
                   <source
                     media="(max-height: 500px)"
-                    srcSet={`/assets/matter/landscape-${phase}.webp`}
+                    srcSet={`${assetBase}/assets/matter/landscape-${phase}.webp`}
                   />
                   <Image
                     src={`/assets/matter/portrait-${phase}.webp`}

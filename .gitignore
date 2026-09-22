@@ -11,3 +11,6 @@ tmp/
 .DS_Store
 Thumbs.db
 docs/site-original.html
+php-site/app/config.local.php
+php-site/public/assets/
+dist/
