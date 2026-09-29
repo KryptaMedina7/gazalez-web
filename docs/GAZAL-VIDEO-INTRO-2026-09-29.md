@@ -18,3 +18,8 @@ Adaptación cuadrada del símbolo GAZAL generada con la herramienta de imágenes
 - ICO validado con cuatro resoluciones. Capturas y secuencia de reproducción locales en `tmp/gazal-video-intro`.
 
 Publicación autorizada por push a Vercel. No modifica el hosting PHP de empresasgazalez.cl. Emulación Chromium; no se afirma prueba física en Safari/iPhone o Samsung.
+
+## Actualización: clip móvil aportado por el usuario
+El nuevo `Chick_walking_and_jumping_camera_20260929130718.webm` reemplaza la adaptación horizontal en móviles. Fuente VP8, 1080 × 1920, 24 fps; SHA-256 `6E5195462546DE2481ADF8D5313EBF0D4705BC5A9A58ABAEC15C40C97BE624E8`. Se entrega en H.264 MP4 silenciado, 720 × 1280, faststart, sin recorte, 1.19 MB, con poster vertical de 67 KB. Se elige para anchos hasta 800 px en orientación vertical. Escritorio y orientación horizontal conservan el clip anterior. El nombre nuevo del archivo evita reutilizar el encode móvil horizontal en caché.
+
+Build/TypeScript y ESLint correctos; reproducción vertical comprobada en Chromium a 390 × 844 y salida automática hacia el inicio. Las cifras de 494 KB y 960 × 540 de la primera entrega quedan como antecedentes, no describen el clip móvil vigente.

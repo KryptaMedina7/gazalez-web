@@ -2,7 +2,8 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: #f7f3e9;
+  background: #f7f3e9 url("/assets/intro/gazal-welcome-poster.webp") center /
+    contain no-repeat;
   isolation: isolate;
   overscroll-behavior: none;
   touch-action: none;
@@ -41,6 +42,11 @@
 .video-intro-skip:focus-visible {
   outline: 3px solid #163024;
   outline-offset: 4px;
+}
+@media (max-width: 800px) and (orientation: portrait) {
+  .video-intro {
+    background-image: url("/assets/intro/gazal-welcome-mobile-poster.webp");
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .video-intro {

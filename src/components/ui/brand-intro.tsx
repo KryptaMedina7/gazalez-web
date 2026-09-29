@@ -74,8 +74,14 @@ export function BrandIntro() {
 
     // Assign only after checking reduced motion, avoiding an unwanted download.
     media.muted = true;
-    media.src = matchMedia("(max-width: 800px)").matches
-      ? "/assets/intro/gazal-welcome-mobile.mp4"
+    const portrait = matchMedia(
+      "(max-width: 800px) and (orientation: portrait)",
+    ).matches;
+    media.poster = portrait
+      ? "/assets/intro/gazal-welcome-mobile-poster.webp"
+      : "/assets/intro/gazal-welcome-poster.webp";
+    media.src = portrait
+      ? "/assets/intro/gazal-welcome-mobile-portrait.mp4"
       : "/assets/intro/gazal-welcome.mp4";
     void media.play().catch(() => {
       if (!cancelled) dismiss(true);
@@ -118,7 +124,6 @@ export function BrandIntro() {
         muted
         playsInline
         preload="auto"
-        poster="/assets/intro/gazal-welcome-poster.webp"
         aria-hidden="true"
         disablePictureInPicture
         onEnded={() => dismiss()}
