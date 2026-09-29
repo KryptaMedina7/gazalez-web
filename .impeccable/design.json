@@ -22,8 +22,8 @@
       },
       {
         "name": "welcome",
-        "value": "1150ms + 240ms",
-        "purpose": "Document entry and refresh; skippable; CSS fail-open at 1800ms"
+        "value": "6s supplied video + 180ms fade on ended",
+        "purpose": "Muted inline document-entry video, full uncropped frame; skip/Escape, inert background, reduced-motion and no-JS bypass; playback failure/stall opens site. Mobile encode approximately 494 KB."
       },
       {
         "name": "hero-scroll",

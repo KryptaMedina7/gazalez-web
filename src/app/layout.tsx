@@ -4,6 +4,7 @@ import "@fontsource-variable/lexend";
 import "./globals.css";
 import "./gazal-gradients.css";
 import "./gazal-forest.css";
+import "./gazal-video-intro.css";
 import { Header, Footer } from "@/components/shell";
 import { site } from "@/lib/site";
 import { BrandIntro } from "@/components/ui/brand-intro";
@@ -34,8 +35,25 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   icons: {
-    icon: "/assets/gazal/favicon.png",
-    apple: "/assets/gazal/apple-touch-icon.png",
+    icon: [
+      {
+        url: "/assets/gazal/favicon-v2-16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/assets/gazal/favicon-v2-32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        url: "/assets/gazal/favicon-v2-48.png",
+        sizes: "48x48",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/favicon.ico?v=2",
+    apple: "/assets/gazal/apple-touch-icon-v2.png",
   },
 };
 export const viewport: Viewport = {
@@ -51,6 +69,9 @@ export default function RootLayout({
   return (
     <html lang="es-CL">
       <head>
+        <noscript>
+          <style>{".video-intro{display:none!important}"}</style>
+        </noscript>
         <script
           dangerouslySetInnerHTML={{
             __html: `history.scrollRestoration="manual";`,

@@ -1,0 +1,50 @@
+.video-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #f7f3e9;
+  isolation: isolate;
+  overscroll-behavior: none;
+  touch-action: none;
+  transition:
+    opacity 180ms ease-out,
+    visibility 180ms;
+}
+.video-intro.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.video-intro-film {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.video-intro-skip {
+  position: absolute;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  min-height: 44px;
+  padding: 12px 20px;
+  border: 1px solid #163024;
+  background: #f7f8f3;
+  color: #163024;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 140ms ease-out;
+}
+.video-intro-skip:hover {
+  background: #e4eedc;
+}
+.video-intro-skip:focus-visible {
+  outline: 3px solid #163024;
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .video-intro {
+    display: none;
+    transition: none;
+  }
+}

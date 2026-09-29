@@ -1,76 +1,135 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { TextRoll } from "./text-roll";
-import { motionPolicy } from "@/lib/motion-policy";
 
+/** A document-entry welcome. Client-side route changes do not replay it. */
 export function BrandIntro() {
   const [visible, setVisible] = useState(true);
   const [leaving, setLeaving] = useState(false);
+  const video = useRef<HTMLVideoElement>(null);
+  const overlay = useRef<HTMLDivElement>(null);
+  const skip = useRef<HTMLButtonElement>(null);
+  const finishing = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dismiss = useCallback((immediate = false) => {
-    if (timer.current) clearTimeout(timer.current);
-    if (immediate) {
-      setVisible(false);
-      return;
+    if (finishing.current) return;
+    finishing.current = true;
+    video.current?.pause();
+    if (immediate) setVisible(false);
+    else {
+      setLeaving(true);
+      timer.current = setTimeout(() => setVisible(false), 180);
     }
-    setLeaving(true);
-    timer.current = setTimeout(() => setVisible(false), 240);
   }, []);
+
   useEffect(() => {
-    const reduce = matchMedia("(prefers-reduced-motion: reduce)");
-    if (reduce.matches) {
-      const frame = requestAnimationFrame(() => setVisible(false));
+    if (!visible) return;
+    const media = video.current;
+    const root = overlay.current;
+    if (!media || !root) return;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduced.matches) {
+      const frame = requestAnimationFrame(() => dismiss(true));
       return () => cancelAnimationFrame(frame);
     }
-    const end = setTimeout(() => dismiss(), motionPolicy.introMs);
-    const keyboard = () => dismiss(true);
+
+    // Keep the destination at its opening while the welcome owns interaction.
+    // Preserve explicit deep links; never redirect a visitor's requested route.
+    if (!location.hash)
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    const previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    const siblings = Array.from(document.body.children).filter(
+      (element): element is HTMLElement =>
+        element instanceof HTMLElement && element !== root,
+    );
+    const previousInert = siblings.map((element) => element.inert);
+    siblings.forEach((element) => {
+      element.inert = true;
+    });
+    const previousFocus = document.activeElement;
+    skip.current?.focus({ preventScroll: true });
+
+    let cancelled = false;
+    let lastTime = -1;
+    let lastProgress = performance.now();
+    const watchdog = setInterval(() => {
+      // Background tabs can suspend playback; do not count that as a failure.
+      if (document.hidden || media.currentTime !== lastTime) {
+        lastTime = media.currentTime;
+        lastProgress = performance.now();
+      } else if (performance.now() - lastProgress > 8000) dismiss(true);
+    }, 1000);
+    const keyboard = (event: KeyboardEvent) => {
+      if (event.key === "Escape") dismiss(true);
+      if (event.key === "Tab") {
+        event.preventDefault();
+        skip.current?.focus({ preventScroll: true });
+      }
+    };
     const preference = () => {
-      if (reduce.matches) dismiss(true);
+      if (reduced.matches) dismiss(true);
     };
-    addEventListener("keydown", keyboard, { once: true });
-    addEventListener("touchstart", keyboard, { once: true, passive: true });
-    addEventListener("wheel", keyboard, { once: true, passive: true });
-    reduce.addEventListener("change", preference);
+    document.addEventListener("keydown", keyboard);
+    reduced.addEventListener("change", preference);
+
+    // Assign only after checking reduced motion, avoiding an unwanted download.
+    media.muted = true;
+    media.src = matchMedia("(max-width: 800px)").matches
+      ? "/assets/intro/gazal-welcome-mobile.mp4"
+      : "/assets/intro/gazal-welcome.mp4";
+    void media.play().catch(() => {
+      if (!cancelled) dismiss(true);
+    });
+
     return () => {
-      clearTimeout(end);
+      cancelled = true;
+      clearInterval(watchdog);
       if (timer.current) clearTimeout(timer.current);
-      removeEventListener("keydown", keyboard);
-      removeEventListener("touchstart", keyboard);
-      removeEventListener("wheel", keyboard);
-      reduce.removeEventListener("change", preference);
+      media.pause();
+      document.removeEventListener("keydown", keyboard);
+      reduced.removeEventListener("change", preference);
+      document.documentElement.style.overflow = previousOverflow;
+      siblings.forEach((element, index) => {
+        element.inert = previousInert[index];
+      });
+      if (
+        previousFocus instanceof HTMLElement &&
+        previousFocus !== document.body
+      )
+        previousFocus.focus({ preventScroll: true });
     };
-  }, [dismiss]);
+  }, [dismiss, visible]);
+
   if (!visible) return null;
   return (
     <div
-      className={`brand-intro ${leaving ? "is-leaving" : ""}`}
+      ref={overlay}
+      className={`video-intro ${leaving ? "is-leaving" : ""}`}
       data-testid="brand-intro"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Bienvenida a GAZAL"
     >
-      <div className="intro-color-panel" />
-      <div className="intro-signature" aria-hidden="true">
-        <div className="intro-logo">
-          <Image
-            src="/assets/gazal/gazal-simbolo-transparente.webp"
-            width={140}
-            height={98}
-            alt=""
-            priority
-          />
-        </div>
-        <TextRoll
-          className="intro-wordmark"
-          duration={0.36}
-          getEnterDelay={(i) => i * 0.022}
-          getExitDelay={(i) => i * 0.022 + 0.12}
-        >
-          GAZAL
-        </TextRoll>
-        <p>El valor de transformar.</p>
-        <span className="intro-line" />
-      </div>
-      <button className="intro-skip" onClick={() => dismiss(true)}>
-        Entrar al sitio
+      <video
+        ref={video}
+        className="video-intro-film"
+        width={1920}
+        height={1080}
+        muted
+        playsInline
+        preload="auto"
+        poster="/assets/intro/gazal-welcome-poster.webp"
+        aria-hidden="true"
+        disablePictureInPicture
+        onEnded={() => dismiss()}
+        onError={() => dismiss(true)}
+      />
+      <button
+        ref={skip}
+        className="video-intro-skip"
+        onClick={() => dismiss(true)}
+      >
+        Omitir y entrar
       </button>
     </div>
   );
