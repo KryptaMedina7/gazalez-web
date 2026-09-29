@@ -228,7 +228,7 @@ export function EnquiryForm() {
             <a
               className="button button-secondary"
               href={`data:text/plain;charset=utf-8,${encodeURIComponent(summary)}`}
-              download="consulta-tecnica-gazalez.txt"
+              download="consulta-tecnica-gazal.txt"
             >
               Descargar resumen <Icon name="download" />
             </a>

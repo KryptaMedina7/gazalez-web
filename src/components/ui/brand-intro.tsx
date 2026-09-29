@@ -51,9 +51,9 @@ export function BrandIntro() {
       <div className="intro-signature" aria-hidden="true">
         <div className="intro-logo">
           <Image
-            src="/assets/gazalez-logo.png"
+            src="/assets/gazal/gazal-simbolo-transparente.webp"
             width={140}
-            height={140}
+            height={98}
             alt=""
             priority
           />
@@ -64,7 +64,7 @@ export function BrandIntro() {
           getEnterDelay={(i) => i * 0.022}
           getExitDelay={(i) => i * 0.022 + 0.12}
         >
-          Gazalez e Hija
+          GAZAL
         </TextRoll>
         <p>El valor de transformar.</p>
         <span className="intro-line" />

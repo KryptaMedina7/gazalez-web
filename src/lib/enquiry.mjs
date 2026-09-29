@@ -9,7 +9,7 @@ export function normalizeIntent(value) {
 }
 export function formatEnquiry(intent, entries) {
   return [
-    "CONSULTA TÉCNICA · GAZALEZ",
+    "CONSULTA TÉCNICA · GAZAL",
     intentLabels[normalizeIntent(intent)],
     "",
     ...Object.entries(entries)
@@ -23,5 +23,5 @@ export function formatEnquiry(intent, entries) {
   ].join("\n");
 }
 export function buildMailto(email, intent, body) {
-  return `mailto:${email}?subject=${encodeURIComponent(`GAZALEZ · ${intentLabels[normalizeIntent(intent)]}`)}&body=${encodeURIComponent(body)}`;
+  return `mailto:${email}?subject=${encodeURIComponent(`GAZAL · ${intentLabels[normalizeIntent(intent)]}`)}&body=${encodeURIComponent(body)}`;
 }

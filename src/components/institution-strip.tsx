@@ -9,7 +9,7 @@ const institutions = [
     height: 667,
   },
   { name: "CORFO", file: "corfo", width: 928, height: 269 },
-  { name: "Gazalez Holding Group", file: "holding", width: 900, height: 620 },
+  { name: "GAZAL", file: "holding", width: 600, height: 424 },
 ];
 
 export function InstitutionStrip() {
@@ -28,7 +28,7 @@ export function InstitutionStrip() {
             <Image
               src={
                 file === "holding"
-                  ? "/assets/gazalez-holding-group.svg"
+                  ? "/assets/gazal/gazal-principal-transparente.webp"
                   : `/assets/instituciones/${file}.png`
               }
               alt={name}

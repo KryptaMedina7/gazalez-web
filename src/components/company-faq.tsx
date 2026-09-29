@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const companyQuestions = [
   [
-    "¿Qué produce Gazalez Holding Group?",
+    "¿Qué produce GAZAL?",
     "Núcleos proteicos y soluciones nutricionales para la industria animal, con foco principal en avicultura, además de desarrollos biotecnológicos aplicados a la economía circular.",
   ],
   [
@@ -18,8 +18,8 @@ export const companyQuestions = [
     "La cobertura declarada comprende la zona centro y centro-sur de Chile, desde la Región de Coquimbo hasta la del Biobío. La logística, los volúmenes y los plazos de cada pedido se coordinan directamente con el equipo.",
   ],
   [
-    "¿Cómo se relacionan Gazalez Holding Group y Gazalez e Hija SpA?",
-    "Gazalez Holding Group es la marca paraguas del grupo corporativo. Gazalez e Hija SpA es la sociedad operativa de origen, que aporta la trayectoria industrial.",
+    "¿Cómo se relacionan GAZAL y Gazalez e Hija SpA?",
+    "GAZAL es la marca paraguas del grupo corporativo. Gazalez e Hija SpA es la sociedad operativa de origen, que aporta la trayectoria industrial.",
   ],
   [
     "¿Cómo se conecta la investigación con la industria?",
@@ -31,7 +31,7 @@ export function CompanyFaq({ compact = false }: { compact?: boolean }) {
   return (
     <section
       className="company-faq faq-section"
-      aria-label="Preguntas frecuentes sobre Gazalez"
+      aria-label="Preguntas frecuentes sobre GAZAL"
     >
       <div>
         <h2>

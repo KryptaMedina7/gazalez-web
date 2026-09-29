@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/lexend";
 import "./globals.css";
+import "./gazal-gradients.css";
+import "./gazal-forest.css";
 import { Header, Footer } from "@/components/shell";
 import { site } from "@/lib/site";
 import { BrandIntro } from "@/components/ui/brand-intro";
@@ -11,8 +13,8 @@ import { SocialLinks } from "@/components/ui/social-links";
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "GAZALEZ · De subproducto a solución",
-    template: "%s | GAZALEZ",
+    default: "GAZAL · De subproducto a solución",
+    template: "%s | GAZAL",
   },
   description:
     "Valorización industrial, nutrición animal y ciencia aplicada. Gazalez e Hija SpA, Coronel, Biobío, Chile.",
@@ -23,15 +25,18 @@ export const metadata: Metadata = {
     siteName: site.name,
     images: [
       {
-        url: "/assets/materia-social.jpg",
+        url: "/assets/forest/social.jpg",
         width: 1200,
         height: 630,
-        alt: "GAZALEZ, visualización conceptual de transformación de la materia",
+        alt: "GAZAL, naturaleza y nuevas posibilidades. Paisaje conceptual.",
       },
     ],
   },
   twitter: { card: "summary_large_image" },
-  icons: { icon: "/assets/gazalez-logo.png" },
+  icons: {
+    icon: "/assets/gazal/favicon.png",
+    apple: "/assets/gazal/apple-touch-icon.png",
+  },
 };
 export const viewport: Viewport = {
   themeColor: "#edf3eb",
@@ -60,7 +65,7 @@ export default function RootLayout({
           hidden
           dangerouslySetInnerHTML={{
             __html:
-              "<!-- THESIS: Industrial valorization connects material and application. OWN-WORLD: mint and sage fields, forest ink, editorial Manrope and Lexend, hairlines and material sculpture. STORY: understand the transformation, inspect solutions and evidence, prepare a technical enquiry. FIRST VIEWPORT: left editorial headline and action, right full-height granular ribbon, lower capability rail. FORM: brief-pinned Industrial Biotech Premium; seed 22ce3cc8, direction 7 superseded by explicit user direction. FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->",
+              "<!-- THESIS: Enter nature to discover industrial transformation. OWN-WORLD: supplied GAZAL serif lockup, photographic forest depth, pale green gradients and forest ink. STORY: step between foliage, understand solutions, explore scientific evidence, contact the team. FIRST VIEWPORT: full-width forest with independent near fern wings, left semantic headline and primary solution action. FORM: user-pinned forest revision 2026-09-29, existing catalogue retained. FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->",
           }}
         />
         <a href="#contenido" className="skip-link">
@@ -81,7 +86,7 @@ export default function RootLayout({
               name: site.name,
               legalName: site.legalName,
               url: site.url,
-              logo: `${site.url}/assets/gazalez-logo.png`,
+              logo: `${site.url}/assets/gazal/gazal-principal-transparente.png`,
               taxID: site.rut,
               address: {
                 "@type": "PostalAddress",

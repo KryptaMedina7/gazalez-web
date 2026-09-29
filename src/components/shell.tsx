@@ -10,18 +10,15 @@ import { site } from "@/lib/site";
 import { SterlingGateNavigation } from "./ui/sterling-gate-kinetic-navigation";
 export function Brand() {
   return (
-    <Link href="/" className="brand" aria-label="GAZALEZ, inicio">
+    <Link href="/" className="brand" aria-label="GAZAL, inicio">
       <Image
-        src="/assets/gazalez-logo.png"
+        className="brand-lockup"
+        src="/assets/gazal/gazal-horizontal-transparente.webp"
         alt=""
-        width={62}
-        height={62}
+        width={2868}
+        height={579}
         priority
       />
-      <span>
-        GAZALEZ
-        <span className="brand-sub">INDUSTRIA · CIENCIA · TRANSFORMACIÓN</span>
-      </span>
     </Link>
   );
 }
@@ -30,6 +27,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [instant, setInstant] = useState(false);
   const followingLink = useRef(false);
+  const menuTrigger = useRef<HTMLButtonElement>(null);
   return (
     <header className="header">
       <Brand />
@@ -39,6 +37,7 @@ export function Header() {
       </Link>
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger
+          ref={menuTrigger}
           className="menu-trigger"
           aria-label="Abrir menú"
           onPointerDown={() => setInstant(false)}
@@ -52,10 +51,12 @@ export function Header() {
             className={`mobile-menu kinetic-menu ${instant ? "is-instant" : ""}`}
             onEscapeKeyDown={() => setInstant(true)}
             onCloseAutoFocus={(event) => {
-              if (followingLink.current) {
-                event.preventDefault();
-                followingLink.current = false;
-              }
+              // Radix's default focus return may scroll the sticky header into view.
+              // Dismissal returns keyboard focus without moving the document.
+              event.preventDefault();
+              if (!followingLink.current)
+                menuTrigger.current?.focus({ preventScroll: true });
+              followingLink.current = false;
             }}
           >
             <SterlingGateNavigation

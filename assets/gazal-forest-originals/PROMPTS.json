@@ -1,0 +1,17 @@
+[
+  {
+    "key": "forest",
+    "transparent_background": false,
+    "prompt": "Create a photorealistic cinematic background plate for a premium Chilean biotechnology website GAZAL. Landscape 1536x1024 or wide. View at human eye level entering a lush temperate Valdivian forest, elegant tree trunks framing far left and right, layered ferns in middle distance, soft ivory morning mist and luminous sage green clearing centered slightly right, receding forest depth. Natural deep emerald and muted sage foliage, not oversaturated. No close foreground leaves; foreground cutouts will be composited separately. Ground gently recedes toward clearing, understated organic path, no manmade structures, no people, no tropical palms. High-end botanical editorial photography, real leaf detail, diffuse backlight from upper right. Keep middle-left relatively calm for readable live typography. No text, no logo, no watermark. One full scene, no panels."
+  },
+  {
+    "key": "fern-left",
+    "transparent_background": true,
+    "prompt": "A photographic compositing asset for a lush temperate Chilean forest website, genuinely transparent alpha background. A dense connected spray of delicate deep emerald fern fronds and native oval glossy green leaves entering from the LEFT edge and lower-left corner; stems on left, individual graceful leaf tips extending toward center-right. Tall portrait 1024x1536, botanical photography, life-size close foreground, realistic veins and fine silhouettes, diffuse morning backlighting from upper right, deep forest green with muted sage edges. Leave the rightmost 35 percent completely transparent. Composition has vegetation along left edge, lower-left and upper-left, an irregular inward-facing silhouette like opening a curtain of nature. No pots, no ground, no white, no fake checkerboard, no text, no background scene. Crisp alpha edges."
+  },
+  {
+    "key": "fern-right",
+    "transparent_background": true,
+    "prompt": "A photographic compositing asset for a lush temperate Chilean forest website, genuinely transparent alpha background. A connected lush cluster of broad native laurel-like leaves and long graceful fern fronds entering from the RIGHT edge and lower-right corner; stems on right, leaf tips extending to center-left. Tall portrait 1024x1536, macro botanical editorial photography, natural realistic fine veins, diffuse luminous morning backlighting from upper right, deep emerald green and muted sage tips. Leftmost 35 percent completely transparent. Asymmetric arch of foliage from upper-right to lower-right, irregular inward silhouette forming right side of a forest entrance. No pots, no ground, no white, no checkerboard, no text, no background scene. Crisp alpha edges."
+  }
+]

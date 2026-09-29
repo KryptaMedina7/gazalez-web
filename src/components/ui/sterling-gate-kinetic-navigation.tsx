@@ -51,7 +51,7 @@ export function SterlingGateNavigation({
       </div>
       <div className="kinetic-menu-body">
         <div className="menu-top">
-          <Dialog.Title>Explora GAZALEZ</Dialog.Title>
+          <Dialog.Title>Explora GAZAL</Dialog.Title>
           <Dialog.Close className="icon-button" aria-label="Cerrar menú">
             <Icon name="close" />
           </Dialog.Close>
@@ -80,10 +80,10 @@ export function SterlingGateNavigation({
           </nav>
           <div className="kinetic-menu-art" aria-hidden="true">
             <Image
-              src="/assets/gazalez-logo.png"
+              src="/assets/gazal/gazal-principal-transparente.webp"
               alt=""
-              width={350}
-              height={350}
+              width={600}
+              height={424}
             />
             <p>
               Industria.

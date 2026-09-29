@@ -5,7 +5,7 @@ export default function NotFound() {
       <span>404</span>
       <h1>Este camino no está disponible.</h1>
       <p>Puedes volver al inicio o explorar nuestras soluciones.</p>
-      <ButtonLink href="/">Volver a GAZALEZ</ButtonLink>
+      <ButtonLink href="/">Volver a GAZAL</ButtonLink>
     </div>
   );
 }

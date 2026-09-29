@@ -1,5 +1,5 @@
 export const site = {
-  name: "GAZALEZ",
+  name: "GAZAL",
   legalName: "Gazalez e Hija SpA",
   rut: "76.585.794-5",
   location: "Coronel, Región del Biobío, Chile",

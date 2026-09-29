@@ -52,7 +52,8 @@ export function TextRoll({
 
   const reducedMotion = useReducedMotion();
   const letters = Array.from(children);
-  if (reducedMotion) return <span className={className}>{children}</span>;
+  // Keep server/client markup identical; a reduced-motion preference must not
+  // replace the letter tree during hydration.
 
   return (
     <span className={className}>
@@ -73,8 +74,8 @@ export function TextRoll({
               }
               transition={{
                 ...transition,
-                duration,
-                delay: getEnterDelay(i),
+                duration: reducedMotion ? 0 : duration,
+                delay: reducedMotion ? 0 : getEnterDelay(i),
               }}
             >
               {letter === " " ? "\u00A0" : letter}
@@ -85,8 +86,8 @@ export function TextRoll({
               animate={variants?.exit?.animate ?? defaultVariants.exit.animate}
               transition={{
                 ...transition,
-                duration,
-                delay: getExitDelay(i),
+                duration: reducedMotion ? 0 : duration,
+                delay: reducedMotion ? 0 : getExitDelay(i),
               }}
               onAnimationComplete={
                 letters.length === i + 1 ? onAnimationComplete : undefined

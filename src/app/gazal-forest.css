@@ -1,0 +1,337 @@
+/* Native scroll, photographic depths, bounded GPU layers. */
+.brand .brand-lockup {
+  width: 205px;
+  height: auto;
+  max-height: 58px;
+  object-fit: contain;
+}
+.forest-journey {
+  --forest-top: 100px;
+  --forest-travel: 780px;
+  position: relative;
+  background: #163024;
+  color: #f7f8f3;
+}
+.forest-sticky {
+  position: relative;
+  min-height: 640px;
+  height: calc(100svh - var(--forest-top));
+  overflow: clip;
+  isolation: isolate;
+}
+.forest-journey[data-forest-motion="ready"] {
+  height: calc(100svh - var(--forest-top) + var(--forest-travel));
+}
+.forest-journey[data-forest-motion="ready"] .forest-sticky {
+  position: sticky;
+  top: var(--forest-top);
+  min-height: 0;
+}
+.forest-world,
+.forest-plane,
+.forest-copy-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.forest-world {
+  z-index: -1;
+  overflow: hidden;
+  background: #163024;
+}
+.forest-plane {
+  display: block;
+}
+.forest-plane img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+.forest-background {
+  transform-origin: 63% 48%;
+}
+.forest-background img {
+  object-position: 62% 52%;
+}
+.forest-copy-shade {
+  background: linear-gradient(
+    90deg,
+    #091e17db 0%,
+    #0d281dc7 34%,
+    #10271d40 61%,
+    transparent 82%
+  );
+}
+.forest-mid {
+  inset: auto -8% -32% auto;
+  width: 37%;
+  height: 85%;
+  transform-origin: right bottom;
+  opacity: 0.78;
+}
+.forest-mid img {
+  object-fit: fill;
+}
+.forest-near-left,
+.forest-near-right {
+  width: 44%;
+  height: 116%;
+  top: -8%;
+  bottom: auto;
+}
+.forest-near-left {
+  left: -20%;
+  right: auto;
+  transform-origin: left center;
+}
+.forest-near-right {
+  right: -16%;
+  left: auto;
+  transform-origin: right center;
+}
+.forest-near-left img,
+.forest-near-right img {
+  object-fit: fill;
+}
+.forest-copy {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100%;
+  padding: 48px 10vw 76px;
+}
+.forest-copy .hero-copy {
+  padding: 0;
+  width: 100%;
+  max-width: 720px;
+  position: relative;
+}
+.forest-copy h1 {
+  color: #f7f8f3;
+  font-size: clamp(54px, 5.8vw, 88px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+.forest-copy h1 span {
+  color: #dcebd8;
+}
+.forest-copy .hero-description {
+  color: #f7f8f3;
+  max-width: 550px;
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 26px 0 30px;
+}
+.forest-copy .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  margin: 0;
+}
+.forest-copy .button {
+  background: #e4eedc;
+  color: #163024;
+  border-color: #e4eedc;
+}
+.forest-copy .text-link {
+  color: #f7f8f3;
+}
+.forest-copy .button:hover {
+  background: #f7f8f3;
+}
+.forest-copy :focus-visible {
+  outline-color: #f7f8f3;
+}
+.forest-discovery {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 48px 10vw;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  text-align: left;
+}
+.forest-discovery p {
+  color: #f7f8f3;
+  font: 500 clamp(34px, 4.6vw, 68px)/1.12 var(--font-display);
+  letter-spacing: -0.035em;
+  max-width: 760px;
+}
+.forest-discovery span {
+  color: #e4eedc;
+}
+.forest-caption {
+  position: absolute;
+  bottom: 23px;
+  left: var(--space);
+  right: var(--space);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 11px;
+  color: #f7f8f3;
+  pointer-events: none;
+}
+.forest-caption span {
+  background: #10271dc7;
+  padding: 3px 8px;
+}
+.forest-journey[data-active="true"] .forest-plane {
+  will-change: transform;
+}
+.intro-section {
+  background-image: var(--gz-gradient-bruma);
+}
+.solutions-home {
+  background-image: var(--gz-gradient-biomasa);
+}
+.trace-home {
+  background-image: var(--gz-gradient-horizonte);
+}
+.contact-band {
+  background-image: var(--gz-gradient-bosque);
+  color: #f7f8f3;
+}
+.contact-band h2,
+.contact-band p {
+  color: #f7f8f3;
+}
+.contact-band .button {
+  background: #e4eedc;
+  color: #163024;
+  border-color: #e4eedc;
+}
+.footer {
+  background-image: var(--gz-gradient-bruma);
+}
+@media (min-width: 1700px) {
+  .forest-journey {
+    --forest-top: 112px;
+  }
+}
+@media (max-width: 1100px) {
+  .forest-journey {
+    --forest-top: 86px;
+  }
+  .brand .brand-lockup {
+    width: 175px;
+  }
+}
+@media (max-width: 1000px) {
+  .forest-journey {
+    --forest-top: 78px;
+    --forest-travel: 420px;
+  }
+  .forest-sticky {
+    min-height: 630px;
+  }
+  .forest-background img {
+    object-position: 57% center;
+  }
+  .forest-mid {
+    display: none;
+  }
+  .forest-copy-shade {
+    background: linear-gradient(
+      90deg,
+      #091e17e6 0%,
+      #0d281dc4 45%,
+      #10271d45 100%
+    );
+  }
+  .forest-near-left {
+    width: 95%;
+    left: -46%;
+    height: 105%;
+    top: 0;
+  }
+  .forest-near-right {
+    width: 95%;
+    right: -46%;
+    height: 105%;
+    top: 0;
+  }
+  .forest-copy {
+    padding: 36px 8vw 86px;
+  }
+  .forest-copy h1 {
+    font-size: clamp(44px, 8vw, 70px);
+  }
+  .forest-copy .hero-description {
+    font-size: 14px;
+    line-height: 1.65;
+    max-width: 530px;
+  }
+  .forest-copy .hero-actions {
+    gap: 14px 20px;
+  }
+  .forest-discovery p {
+    font-size: clamp(32px, 7.7vw, 56px);
+    padding: 0;
+  }
+  .forest-caption {
+    font-size: 10px;
+    gap: 3px;
+    align-items: flex-start;
+    flex-direction: column;
+    bottom: 18px;
+  }
+}
+@media (max-width: 420px) {
+  .brand .brand-lockup {
+    width: 163px;
+    height: auto;
+  }
+  .forest-copy {
+    padding: 32px 24px 88px;
+  }
+  .forest-copy h1 {
+    font-size: clamp(35px, 10.8vw, 45px);
+  }
+  .forest-copy .hero-description {
+    margin: 22px 0;
+    font-size: 13px;
+  }
+  .forest-caption {
+    left: 16px;
+    right: 16px;
+  }
+}
+@media (max-width: 290px) {
+  .brand .brand-lockup {
+    width: 130px;
+  }
+  .forest-copy {
+    padding-inline: 18px;
+  }
+  .forest-copy h1 {
+    font-size: 32px;
+  }
+  .forest-caption span:last-child {
+    display: none;
+  }
+}
+@media (max-height: 599px) {
+  .forest-sticky {
+    height: auto;
+    min-height: 600px;
+  }
+  .forest-copy {
+    min-height: 600px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .forest-journey {
+    height: auto;
+  }
+  .forest-sticky {
+    position: relative;
+  }
+  .forest-plane {
+    will-change: auto;
+  }
+}

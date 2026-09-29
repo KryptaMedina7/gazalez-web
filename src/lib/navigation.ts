@@ -23,9 +23,9 @@ export const navigationGroups = [
   },
   {
     label: "Empresa",
-    description: "Conoce GAZALEZ y su visión de transformación.",
+    description: "Conoce GAZAL y su visión de transformación.",
     links: [
-      ["Conoce GAZALEZ", "/empresa/"],
+      ["Conoce GAZAL", "/empresa/"],
       ["Sostenibilidad", "/sostenibilidad/"],
       ["Aplicaciones industriales", "/casos/"],
       ["Actualidad", "/actualidad/"],

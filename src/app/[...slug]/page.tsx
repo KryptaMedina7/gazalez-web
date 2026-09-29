@@ -43,11 +43,11 @@ export async function generateMetadata({
   const s = solutions.find((s) => key === `soluciones/${s.slug}`);
   const c = corporatePages[key as keyof typeof corporatePages];
   return {
-    title: s?.title || c?.title || titles[key] || "GAZALEZ",
+    title: s?.title || c?.title || titles[key] || "GAZAL",
     description:
       s?.description ||
       c?.description ||
-      `${titles[key] || "GAZALEZ"}. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío.`,
+      `${titles[key] || "GAZAL"}. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío.`,
     alternates: { canonical: `/${key}/` },
     openGraph: { url: `/${key}/` },
   };
@@ -326,7 +326,7 @@ export default async function ContentPage({
             </section>
             <section className="editorial-sections">
               <section>
-                <h2>El rol de GAZALEZ</h2>
+                <h2>El rol de GAZAL</h2>
                 <p>
                   Participar en la transferencia hacia la industria de una
                   tecnología nacida en la Universidad de Concepción. Su origen
@@ -523,7 +523,7 @@ export default async function ContentPage({
                   <h2>Contenido técnico e informativo</h2>
                   <p>
                     El sitio presenta las capacidades y líneas de desarrollo de
-                    GAZALEZ. La viabilidad, las especificaciones, disponibilidad,
+                    GAZAL. La viabilidad, las especificaciones, disponibilidad,
                     plazos y condiciones de cada solución se acuerdan
                     directamente con el equipo.
                   </p>
@@ -536,7 +536,7 @@ export default async function ContentPage({
                   <h2>Investigación y transferencia</h2>
                   <p>
                     HIDROBAC se presenta como tecnología desarrollada en la
-                    Universidad de Concepción y licenciada a Gazalez. No se
+                    Universidad de Concepción y licenciada a GAZAL. No se
                     ofrece como producto disponible para compra a través de este
                     sitio.
                   </p>

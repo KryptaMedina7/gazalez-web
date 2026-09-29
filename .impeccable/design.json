@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-09T12:35:17.609Z",
-  "title": "Design System: GAZALEZ",
+  "generatedAt": "2026-09-29T15:05:00.5840907Z",
+  "title": "Design System: GAZAL",
   "extensions": {
     "shadows": [],
     "motion": [
@@ -27,8 +27,8 @@
       },
       {
         "name": "hero-scroll",
-        "value": "440px desktop / inline mobile",
-        "purpose": "Matter assembles into a ribbon with native scroll; static reduced-motion fallback"
+        "value": "780px desktop / 420px at widths up to 1000px; scrub 0.25 desktop / true mobile",
+        "purpose": "Native sticky photographic forest passage; image transforms and opacity only. Static without JavaScript, on failed decoding, with reduced motion or viewport height below 600px. No hero render loop."
       },
       {
         "name": "route-cover",
@@ -84,6 +84,58 @@
       {
         "name": "wide",
         "value": "1700px"
+      },
+      {
+        "name": "forest-narrow",
+        "value": "420px"
+      },
+      {
+        "name": "forest-static-height",
+        "value": "max-height: 599px"
+      }
+    ],
+    "gradients": [
+      {
+        "name": "bruma",
+        "value": "var(--gz-gradient-bruma)",
+        "purpose": "Introduction and footer"
+      },
+      {
+        "name": "biomasa",
+        "value": "var(--gz-gradient-biomasa)",
+        "purpose": "Homepage solutions"
+      },
+      {
+        "name": "horizonte",
+        "value": "var(--gz-gradient-horizonte)",
+        "purpose": "Homepage traceability"
+      },
+      {
+        "name": "bosque",
+        "value": "var(--gz-gradient-bosque)",
+        "purpose": "Dark contact band"
+      },
+      {
+        "name": "flujo",
+        "value": "var(--gz-gradient-flujo)",
+        "purpose": "Available dark kit variant"
+      },
+      {
+        "name": "halo",
+        "value": "var(--gz-gradient-halo)",
+        "purpose": "Available dark kit variant"
+      }
+    ],
+    "imagery": [
+      {
+        "name": "brand-lockup",
+        "source": "public/assets/gazal/gazal-horizontal-transparente.webp",
+        "purpose": "Exact supplied GAZAL serif lettering and symbol; transparent raster, not a font"
+      },
+      {
+        "name": "forest",
+        "source": "public/assets/forest/",
+        "purpose": "Generated photographic background and alpha vegetation; visibly labeled Paisaje conceptual. Three distinct mobile WebP assets total approximately 463 KB."
       }
     ]
   },
@@ -103,33 +155,66 @@
       "description": "Compact Radix Menubar with semantic Lucide icons and anchored green dropdowns",
       "html": "<div role=\"menubar\" class=\"desktop-nav topbar-navigation\"><button role=\"menuitem\" class=\"topbar-trigger\" aria-haspopup=\"menu\">Soluciones</button></div>",
       "css": ".topbar-navigation{display:flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:8px;background:var(--canvas)}"
+    },
+    {
+      "name": "Action on forest",
+      "kind": "button",
+      "refersTo": "button-on-forest",
+      "description": "Pale primary action on the photographic hero or dark contact band",
+      "html": "<button class=\"ds-forest-action\">Explorar soluciones <svg viewBox=\"0 0 24 24\" width=\"19\" height=\"19\" aria-hidden=\"true\"><path d=\"M6 18 18 6M6 6h12v12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/></svg></button>",
+      "css": ".ds-forest-action{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;min-height:54px;max-width:100%;padding:15px 23px;border:1px solid #e4eedc;border-radius:0;background:#e4eedc;color:#163024;font:450 12px/1.45 \"Lexend Variable\",sans-serif;text-align:left;transition:background-color .2s ease,color .2s ease}.ds-forest-action:hover{background:#f7f8f3}.ds-forest-action:focus-visible{outline:3px solid #f7f8f3;outline-offset:5px}"
     }
   ],
   "narrative": {
-    "northStar": "Materia que se transforma",
-    "overview": "Industrial clarity with light mint fields, sage material and forest ink. Evidence stays distinct from conceptual imagery.",
+    "northStar": "Industrial Biotech Premium",
+    "overview": "Pale mint and sage fields, forest ink, generous editorial typography and fine rules connect industrial material to applied science. The tone is serious, clear, technical and human. The supplied GAZAL lockup preserves its exact serif lettering and symbol as a transparent raster asset; it is not reconstructed with Manrope or an invented font.\n\nThe interface uses open sections and typographic hierarchy to organize information. A layered photographic forest introduces the homepage, followed by calmer kit-gradient surfaces, material artwork and restrained scientific diagrams. Generated scenery and material concepts retain visible conceptual labels. The light green identity is the user's chosen direction; gold remains restricted to previously authorized subtle accents outside the five-color gradient kit; a generic SaaS identity is excluded.",
     "keyCharacteristics": [
-      "Pastel greens",
-      "Original emblem",
-      "Editorial hierarchy",
-      "Finite motion"
+      "Light green fields with forest text and focused dark sections.",
+      "Exact supplied GAZAL lettering and static gradients from the brand kit.",
+      "Photographic forest depth driven by a short native scroll passage.",
+      "Large Manrope headlines paired with readable Lexend supporting text.",
+      "Square controls, fine rules and open editorial rows.",
+      "Material concepts visibly distinguished from operational evidence.",
+      "Keyboard access and reduced motion built into interactions."
     ],
     "rules": [
       {
+        "name": "The Light Green Identity Rule",
+        "body": "Keep the supplied GAZAL lockup intact and use the established mint, sage and forest family. Keep the gradient kit within its five supplied colors; retain brass only as a restrained incumbent detail outside that kit.",
+        "section": "colors"
+      },
+      {
+        "name": "The Exact Lettering Rule",
+        "body": "Display the supplied GAZAL lettering as the transparent raster lockup. The kit contains no installable logo font; never substitute a serif approximation or make the interface inherit the logo lettering. The header and footer use `public/assets/gazal/gazal-horizontal-transparente.webp`.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tonal Depth Rule",
+        "body": "Separate content through field color, spacing and hairlines before adding elevation effects.",
+        "section": "elevation"
+      },
+      {
         "name": "The Concept Label Rule",
-        "body": "Label conceptual art and preserve factual evidence boundaries.",
+        "body": "Keep conceptual artwork and diagrams visibly labeled; do not present them as plant photography, measured process evidence or product proof.",
         "section": "components"
       }
     ],
     "dos": [
-      "Preserve the supplied logo.",
-      "Keep keyboard controls immediate.",
-      "Honor reduced motion."
+      "**Do** preserve the supplied GAZAL symbol and exact raster lettering unchanged.",
+      "**Do** build with the existing green tokens, local fonts and open editorial hierarchy.",
+      "**Do** retain visible keyboard focus, semantic labels and reduced-motion behavior.",
+      "**Do** keep conceptual image captions visible and critical form guidance legible.",
+      "**Do** inspect stylesheet overrides before extending a responsive component.",
+      "**Do** keep the forest scroll native and its static fallback complete.",
+      "**Do** use the supplied gradients as static surfaces within their five-color kit."
     ],
     "donts": [
-      "Do not introduce gold.",
-      "Do not invent social profiles or technical claims.",
-      "Do not lock scrolling for visual effects."
+      "**Don't** let gold dominate or substitute a generic SaaS identity.",
+      "**Don't** add rounded shadow cards as the default content structure.",
+      "**Don't** treat material concepts as evidence of facilities, certifications or results.",
+      "**Don't** make information or controls depend on animation or hover.",
+      "**Don't** imply that an enquiry was sent when it was only prepared locally.",
+      "**Don't** replace the GAZAL lettering with an approximate font or present generated forest imagery as company photography."
     ]
   }
 }

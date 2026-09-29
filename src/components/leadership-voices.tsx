@@ -12,7 +12,7 @@ export function LeadershipVoices() {
         <figure>
           <Quote aria-hidden="true" size={32} strokeWidth={1.5} />
           <blockquote>
-            En Gazalez transformamos la investigación científica y la economía
+            En GAZAL transformamos la investigación científica y la economía
             circular en soluciones de alto valor real. Nos enfoca desarrollar
             formulaciones donde la trazabilidad, la biotecnología y la calidad
             constante estén siempre garantizadas en cada entrega.

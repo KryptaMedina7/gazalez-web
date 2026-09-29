@@ -30,6 +30,7 @@ changes only grammar and world will fail it.
 |---|---|---|---|---|---|---|---|---|
 
 | gazalez-depth-2026-09-09 | Catálogo industrial existente | Menús multinivel y drilldown | Materia en tres planos, canvas agrupado | Pico corto, flujo, morph, directorio, explorador, conexiones | Consulta estable e instituciones | Materia dispersa que se reúne mientras cruzan planos cercanos | Verde industrial, representación conceptual | 3000 |
+| gazal-forest-2026-09-29 (revisión del mismo sitio) | Catálogo industrial conservado por alcance | Menús multinivel y drilldown existentes | Bosque fotográfico con vegetación transparente | Entrada breve al bosque, flujo, directorio, explorador, conexiones | Consulta estable e instituciones | Helechos se abren mientras el fondo avanza hacia el claro | Verde profundo, salvia, gradientes del kit GAZAL | 3000 |
 
 ---
 
@@ -41,6 +42,7 @@ act-count-and-length band. The shared columns are what the next build inherits
 as a constraint, so writing them down is the whole point.
 
 - Gazalez: recorrido de materia dispersa a cinta ordenada con planos independientes. Refinamiento del sitio existente, sin filas previas contra las que comparar.
+- GAZAL 29-09: paso entre helechos hacia un claro. Revisión solicitada del hero del mismo sitio, no un sitio nuevo sujeto a cuatro diferencias: conserva deliberadamente catálogo, navegación y cierre de la fila anterior.
 
 ---
 

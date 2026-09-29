@@ -1,0 +1,62 @@
+[
+  {
+    "file": "forest-desktop.webp",
+    "format": "webp",
+    "width": 1536,
+    "height": 1024,
+    "channels": 3,
+    "premultiplied": false,
+    "hasAlpha": false,
+    "size": 471414
+  },
+  {
+    "file": "forest-mobile.webp",
+    "format": "webp",
+    "width": 900,
+    "height": 600,
+    "channels": 3,
+    "premultiplied": false,
+    "hasAlpha": false,
+    "size": 186692
+  },
+  {
+    "file": "fern-left-desktop.webp",
+    "format": "webp",
+    "width": 860,
+    "height": 1290,
+    "channels": 4,
+    "premultiplied": true,
+    "hasAlpha": true,
+    "size": 403226
+  },
+  {
+    "file": "fern-left-mobile.webp",
+    "format": "webp",
+    "width": 480,
+    "height": 720,
+    "channels": 4,
+    "premultiplied": true,
+    "hasAlpha": true,
+    "size": 148728
+  },
+  {
+    "file": "fern-right-desktop.webp",
+    "format": "webp",
+    "width": 860,
+    "height": 1290,
+    "channels": 4,
+    "premultiplied": true,
+    "hasAlpha": true,
+    "size": 339710
+  },
+  {
+    "file": "fern-right-mobile.webp",
+    "format": "webp",
+    "width": 480,
+    "height": 720,
+    "channels": 4,
+    "premultiplied": true,
+    "hasAlpha": true,
+    "size": 127564
+  }
+]

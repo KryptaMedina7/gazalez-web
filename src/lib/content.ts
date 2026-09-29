@@ -53,7 +53,7 @@ export const solutions: Solution[] = [
     process:
       "Revisión de composición y objetivos para definir la solución y la documentación técnica pertinente.",
     result:
-      "Especificaciones y propuesta de suministro a consultar directamente con GAZALEZ.",
+      "Especificaciones y propuesta de suministro a consultar directamente con GAZAL.",
     questions: [
       [
         "¿Se publican porcentajes de proteína?",
@@ -155,25 +155,25 @@ export const processSteps = [
   {
     title: "Conocer la materia",
     label: "Subproducto · Caracterización",
-    body: "El origen, la composición y el volumen permiten entender el potencial de una corriente secundaria.",
+    body: "Diagnóstico proximal, perfil de aminoácidos, digestibilidad y microbiología.",
     detail: "Punto de partida: los antecedentes de tu proceso.",
   },
   {
     title: "Recuperar su valor",
     label: "Recuperación · Procesamiento",
-    body: "Evaluamos cómo recuperar y acondicionar el material para una nueva aplicación productiva.",
+    body: "Estabilización, secado controlado, reducción y molienda especializada.",
     detail: "La ruta depende de las características del material.",
   },
   {
     title: "Dar una nueva forma",
     label: "Formulación · Control",
-    body: "Conectamos las propiedades de la materia con el requerimiento técnico de la solución.",
+    body: "Mezclas de alta precisión nutricional adaptadas al requerimiento de la especie de destino.",
     detail: "Un objetivo definido guía la formulación.",
   },
   {
     title: "Conectar otra cadena",
     label: "Trazabilidad · Nueva solución",
-    body: "Relacionamos el origen y el proceso con el destino del recurso, para dar continuidad a su valor.",
+    body: "Lotes analizados, consistencia técnica y entrega lista para integrar en planta.",
     detail: "La nueva aplicación cierra el recorrido.",
   },
 ];
@@ -246,7 +246,7 @@ export const corporatePages = {
       ],
       [
         "Una licencia para avanzar",
-        "La relación de Gazalez con la Universidad de Concepción incluye una licencia de tecnología basada en hidrogeles y bacterias benéficas.",
+        "La relación de GAZAL con la Universidad de Concepción incluye una licencia de tecnología basada en hidrogeles y bacterias benéficas.",
       ],
       [
         "De la tecnología a la aplicación",

@@ -1,0 +1,74 @@
+/* GAZAL | Gradientes web v1 | 2026-09-29
+   Source: user-supplied branding JSON, not an expanded palette.
+   The only color inputs are #E4EEDC #DCEBD8 #F7F8F3 #163024 #183A2D.
+   rgba() values use those same RGB channels. Intermediate tones are blends.
+   Static backgrounds. No JavaScript, filters, font files or dependencies.
+   Add .gz-surface and one variant class to a section or card.
+*/
+:root {
+  --gz-primary: #E4EEDC;
+  --gz-secondary: #E4EEDC;
+  --gz-accent: #DCEBD8;
+  --gz-background: #F7F8F3;
+  --gz-text: #163024;
+  --gz-link: #183A2D;
+  --gz-font-heading: 'Manrope', system-ui, sans-serif;
+  --gz-font-body: 'Lexend', system-ui, sans-serif;
+  --gz-gradient-bruma: radial-gradient(ellipse 68% 105% at 96% 16%, rgba(220,235,216,.95) 0%, rgba(220,235,216,0) 70%),
+    radial-gradient(ellipse 42% 74% at 72% 94%, rgba(24,58,45,.12) 0%, rgba(24,58,45,0) 74%),
+    linear-gradient(112deg, #F7F8F3 0%, #F7F8F3 36%, #E4EEDC 100%);
+  --gz-gradient-biomasa: radial-gradient(ellipse 50% 74% at 72% 48%, #F7F8F3 0%, rgba(247,248,243,.72) 30%, rgba(247,248,243,0) 73%),
+    radial-gradient(ellipse 88% 100% at 12% 100%, rgba(24,58,45,.17) 0%, rgba(24,58,45,0) 72%),
+    linear-gradient(122deg, #E4EEDC 0%, #DCEBD8 55%, #F7F8F3 100%);
+  --gz-gradient-flujo: radial-gradient(ellipse 72% 80% at 105% 110%, rgba(228,238,220,.22) 0%, rgba(228,238,220,.07) 38%, rgba(228,238,220,0) 72%),
+    radial-gradient(ellipse 60% 92% at 64% -18%, rgba(220,235,216,.10) 0%, rgba(220,235,216,0) 72%),
+    linear-gradient(128deg, #163024 0%, #183A2D 55%, #163024 100%);
+  --gz-gradient-halo: radial-gradient(ellipse 34% 70% at 82% 46%, rgba(220,235,216,.28) 0%, rgba(220,235,216,.08) 44%, rgba(220,235,216,0) 78%),
+    radial-gradient(ellipse 70% 100% at 102% 10%, rgba(228,238,220,.10) 0%, rgba(228,238,220,0) 70%),
+    linear-gradient(112deg, #163024 0%, #183A2D 72%, #163024 100%);
+  --gz-gradient-bosque: radial-gradient(ellipse 88% 84% at 10% 0%, rgba(220,235,216,.10) 0%, rgba(220,235,216,0) 76%),
+    linear-gradient(145deg, #183A2D 0%, #163024 62%, #183A2D 100%);
+  --gz-gradient-horizonte: radial-gradient(ellipse 85% 105% at 110% 100%, rgba(24,58,45,.20) 0%, rgba(24,58,45,0) 70%),
+    radial-gradient(ellipse 70% 60% at 20% -10%, #F7F8F3 0%, rgba(247,248,243,0) 76%),
+    linear-gradient(172deg, #F7F8F3 0%, #E4EEDC 42%, #DCEBD8 100%);
+}
+.gz-surface {
+  background-color: var(--gz-background);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: var(--gz-text);
+}
+.gz-bruma {
+  background-image: var(--gz-gradient-bruma);
+  background-color: var(--gz-background);
+  color: var(--gz-text);
+}
+.gz-biomasa {
+  background-image: var(--gz-gradient-biomasa);
+  background-color: var(--gz-background);
+  color: var(--gz-text);
+}
+.gz-flujo {
+  background-image: var(--gz-gradient-flujo);
+  background-color: var(--gz-text);
+  color: var(--gz-background);
+}
+.gz-halo {
+  background-image: var(--gz-gradient-halo);
+  background-color: var(--gz-text);
+  color: var(--gz-background);
+}
+.gz-bosque {
+  background-image: var(--gz-gradient-bosque);
+  background-color: var(--gz-text);
+  color: var(--gz-background);
+}
+.gz-horizonte {
+  background-image: var(--gz-gradient-horizonte);
+  background-color: var(--gz-background);
+  color: var(--gz-text);
+}
+/* Explicit text helpers. Keep opaque text for predictable contrast. */
+.gz-text-dark { color: var(--gz-text); }
+.gz-text-light { color: var(--gz-background); }
+/* Existing site headings/body fonts can be inherited; no font download included. */

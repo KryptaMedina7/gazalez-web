@@ -20,17 +20,15 @@ export default function Home() {
             <br />a <span>solución.</span>
           </h1>
           <p className="hero-description">
-            Transformamos subproductos industriales en nuevas soluciones de
-            valor.
-          </p>
-          <p className="hero-support">
-            Capacidad productiva, formulación técnica y ciencia aplicada para
-            conectar recursos con nuevas cadenas productivas.
+            GAZAL es una compañía industrial y biotecnológica B2B que transforma
+            lo que la industria descarta en soluciones de nutrición, con
+            respaldo científico, formulación técnica y economía circular
+            aplicada.
           </p>
           <div className="hero-actions">
-            <ButtonLink href="/contacto/">Hablemos de tu desafío</ButtonLink>
-            <Link className="text-link" href="/soluciones/">
-              Explorar soluciones <Icon name="arrow" />
+            <ButtonLink href="/soluciones/">Explorar soluciones</ButtonLink>
+            <Link className="text-link" href="/contacto/">
+              Hablemos de tu desafío <Icon name="arrow" />
             </Link>
           </div>
         </div>
@@ -53,11 +51,11 @@ export default function Home() {
           <div className="intro-bottom">
             <p>
               Una corriente secundaria puede ser el punto de partida de otra
-              cadena productiva. En GAZALEZ conectamos recuperación,
-              procesamiento y formulación para explorar ese potencial.
+              cadena productiva. En GAZAL conectamos recuperación, procesamiento
+              y formulación para explorar ese potencial.
             </p>
             <Link className="text-link" href="/empresa/">
-              Conoce GAZALEZ <Icon name="diagonal" />
+              Conoce GAZAL <Icon name="diagonal" />
             </Link>
           </div>
         </div>

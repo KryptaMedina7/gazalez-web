@@ -1,0 +1,123 @@
+{
+  "name": "Untitled blend",
+  "type": "aurora",
+  "profile": "sRGB",
+  "dividers": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "soften": 0,
+  "noise": 6,
+  "speed": 26,
+  "texts": [
+    {
+      "id": "feral-brand",
+      "content": "GAZAL",
+      "ink": "auto",
+      "color": "#FBF8F3",
+      "family": "'Instrument Serif', Georgia, serif",
+      "sizePct": 9,
+      "x": 50,
+      "y": 50,
+      "align": "center",
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "letter": 0,
+      "line": 1.2,
+      "shadow": 10,
+      "blur": 30,
+      "textBlur": 0,
+      "skew": 0,
+      "rotate": 0,
+      "curve": 0
+    }
+  ],
+  "stops": [
+    {
+      "name": "SPRING CELADON",
+      "hex": "#F7F8F3",
+      "rgb": [
+        247,
+        248,
+        243
+      ],
+      "oklch": [
+        0.977,
+        0.0067,
+        115.7
+      ],
+      "cmyk": [
+        0,
+        0,
+        2,
+        3
+      ],
+      "position": 0.125
+    },
+    {
+      "name": "MINTED BAMBOO",
+      "hex": "#E4EEDC",
+      "rgb": [
+        228,
+        238,
+        220
+      ],
+      "oklch": [
+        0.9367,
+        0.0262,
+        130.9
+      ],
+      "cmyk": [
+        4,
+        0,
+        8,
+        7
+      ],
+      "position": 0.375
+    },
+    {
+      "name": "MINTED BAMBOO",
+      "hex": "#DCEBD8",
+      "rgb": [
+        220,
+        235,
+        216
+      ],
+      "oklch": [
+        0.9237,
+        0.03,
+        139.1
+      ],
+      "cmyk": [
+        6,
+        0,
+        8,
+        8
+      ],
+      "position": 0.625
+    },
+    {
+      "name": "BLACK MOSS",
+      "hex": "#183A2D",
+      "rgb": [
+        24,
+        58,
+        45
+      ],
+      "oklch": [
+        0.3185,
+        0.0466,
+        166.2
+      ],
+      "cmyk": [
+        59,
+        0,
+        22,
+        77
+      ],
+      "position": 0.875
+    }
+  ]
+}

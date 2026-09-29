@@ -1,11 +1,11 @@
-# GAZALEZ
+# GAZAL
 <!-- impeccable:product-schema 1 -->
 
 ## Platform
 web
 
 ## Stack
-Next.js, React, TypeScript; static-first, as requested in the supplied master brief. Deployment target remains undecided. No production changes authorized or needed for this local build.
+Next.js, React, TypeScript; static-first, as requested in the supplied master brief. The 2026-09-29 GAZAL revision is authorized for Vercel staging. The existing PHP production snapshot and packages remain frozen; this revision does not authorize deployment to empresasgazalez.cl or replacement of the production PHP/WordPress site.
 
 ## Users
 Industrial buyers, feed producers and formulators, generators of industrial by-products, agricultural businesses and university technology-transfer teams in Chile.
@@ -14,10 +14,10 @@ Industrial buyers, feed producers and formulators, generators of industrial by-p
 Explain the company's industrial transformation capabilities and generate qualified technical/commercial B2B enquiries.
 
 ## Positioning
-Integrating industrial valorization, animal nutrition, formulation, traceability and applied research. HIDROBAC is technology licensed from UdeC, not a product invented by Gazalez or confirmed commercially available.
+Integrating industrial valorization, animal nutrition, formulation, traceability and applied research. HIDROBAC is technology licensed from UdeC, not a product invented by GAZAL or confirmed commercially available.
 
 ## Brand Commitments
-Gazalez is the user-confirmed visual brand, including Gazalez Holding Group. Gazalez e Hija SpA is the legal identity; RUT 76.585.794-5 and Coronel, Biobío, Chile are provided by the user. Use the supplied raster logo unchanged. Light/pastel greens remain primary. The latest user request authorizes subtle brass/gold accents and charcoal depth. Serious, clear, technical and human voice. No generic SaaS identity.
+GAZAL is the user-confirmed visible brand as of 2026-09-29. Use the exact supplied symbol and serif lettering as transparent raster assets; the kit does not contain an installable logo font. Gazalez e Hija SpA remains the legal identity; RUT 76.585.794-5 and Coronel, Biobío, Chile are provided by the user. Preserve personal surnames, including Nassira Gazalez and Karim Gazalez, and existing domains and email addresses. Light/pastel greens remain primary, with the supplied five-color static gradients. Previously authorized subtle brass/gold details remain outside the gradient kit. Serious, clear, technical and human voice. No generic SaaS identity.
 
 ## Evidence on Hand
 Master brief and corporate PDF supplied on 2026-09-08. Current company website has self-declared nutrition/formulation/valorization content, placeholder phone and conflicting emails. UdeC Faculty of Agronomy publicly confirms the hydrogel technology license to Gazalez during 2025. Existing ERP DESIGN.md inspected read-only for green-family consistency.

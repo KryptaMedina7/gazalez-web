@@ -1,6 +1,6 @@
 "use client";
 // Adapted from wasifgee0012 / Social Links, retrieved through 21st MCP.
-// Keep the desktop reveal and mobile dock, with GAZALEZ greens and accessible controls.
+// Keep the desktop reveal and mobile dock, with GAZAL greens and accessible controls.
 import { useEffect, useRef, useState } from "react";
 import { Mail, Share2, X } from "lucide-react";
 export type SocialLink = { platform: "mail"; href: string };
@@ -34,7 +34,7 @@ export function SocialLinks({ links }: { links: SocialLink[] }) {
           <a
             key={link.href}
             href={link.href}
-            aria-label="Escribir a GAZALEZ por correo"
+            aria-label="Escribir a GAZAL por correo"
           >
             <Mail size={20} aria-hidden="true" />
             <span>Escríbenos</span>
@@ -50,7 +50,7 @@ export function SocialLinks({ links }: { links: SocialLink[] }) {
           {links.map((link) => (
             <a key={link.href} href={link.href}>
               <Mail size={20} aria-hidden="true" />
-              Correo GAZALEZ
+              Correo GAZAL
             </a>
           ))}
         </div>
