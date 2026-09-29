@@ -6,6 +6,7 @@ import { solutionPaths, workingSteps } from "@/lib/content";
 import { sourceUdec } from "@/lib/site";
 import { HeroExperience } from "@/components/ui/hero-experience";
 import { HydrobacExplorer } from "@/components/ui/hydrobac-explorer";
+import { CardCurtainReveal } from "@/components/ui/card-curtain-reveal";
 import { ConceptImage, type VisualKey } from "@/components/concept-image";
 export const metadata: Metadata = {
   title: "GAZAL · Nutrición animal y valorización industrial",
@@ -53,28 +54,27 @@ export default function Home() {
         </div>
         <div className="need-paths">
           {solutionPaths.map((path, index) => (
-            <article key={path.title}>
-              <h3>
-                <Link href={path.href}>
-                  {path.title}
-                  <Icon name="diagonal" />
-                </Link>
-              </h3>
-              <ConceptImage
+            <CardCurtainReveal key={path.title} media={<ConceptImage
                 visual={
                   (["nutrition", "valorization", "biotech"] as VisualKey[])[
                     index
                   ]
                 }
                 compact
-              />
+              />}>
+              <h3>
+                <Link href={path.href}>
+                  {path.title}
+                  <Icon name="diagonal" />
+                </Link>
+              </h3>
               <p>{path.description}</p>
               <p className="path-audience">{path.audience}</p>
               <Link className="text-link" href={path.href}>
                 {path.action}
                 <Icon name="arrow" />
               </Link>
-            </article>
+            </CardCurtainReveal>
           ))}
         </div>
       </section>

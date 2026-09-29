@@ -356,56 +356,6 @@ html[data-intro-seen="true"] .video-intro {
   color: var(--body);
   padding-top: 10px;
 }
-.need-paths .concept-image {
-  margin: 0 0 26px;
-}
-.need-paths .concept-image-frame {
-  aspect-ratio: 16 / 10;
-  background: transparent;
-}
-/* A closed horizontal aperture opens into the image without moving the text. */
-@media (min-width: 761px) and (hover: hover) and (pointer: fine) {
-  .need-paths .concept-image-frame { position: relative; }
-  .need-paths .concept-image-frame::before,
-  .need-paths .concept-image-frame::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    transition: transform 420ms var(--ease-out);
-  }
-  .need-paths .concept-image-frame::before {
-    border-top: 1px solid var(--gazal-text);
-    transform: translateY(calc(50% - 2px));
-  }
-  .need-paths .concept-image-frame::after {
-    border-bottom: 1px solid var(--gazal-text);
-    transform: translateY(calc(-50% + 2px));
-  }
-  .need-paths .concept-image img {
-    clip-path: inset(50% 0);
-    transform: scale(1.04);
-    opacity: 0;
-    transition: clip-path 420ms var(--ease-out), transform 420ms var(--ease-out), opacity 180ms ease-out;
-  }
-  .need-paths .concept-image figcaption {
-    opacity: 0;
-    transition: opacity 180ms ease-out;
-  }
-  .need-paths article:is(:hover, :focus-within) .concept-image img {
-    clip-path: inset(0);
-    transform: scale(1);
-    opacity: 1;
-  }
-  .need-paths article:is(:hover, :focus-within) .concept-image-frame::before,
-  .need-paths article:is(:hover, :focus-within) .concept-image-frame::after {
-    transform: translateY(0);
-  }
-  .need-paths article:is(:hover, :focus-within) .concept-image figcaption {
-    opacity: 1;
-  }
-}
 .page-intro.page-intro--visual {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
@@ -432,7 +382,7 @@ html[data-intro-seen="true"] .video-intro {
   margin-top: 24px;
 }
 .page-intro--visual .concept-image-frame {
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 3 / 2;
   background: transparent;
 }
 .page-intro--visual .concept-image img {
@@ -465,7 +415,7 @@ html[data-intro-seen="true"] .video-intro {
     gap: 24px;
   }
   .page-intro--visual .concept-image-frame {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 3 / 2;
   }
   .page-intro--visual .concept-image img {
     mask-image: linear-gradient(
@@ -484,7 +434,7 @@ html[data-intro-seen="true"] .video-intro {
     font-size: clamp(36px, 8vw, 48px);
   }
   .need-paths .concept-image-frame {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 3 / 2;
   }
   .need-paths .concept-image img {
     clip-path: none;
@@ -493,21 +443,6 @@ html[data-intro-seen="true"] .video-intro {
     transition: none;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .need-paths .concept-image img {
-    transition: none;
-    clip-path: none;
-    transform: none;
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .need-paths .concept-image-frame::before,
-  .need-paths .concept-image-frame::after { display: none; }
-  .need-paths .concept-image figcaption { opacity: 1; transition: none; }
-}
-
 /* Surface rhythm: ivory for choices, sage for process, forest for the next step. */
 .working-home .section-heading { align-items: start; }
 .working-steps li { border-top: 1px solid #9eb89a; padding-top: 22px; }
@@ -541,9 +476,8 @@ html[data-intro-seen="true"] .video-intro {
 .related-description { display: block; margin-top: 10px; color: var(--body); line-height: 1.7; font-size: 14px; }
 .related-solutions svg { flex-shrink: 0; }
 .need-paths h3 { min-height: 2.4em; }
-.need-paths .concept-image-frame { aspect-ratio: 2 / 1; }
+
 @media (min-width: 761px) and (hover: hover) and (pointer: fine) {
-  .need-paths .concept-image-frame { height: clamp(100px, 11vw, 158px); aspect-ratio: auto; }
   .need-paths h3 a { transition: color 220ms ease-out; }
   .need-paths h3 svg { transition: transform 220ms ease-out; }
   .need-paths article:is(:hover,:focus-within) h3 a { color: #287452; }
@@ -558,4 +492,50 @@ html[data-intro-seen="true"] .video-intro {
 @media (prefers-reduced-motion: reduce) {
   .need-paths h3 a, .need-paths h3 svg { transition: none; }
   .need-paths article:is(:hover,:focus-within) h3 svg { transform: none; }
+}
+
+/* Curtain reference adapted to botanical media, without blend-mode inversion. */
+.need-paths { align-items: start; }
+.need-paths article.card-curtain-reveal {
+  display: block;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: var(--gazal-primary);
+}
+.curtain-body { display: flex; flex-direction: column; align-items: flex-start; }
+.curtain-body > .text-link { margin-top: 8px; min-height: 48px; }
+.curtain-media { display: grid; grid-template-rows: 1fr; }
+.curtain-media-inner { min-height: 0; overflow: hidden; }
+.need-paths .concept-image { margin: 24px 0 0; }
+.need-paths .concept-image-frame { height: auto; aspect-ratio: 3 / 2; background: transparent; }
+.need-paths .concept-image img { object-fit: contain; transform: none; opacity: 1; }
+.need-paths .concept-image figcaption { padding-top: 8px; }
+@media (min-width: 761px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .curtain-media { grid-template-rows: 0fr; transition: grid-template-rows 360ms var(--ease-out); }
+  .curtain-media .concept-image { clip-path: inset(0 50%); opacity: 0; transition: clip-path 400ms var(--ease-out), opacity 180ms ease-out; }
+  .card-curtain-reveal:is(:hover,:focus-within) .curtain-media { grid-template-rows: 1fr; }
+  .card-curtain-reveal:is(:hover,:focus-within) .concept-image { clip-path: inset(0); opacity: 1; }
+}
+.related { gap: 18px; }
+.related h2 { grid-column: 1 / -1; max-width: none; }
+.related > a {
+  min-height: 72px;
+  padding: 20px 24px;
+  border: 1px solid #9eb89a;
+  border-radius: 4px;
+  background: var(--gazal-primary);
+  color: var(--forest);
+  text-decoration: none;
+  transition: background-color 180ms ease-out, border-color 180ms ease-out;
+}
+.related > a:hover { background: var(--gazal-accent); border-color: var(--forest); }
+.related > a:focus-visible { outline: 3px solid var(--forest); outline-offset: 4px; }
+.related > a svg { flex-shrink: 0; width: 22px; height: 22px; }
+.related > a:active { background: #c8ddc1; }
+@media (max-width: 760px) {
+  .related { grid-template-columns: minmax(0,1fr); }
+  .need-paths article.card-curtain-reveal { padding: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .curtain-media, .curtain-media .concept-image, .related > a { transition: none; }
 }
