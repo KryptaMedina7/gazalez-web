@@ -463,7 +463,8 @@ html[data-intro-seen="true"] .video-intro {
 }
 .consultation-home .button:hover, .contact-band .button:hover { background: white; color: var(--forest); }
 .consultation-home :focus-visible, .contact-band :focus-visible, .footer :focus-visible { outline-color: var(--gazal-primary); }
-.footer .brand { background: var(--canvas); padding: 14px 18px; width: fit-content; }
+.footer .brand { background: transparent; padding: 0; width: fit-content; }
+.footer .brand-lockup { filter: brightness(0) invert(1); }
 .footer a:hover { color: var(--gazal-primary); }
 .contact-band { margin-bottom: 0; padding: clamp(32px, 5vw, 70px); }
 .contact-band h2 { max-width: 20ch; }
