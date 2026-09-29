@@ -20,18 +20,20 @@ export function ButtonLink({
     </Link>
   );
 }
-export function ContactBand() {
+export function ContactBand({ intent, title, description }: {
+  intent?: string;
+  title?: string;
+  description?: string;
+}) {
   return (
     <section className="contact-band">
       <div>
-        <h2>
-          Conversemos sobre
-          <br />
-          tu necesidad.
-        </h2>
-        <p>Cuéntanos qué material tienes o qué solución necesitas.</p>
+        <h2>{title || "Conversemos sobre tu necesidad."}</h2>
+        <p>{description || "Cuéntanos qué material tienes o qué solución necesitas."}</p>
       </div>
-      <ButtonLink href="/contacto/">Consultar al equipo técnico</ButtonLink>
+      <ButtonLink href={intent ? `/contacto/?interes=${intent}` : "/contacto/"}>
+        Preparar mi consulta
+      </ButtonLink>
     </section>
   );
 }

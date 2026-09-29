@@ -212,11 +212,17 @@ export default async function ContentPage({
                 ))}
               </div>
             </section>
-            <div className="related">
-              <h2>Información relacionada</h2>
+            <div className="related related-solutions">
+              <h2>Continúa según tu necesidad</h2>
               <Link href="/soluciones/">
                 Ver los tres caminos de soluciones <Icon name="arrow" />
               </Link>
+              {solution.slug === "valorizacion-industrial" && (
+                <Link href="/calidad-trazabilidad/"><span><strong>Calidad y trazabilidad</strong><span className="related-description">Conoce qué antecedentes y documentación conviene revisar para evaluar un material.</span></span><Icon name="diagonal" /></Link>
+              )}
+              {solution.slug === "bioprocesos" && (
+                <Link href="/innovacion/"><span><strong>Innovación y biotecnología</strong><span className="related-description">Explora las líneas de desarrollo y los vínculos tecnológicos documentados.</span></span><Icon name="diagonal" /></Link>
+              )}
               {solutions
                 .filter(
                   (s) =>
@@ -227,7 +233,7 @@ export default async function ContentPage({
                 )
                 .map((s) => (
                   <Link href={`/soluciones/${s.slug}/`} key={s.slug}>
-                    {s.title}
+                    <span><strong>{s.title}</strong><span className="related-description">{s.description}</span></span>
                     <Icon name="diagonal" />
                   </Link>
                 ))}
@@ -712,7 +718,13 @@ export default async function ContentPage({
         )}
         {!solution && !corporate && !titles[key] && notFound()}
       </div>
-      {!["contacto", "privacidad", "terminos"].includes(key) && <ContactBand />}
+      {!["contacto", "privacidad", "terminos"].includes(key) && (
+        <ContactBand
+          intent={solution?.intent || (key.startsWith("innovacion") ? "colaboracion" : undefined)}
+          title={solution?.intent === "formulacion" ? "Cuéntanos tu necesidad nutricional." : solution?.intent === "subproducto" ? "Conversemos sobre tu subproducto." : solution?.intent === "colaboracion" || key.startsWith("innovacion") ? "Exploremos tu desafío de aplicación." : undefined}
+          description={solution ? solution.input : key.startsWith("innovacion") ? "Comparte la aplicación que te interesa y los antecedentes disponibles para orientar una conversación técnica." : undefined}
+        />
+      )}
     </>
   );
 }

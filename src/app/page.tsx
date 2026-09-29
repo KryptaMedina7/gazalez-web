@@ -54,6 +54,12 @@ export default function Home() {
         <div className="need-paths">
           {solutionPaths.map((path, index) => (
             <article key={path.title}>
+              <h3>
+                <Link href={path.href}>
+                  {path.title}
+                  <Icon name="diagonal" />
+                </Link>
+              </h3>
               <ConceptImage
                 visual={
                   (["nutrition", "valorization", "biotech"] as VisualKey[])[
@@ -62,12 +68,6 @@ export default function Home() {
                 }
                 compact
               />
-              <h3>
-                <Link href={path.href}>
-                  {path.title}
-                  <Icon name="diagonal" />
-                </Link>
-              </h3>
               <p>{path.description}</p>
               <p className="path-audience">{path.audience}</p>
               <Link className="text-link" href={path.href}>
