@@ -23,3 +23,16 @@ Publicación autorizada por push a Vercel. No modifica el hosting PHP de empresa
 El nuevo `Chick_walking_and_jumping_camera_20260929130718.webm` reemplaza la adaptación horizontal en móviles. Fuente VP8, 1080 × 1920, 24 fps; SHA-256 `6E5195462546DE2481ADF8D5313EBF0D4705BC5A9A58ABAEC15C40C97BE624E8`. Se entrega en H.264 MP4 silenciado, 720 × 1280, faststart, sin recorte, 1.19 MB, con poster vertical de 67 KB. Se elige para anchos hasta 800 px en orientación vertical. Escritorio y orientación horizontal conservan el clip anterior. El nombre nuevo del archivo evita reutilizar el encode móvil horizontal en caché.
 
 Build/TypeScript y ESLint correctos; reproducción vertical comprobada en Chromium a 390 × 844 y salida automática hacia el inicio. Las cifras de 494 KB y 960 × 540 de la primera entrega quedan como antecedentes, no describen el clip móvil vigente.
+
+## Revisión: pantalla completa, favicon transparente y gradientes
+La instrucción posterior del usuario reemplaza el encuadre sin recorte: ahora video y poster usan `cover`, con recorte proporcional, sin deformación ni bandas. CSS oculta la barra de scroll desde el primer render; movimiento reducido y `noscript` liberan el scroll. Se conserva el cierre al terminar.
+
+| Before | After | Why |
+| --- | --- | --- |
+| Video `contain` con franjas | Video y poster `cover`, ocupando el viewport | Llenar la pantalla como solicitó el usuario |
+| Favicon marfil sobre cuadro verde | Símbolo GAZAL transparente v3; SVG adapta el tono a pestañas oscuras | Evitar el bloque de fondo y mejorar lectura a escala pequeña |
+| Campos planos en proceso, investigación y testimonios | Gradientes estáticos con verdes de marca y salvia | Dar profundidad sin añadir animación continua |
+
+Fuente nueva del favicon: `assets/gazal-favicon-transparent.png`. PNG con alfa comprobado (esquinas transparentes), SVG con máscara alfa y PNG/ICO de respaldo. Cabecera sin cambios. Los gradientes quedan en `src/app/gazal-surfaces.css`; incluyen introducción, transformación, HIDROBAC, testimonios, FAQ, contacto y apertura de páginas interiores.
+
+Verificación de esta revisión: build de producción, TypeScript y ESLint correctos. Chromium a 1440 × 900 y 390 × 844: video `cover` ocupa el viewport sin bandas ni espacio lateral de scrollbar. Al terminar, `scrollY: 0` y scroll restaurado. Movimiento reducido y JavaScript desactivado permiten acceder y desplazar el contenido. Gradientes de HIDROBAC y testimonios inspeccionados en escritorio; página de soluciones inspeccionada en móvil sin desbordamiento horizontal. Favicon revisado a 16/32/48 px sobre fondos claros y oscuros, con alfa real. Capturas locales en `tmp/gazal-video-intro`. No se han probado dispositivos físicos ni Safari/iOS.

@@ -5,6 +5,7 @@ import "./globals.css";
 import "./gazal-gradients.css";
 import "./gazal-forest.css";
 import "./gazal-video-intro.css";
+import "./gazal-surfaces.css";
 import { Header, Footer } from "@/components/shell";
 import { site } from "@/lib/site";
 import { BrandIntro } from "@/components/ui/brand-intro";
@@ -37,23 +38,28 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/assets/gazal/favicon-v2-16.png",
+        url: "/assets/gazal/favicon-v3-16.png",
         sizes: "16x16",
         type: "image/png",
       },
       {
-        url: "/assets/gazal/favicon-v2-32.png",
+        url: "/assets/gazal/favicon-v3-32.png",
         sizes: "32x32",
         type: "image/png",
       },
       {
-        url: "/assets/gazal/favicon-v2-48.png",
+        url: "/assets/gazal/favicon-v3-48.png",
         sizes: "48x48",
         type: "image/png",
       },
+      {
+        url: "/assets/gazal/favicon-v3.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+      },
     ],
-    shortcut: "/favicon.ico?v=2",
-    apple: "/assets/gazal/apple-touch-icon-v2.png",
+    shortcut: "/favicon.ico?v=3",
+    apple: "/assets/gazal/apple-touch-icon-v3.png",
   },
 };
 export const viewport: Viewport = {
@@ -70,7 +76,11 @@ export default function RootLayout({
     <html lang="es-CL">
       <head>
         <noscript>
-          <style>{".video-intro{display:none!important}"}</style>
+          <style>
+            {
+              ".video-intro{display:none!important}html:has(.video-intro){overflow:auto;scrollbar-width:auto}"
+            }
+          </style>
         </noscript>
         <script
           dangerouslySetInnerHTML={{

@@ -161,7 +161,7 @@ export default function Home() {
         </ol>
       </section>
       <LeadershipVoices />
-      <div className="section">
+      <div className="section faq-home-surface">
         <CompanyFaq compact />
       </div>
       <ContactBand />

@@ -1,0 +1,53 @@
+/* Static tonal depth: brand greens only, no extra animation or blur layers. */
+:root {
+  --gz-gradient-canopy:
+    radial-gradient(ellipse at 95% 5%, #b8ceae 0%, transparent 60%),
+    linear-gradient(125deg, #f7f8f3 15%, #e4eedc 62%, #dcebd8 100%);
+  --gz-gradient-lab: radial-gradient(
+    ellipse at 32% 32%,
+    #f7f8f3 0%,
+    #e4eedc 42%,
+    #b8ceae 100%
+  );
+  --gz-gradient-voices:
+    radial-gradient(ellipse at 95% 100%, #b8ceae 0%, transparent 65%),
+    linear-gradient(125deg, #dcebd8 0%, #f7f8f3 48%, #e4eedc 100%);
+}
+.intro-section {
+  background-image: var(--gz-gradient-canopy);
+}
+.process {
+  background-image:
+    radial-gradient(ellipse at 80% 35%, #345641 0%, transparent 64%),
+    linear-gradient(135deg, #163024, #183a2d);
+}
+.innovation-visual {
+  background-image: var(--gz-gradient-lab);
+}
+.innovation-visual .hydrobac-explorer {
+  background: transparent;
+}
+.innovation-copy {
+  background:
+    radial-gradient(ellipse at 100% 100%, #b8ceae 0%, transparent 66%),
+    linear-gradient(145deg, #f7f8f3, #dcebd8);
+}
+.leadership-section {
+  background-image: var(--gz-gradient-voices);
+}
+.faq-home-surface {
+  background:
+    radial-gradient(ellipse at 0% 25%, #dcebd8 0%, transparent 60%),
+    linear-gradient(165deg, #e4eedc, #f7f8f3 70%);
+}
+.contact-band {
+  background-image:
+    radial-gradient(ellipse at 92% 110%, #4c6254 0%, transparent 66%),
+    var(--gz-gradient-bosque);
+}
+main:has(> .page-wrap) {
+  background:
+    radial-gradient(ellipse 85% 600px at 100% 0%, #dcebd8, transparent 85%),
+    radial-gradient(ellipse 70% 480px at 0% 650px, #e4eedc, transparent 90%),
+    #f7f8f3;
+}

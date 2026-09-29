@@ -23,7 +23,7 @@
       {
         "name": "welcome",
         "value": "6s supplied video + 180ms fade on ended",
-        "purpose": "Muted inline document-entry video, full uncropped frame; skip/Escape, inert background, reduced-motion and no-JS bypass; playback failure/stall opens site. Separate supplied portrait clip at 720x1280, approximately 1.19 MB, and responsive first-frame poster; desktop and landscape keep the horizontal clip."
+        "purpose": "Muted inline document-entry video, viewport-filling cover crop without letterboxing; skip/Escape, inert background, reduced-motion and no-JS bypass; playback failure/stall opens site. Separate supplied portrait clip at 720x1280, approximately 1.19 MB, and responsive first-frame poster; desktop and landscape keep the horizontal clip."
       },
       {
         "name": "hero-scroll",
