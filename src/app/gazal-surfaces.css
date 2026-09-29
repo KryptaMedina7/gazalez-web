@@ -369,27 +369,48 @@ html[data-intro-seen="true"] .video-intro {
   aspect-ratio: 16 / 10;
   background: transparent;
 }
-.need-paths .concept-image img {
-  transition:
-    clip-path 320ms var(--ease-out),
-    transform 320ms var(--ease-out),
-    opacity 220ms ease-out;
-}
-@media (hover: hover) and (pointer: fine) {
-  .need-paths .concept-image img {
-    clip-path: inset(12% 6% 0);
-    transform: scale(1.06);
-    opacity: 0.78;
+/* A closed horizontal aperture opens into the image without moving the text. */
+@media (min-width: 761px) and (hover: hover) and (pointer: fine) {
+  .need-paths .concept-image-frame { position: relative; }
+  .need-paths .concept-image-frame::before,
+  .need-paths .concept-image-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: transform 420ms var(--ease-out);
   }
-  .need-paths article:hover .concept-image img,
-  .need-paths article:focus-within .concept-image img {
+  .need-paths .concept-image-frame::before {
+    border-top: 1px solid var(--gazal-text);
+    transform: translateY(calc(50% - 2px));
+  }
+  .need-paths .concept-image-frame::after {
+    border-bottom: 1px solid var(--gazal-text);
+    transform: translateY(calc(-50% + 2px));
+  }
+  .need-paths .concept-image img {
+    clip-path: inset(50% 0);
+    transform: scale(1.04);
+    opacity: 0;
+    transition: clip-path 420ms var(--ease-out), transform 420ms var(--ease-out), opacity 180ms ease-out;
+  }
+  .need-paths .concept-image figcaption {
+    opacity: 0;
+    transition: opacity 180ms ease-out;
+  }
+  .need-paths article:is(:hover, :focus-within) .concept-image img {
     clip-path: inset(0);
     transform: scale(1);
     opacity: 1;
   }
-}
-.need-paths article:focus-within .concept-image img {
-  transition: none;
+  .need-paths article:is(:hover, :focus-within) .concept-image-frame::before,
+  .need-paths article:is(:hover, :focus-within) .concept-image-frame::after {
+    transform: translateY(0);
+  }
+  .need-paths article:is(:hover, :focus-within) .concept-image figcaption {
+    opacity: 1;
+  }
 }
 .page-intro.page-intro--visual {
   display: grid;
@@ -485,4 +506,10 @@ html[data-intro-seen="true"] .video-intro {
     transform: none;
     opacity: 1;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .need-paths .concept-image-frame::before,
+  .need-paths .concept-image-frame::after { display: none; }
+  .need-paths .concept-image figcaption { opacity: 1; transition: none; }
 }
