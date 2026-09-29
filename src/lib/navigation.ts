@@ -1,45 +1,33 @@
 export const navigationGroups = [
   {
     label: "Soluciones",
-    description: "Capacidades para cada desafío industrial.",
+    description: "Encuentra el camino según tu necesidad.",
     links: [
-      ["Todas las soluciones", "/soluciones/"],
+      ["Soluciones por necesidad", "/soluciones/"],
       ["Nutrición animal", "/soluciones/nutricion-animal/"],
-      ["Núcleos proteicos", "/soluciones/nucleos-proteicos/"],
-      ["Formulación técnica", "/soluciones/formulacion-tecnica/"],
       ["Valorización industrial", "/soluciones/valorizacion-industrial/"],
-      ["Bioprocesos", "/soluciones/bioprocesos/"],
+      ["Innovación y biotecnología", "/innovacion/"],
     ],
   },
   {
     label: "Innovación",
-    description: "Investigación, transferencia y aplicación.",
+    description: "Líneas de desarrollo y vínculos tecnológicos.",
     links: [
-      ["Investigación e industria", "/innovacion/"],
-      ["HIDROBAC", "/innovacion/hidrobac/"],
+      ["Innovación y biotecnología", "/innovacion/"],
+      ["HIDROBAC: tecnología y alcance", "/innovacion/hidrobac/"],
+      ["Bioprocesos", "/soluciones/bioprocesos/"],
       ["Transferencia tecnológica", "/innovacion/transferencia-tecnologica/"],
-      ["Proyectos e iniciativas", "/innovacion/proyectos/"],
+      ["Colaboración y proyectos", "/innovacion/proyectos/"],
     ],
   },
   {
     label: "Empresa",
-    description: "Conoce GAZAL y su visión de transformación.",
+    description: "Actividad, antecedentes y documentación.",
     links: [
       ["Conoce GAZAL", "/empresa/"],
-      ["Sostenibilidad", "/sostenibilidad/"],
-      ["Aplicaciones industriales", "/casos/"],
-      ["Actualidad", "/actualidad/"],
-    ],
-  },
-  {
-    label: "Calidad y trazabilidad",
-    description: "Información y contacto directo.",
-    links: [
       ["Calidad y trazabilidad", "/calidad-trazabilidad/"],
-      ["Contacto comercial", "/contacto/"],
+      ["Sostenibilidad", "/sostenibilidad/"],
       ["Preguntas frecuentes", "/preguntas-frecuentes/"],
-      ["Privacidad", "/privacidad/"],
-      ["Términos de uso", "/terminos/"],
     ],
   },
 ] as const;

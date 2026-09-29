@@ -73,6 +73,7 @@ export function SterlingGateNavigation({
                     current: path === href,
                   })),
                 })),
+                { id: "contact", label: "Contacto", href: "/contacto/" },
                 { id: "home", label: "Inicio", href: "/" },
               ]}
               onSelect={close}

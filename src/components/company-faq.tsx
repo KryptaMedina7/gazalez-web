@@ -19,7 +19,7 @@ export const companyQuestions = [
   ],
   [
     "¿Cómo se relacionan GAZAL y Gazalez e Hija SpA?",
-    "GAZAL es la marca paraguas del grupo corporativo. Gazalez e Hija SpA es la sociedad operativa de origen, que aporta la trayectoria industrial.",
+    "GAZAL es la marca comercial del sitio. La identidad societaria es Gazalez e Hija SpA; el nombre comercial no modifica esa razón social.",
   ],
   [
     "¿Cómo se conecta la investigación con la industria?",

@@ -1,171 +1,202 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ButtonLink, ContactBand } from "@/components/shared";
+import { ButtonLink } from "@/components/shared";
 import { Icon } from "@/components/icon";
-import { Process } from "@/components/process";
-import { solutions } from "@/lib/content";
+import { solutionPaths, workingSteps } from "@/lib/content";
+import { sourceUdec } from "@/lib/site";
 import { HeroExperience } from "@/components/ui/hero-experience";
 import { HydrobacExplorer } from "@/components/ui/hydrobac-explorer";
-import { InstitutionStrip } from "@/components/institution-strip";
-import { LeadershipVoices } from "@/components/leadership-voices";
-import { CompanyFaq } from "@/components/company-faq";
-export const metadata: Metadata = { alternates: { canonical: "/" } };
+import { ConceptImage, type VisualKey } from "@/components/concept-image";
+export const metadata: Metadata = {
+  title: "GAZAL · Nutrición animal y valorización industrial",
+  description:
+    "Soluciones para plantas de alimento, integraciones avícolas e industrias generadoras de subproductos. Conoce GAZAL y consulta al equipo técnico.",
+  alternates: { canonical: "/" },
+};
 export default function Home() {
   return (
     <>
       <HeroExperience>
         <div className="hero-copy">
           <h1>
-            De subproducto
-            <br />a <span>solución.</span>
+            Nutrición animal y <span>valorización industrial.</span>
           </h1>
           <p className="hero-description">
-            GAZAL es una compañía industrial y biotecnológica B2B que transforma
-            lo que la industria descarta en soluciones de nutrición, con
-            respaldo científico, formulación técnica y economía circular
-            aplicada.
+            En GAZAL conectamos recuperación, procesamiento y formulación
+            técnica para desarrollar soluciones para la industria, con foco en
+            nutrición avícola.
+          </p>
+          <p className="hero-audience">
+            Para plantas de alimento, integraciones avícolas e industrias
+            generadoras de subproductos.
           </p>
           <div className="hero-actions">
-            <ButtonLink href="/soluciones/">Explorar soluciones</ButtonLink>
-            <Link className="text-link" href="/contacto/">
-              Hablemos de tu desafío <Icon name="arrow" />
+            <ButtonLink href="/contacto/">
+              Consultar al equipo técnico
+            </ButtonLink>
+            <Link className="text-link" href="/soluciones/">
+              Ver soluciones <Icon name="arrow" />
             </Link>
           </div>
         </div>
       </HeroExperience>
-      <div className="capability-rail">
-        <span>Valorización industrial</span>
-        <span>Nutrición animal</span>
-        <span>Formulación técnica</span>
-        <span>Biotecnología aplicada</span>
-      </div>
-      <section className="intro-section section" id="nuevo-comienzo">
-        <div>
-          <h2>
-            Donde otros ven el final,
-            <br />
-            nosotros estudiamos
-            <br />
-            <span>un nuevo comienzo.</span>
-          </h2>
-          <div className="intro-bottom">
-            <p>
-              Una corriente secundaria puede ser el punto de partida de otra
-              cadena productiva. En GAZAL conectamos recuperación, procesamiento
-              y formulación para explorar ese potencial.
-            </p>
-            <Link className="text-link" href="/empresa/">
-              Conoce GAZAL <Icon name="diagonal" />
-            </Link>
-          </div>
-        </div>
-      </section>
-      <Process />
-      <section className="solutions-home section">
+      <section
+        className="section solutions-home"
+        aria-labelledby="solutions-heading"
+      >
         <div className="section-heading">
-          <h2>
-            Capacidades que
-            <br />
-            se conectan.
-          </h2>
-          <div>
-            <p>
-              Un desafío industrial.
-              <br />
-              Distintas formas de abordarlo.
-            </p>
-            <Link className="text-link" href="/soluciones/">
-              Todas las soluciones <Icon name="arrow" />
-            </Link>
-          </div>
+          <h2 id="solutions-heading">¿Qué necesitas resolver?</h2>
+          <p>
+            Tres caminos para encontrar la información que corresponde a tu
+            operación.
+          </p>
         </div>
-        <div className="solution-list">
-          {solutions.map((s, i) => (
-            <Link
-              href={`/soluciones/${s.slug}/`}
-              key={s.slug}
-              className="solution-row"
-            >
-              <span className="solution-name">{s.title}</span>
-              <span className="solution-short">{s.short}</span>
-              <span className="row-arrow">
-                <Icon name="diagonal" />
-              </span>
-              <span className="sr-only">Ver solución {i + 1}</span>
-            </Link>
+        <div className="need-paths">
+          {solutionPaths.map((path, index) => (
+            <article key={path.title}>
+              <ConceptImage
+                visual={
+                  (["nutrition", "valorization", "biotech"] as VisualKey[])[
+                    index
+                  ]
+                }
+                compact
+              />
+              <h3>
+                <Link href={path.href}>
+                  {path.title}
+                  <Icon name="diagonal" />
+                </Link>
+              </h3>
+              <p>{path.description}</p>
+              <p className="path-audience">{path.audience}</p>
+              <Link className="text-link" href={path.href}>
+                {path.action}
+                <Icon name="arrow" />
+              </Link>
+            </article>
           ))}
         </div>
       </section>
-      <section className="innovation-home">
+      <section
+        className="section working-home"
+        aria-labelledby="working-heading"
+      >
+        <div className="section-heading">
+          <h2 id="working-heading">Cómo trabajamos</h2>
+          <p>
+            La consulta comienza con tu necesidad. El alcance técnico se define
+            con los antecedentes de cada caso.
+          </p>
+        </div>
+        <ol className="working-steps">
+          {workingSteps.map(([title, body]) => (
+            <li key={title}>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </li>
+          ))}
+        </ol>
+        <Link href="/casos/" className="text-link">
+          Preparar una primera conversación <Icon name="arrow" />
+        </Link>
+      </section>
+      <section
+        className="section evidence-home"
+        aria-labelledby="evidence-heading"
+      >
+        <div>
+          <h2 id="evidence-heading">Operación y respaldo</h2>
+          <p>
+            Desde Coronel, Biobío, GAZAL reúne valorización industrial,
+            nutrición animal y formulación técnica. Cada aplicación requiere
+            revisar el material, su destino y las condiciones de uso.
+          </p>
+          <Link className="text-link" href="/empresa/">
+            Conocer la empresa <Icon name="arrow" />
+          </Link>
+        </div>
+        <div className="evidence-links">
+          <article>
+            <h3>Antecedentes para tu operación</h3>
+            <p>
+              Consulta la documentación pertinente al material o solución que
+              necesitas evaluar.
+            </p>
+            <Link href="/calidad-trazabilidad/" className="text-link">
+              Calidad y trazabilidad <Icon name="arrow" />
+            </Link>
+          </article>
+          <article>
+            <h3>Un vínculo documentado con la UdeC</h3>
+            <p>
+              La Facultad de Agronomía informó una licencia de tecnología a
+              Gazalez e Hija durante 2025.
+            </p>
+            <a
+              className="text-link"
+              href={sourceUdec}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Consultar publicación de Agronomía <Icon name="diagonal" />
+            </a>
+          </article>
+        </div>
+      </section>
+      <section className="innovation-home" aria-labelledby="hydrobac-heading">
         <div className="innovation-visual">
           <HydrobacExplorer />
         </div>
         <div className="innovation-copy">
-          <h2>
-            De la investigación
-            <br />a la industria.
+          <h2 id="hydrobac-heading">
+            HIDROBAC: investigación frente al estrés hídrico.
           </h2>
           <p>
-            La ciencia abre nuevas posibilidades para la materia. Nuestra
-            relación con la Universidad de Concepción acerca investigación y
-            aplicación.
+            Tecnología de la Universidad de Concepción que combina hidrogeles y
+            bacterias benéficas para estudiar su aplicación en plantas.
           </p>
-          <div className="innovation-feature">
-            <span>HIDROBAC</span>
-            <p>
-              Hidrogeles y bacterias benéficas para abordar el estrés hídrico en
-              plantas.
-            </p>
-            <span className="tag">Transferencia tecnológica</span>
-          </div>
+          <p>
+            El vínculo confirmado es su licenciamiento a Gazalez e Hija en 2025.
+            Se presenta como una línea de transferencia tecnológica; su
+            disponibilidad comercial y desempeño no se dan por establecidos.
+          </p>
           <ButtonLink href="/innovacion/hidrobac/" secondary>
-            Explorar HIDROBAC
+            Ver tecnología, alcance y fuentes
           </ButtonLink>
         </div>
       </section>
-      <section className="trace-home section">
+      <section
+        className="section consultation-home"
+        aria-labelledby="consult-heading"
+      >
         <div>
-          <h2>
-            El origen importa.
-            <br />
-            El recorrido también.
-          </h2>
+          <h2 id="consult-heading">Cuéntanos qué necesitas evaluar.</h2>
           <p>
-            Conectar la recepción, el proceso y el producto terminado permite
-            comprender la transformación de cada recurso.
+            Describe tu actividad, el material o la aplicación de interés. No
+            necesitas tener una ficha técnica completa para iniciar la
+            conversación.
           </p>
-          <Link className="text-link" href="/calidad-trazabilidad/">
-            Calidad y trazabilidad <Icon name="diagonal" />
+          <ButtonLink href="/contacto/">
+            Preparar una consulta técnica
+          </ButtonLink>
+        </div>
+        <div className="consultation-notes">
+          <h3>Atención a empresas</h3>
+          <p>
+            Trabajamos con clientes industriales. No realizamos venta a público
+            general.
+          </p>
+          <h3>¿Tienes análisis o documentación?</h3>
+          <p>
+            Menciona los antecedentes disponibles. Podrás adjuntarlos al enviar
+            el correo desde tu aplicación.
+          </p>
+          <Link href="/preguntas-frecuentes/" className="text-link">
+            Más preguntas frecuentes <Icon name="arrow" />
           </Link>
         </div>
-        <ol className="trace-path">
-          {[
-            "Origen",
-            "Recepción",
-            "Lote",
-            "Proceso y control",
-            "Producto terminado",
-            "Despacho",
-          ].map((t, i) => (
-            <li key={t}>
-              <span>{String(i + 1).padStart(2, "0")}</span>
-              {t}
-              <span className="trace-node" aria-hidden="true" />
-              {i < 5 && (
-                <span className="trace-connection" aria-hidden="true">
-                  <span />
-                </span>
-              )}
-            </li>
-          ))}
-        </ol>
       </section>
-      <LeadershipVoices />
-      <div className="section faq-home-surface">
-        <CompanyFaq compact />
-      </div>
-      <ContactBand />
-      <InstitutionStrip />
     </>
   );
 }

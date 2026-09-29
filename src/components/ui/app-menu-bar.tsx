@@ -36,8 +36,7 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 
-type Destination = (typeof navigationGroups)[number]["links"][number][1];
-const destinationIcons: Record<Destination, LucideIcon> = {
+const destinationIcons: Record<string, LucideIcon> = {
   "/soluciones/": Layers3,
   "/soluciones/nutricion-animal/": Wheat,
   "/soluciones/nucleos-proteicos/": Egg,
@@ -107,7 +106,7 @@ export default function AppMenuBar({ path }: { path: string }) {
             >
               {group.links.map(([label, href], index) => {
                 const DestinationIcon = destinationIcons[href];
-                const separator = groupIndex === 3 ? index === 2 : index === 1;
+                const separator = index === 1;
                 return (
                   <Fragment key={href}>
                     {separator && (

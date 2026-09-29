@@ -82,8 +82,8 @@ export function ContentMotion() {
                       sequence.to(
                         target.querySelectorAll(".trace-node"),
                         {
-                          backgroundColor: "#a8905e",
-                          borderColor: "#a8905e",
+                          backgroundColor: "#4c6254",
+                          borderColor: "#4c6254",
                           duration: 0.2,
                           stagger: 0.42,
                         },
@@ -123,7 +123,7 @@ export function ContentMotion() {
           .querySelectorAll(
             compact
               ? ".trace-path"
-              : ".trace-path,.horizontal-trace,.solution-list,.solutions-directory,.hydrobac-mechanism,.news-list",
+              : ".trace-path,.horizontal-trace,.hydrobac-mechanism",
           )
           .forEach((e) => observer.observe(e));
         const visibility = () => {

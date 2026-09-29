@@ -1,3 +1,48 @@
+export const solutionPaths = [
+  {
+    title: "Nutrición animal",
+    href: "/soluciones/nutricion-animal/",
+    description:
+      "Ingredientes, núcleos proteicos avícolas y formulación según el requerimiento nutricional.",
+    audience:
+      "Para plantas de alimento, integraciones avícolas y formuladores.",
+    action: "Explorar nutrición animal",
+    slugs: ["nutricion-animal", "nucleos-proteicos", "formulacion-tecnica"],
+  },
+  {
+    title: "Valorización industrial",
+    href: "/soluciones/valorizacion-industrial/",
+    description:
+      "Evaluación de subproductos y alternativas de recuperación y aprovechamiento.",
+    audience: "Para industrias generadoras de subproductos y agroindustria.",
+    action: "Evaluar una oportunidad de valorización",
+    slugs: ["valorizacion-industrial"],
+  },
+  {
+    title: "Innovación y biotecnología",
+    href: "/innovacion/",
+    description:
+      "Bioprocesos, colaboración tecnológica e HIDROBAC: líneas de desarrollo con alcances propios.",
+    audience:
+      "Para empresas y equipos de investigación con un desafío de aplicación.",
+    action: "Conocer las líneas de innovación",
+    slugs: ["bioprocesos"],
+  },
+];
+export const workingSteps = [
+  [
+    "Comprender la necesidad",
+    "Cuéntanos tu actividad, el material o la aplicación de interés y qué necesitas resolver.",
+  ],
+  [
+    "Evaluar antecedentes y alternativas",
+    "Revisamos la información disponible para orientar la conversación técnica y precisar qué antecedentes adicionales se necesitan.",
+  ],
+  [
+    "Definir el siguiente paso",
+    "El alcance, las condiciones y la alternativa que merece evaluación se acuerdan según el requerimiento.",
+  ],
+] as const;
 export type Solution = {
   slug: string;
   title: string;
@@ -22,7 +67,7 @@ export const solutions: Solution[] = [
     audience: "Plantas de alimento, productores y formuladores.",
     need: "La elección de un ingrediente comienza por su composición, su origen y su compatibilidad con la dieta.",
     input:
-      "Materias primas e ingredientes para alimentación animal, sujetos a evaluación técnica.",
+      "Aplicación, especie, etapa productiva y materias primas disponibles. Si tienes análisis o antecedentes de la dieta, puedes incorporarlos a la consulta.",
     process:
       "Revisión de antecedentes, definición del objetivo nutricional y evaluación de alternativas junto al cliente.",
     result:
@@ -76,7 +121,7 @@ export const solutions: Solution[] = [
     audience: "Equipos técnicos, formuladores y empresas de nutrición animal.",
     need: "Una materia prima disponible y un objetivo productivo necesitan encontrarse en una formulación viable.",
     input:
-      "Especie, etapa productiva, composición conocida y restricciones del requerimiento.",
+      "Especie, etapa productiva, objetivo nutricional, materias primas y análisis disponibles. Indica también las restricciones que deba considerar la formulación.",
     process:
       "Revisión técnica del desafío, intercambio de antecedentes y definición del alcance de trabajo.",
     result:
@@ -104,7 +149,7 @@ export const solutions: Solution[] = [
       "Industrias generadoras de subproductos y empresas agroindustriales.",
     need: "Una corriente secundaria puede conservar propiedades útiles. Identificarlas es el primer paso para evaluar una nueva aplicación.",
     input:
-      "Origen del subproducto, composición, volumen, condición y ubicación.",
+      "Origen del subproducto, ubicación, volumen, frecuencia, condición y composición conocida. No es necesario tener todos los análisis para iniciar una consulta.",
     process:
       "Caracterización inicial, evaluación de alternativas de recuperación y revisión de viabilidad productiva.",
     result:
@@ -179,9 +224,9 @@ export const processSteps = [
 ];
 export const corporatePages = {
   empresa: {
-    title: "Industria con una mirada de transformación.",
+    title: "GAZAL: nutrición, valorización y conocimiento aplicado.",
     description:
-      "Somos Gazalez e Hija SpA. Desde Coronel, en la Región del Biobío, conectamos la valorización industrial con la nutrición animal y el conocimiento aplicado.",
+      "Desde Coronel, en la Región del Biobío, trabajamos con plantas de alimento, integraciones avícolas e industrias generadoras de subproductos. GAZAL conecta recuperación, procesamiento y formulación técnica.",
     sections: [
       [
         "Una empresa, capacidades conectadas",
@@ -211,8 +256,8 @@ export const corporatePages = {
         "La composición, el origen y las condiciones de cada requerimiento ayudan a evaluar su aplicación. Solicita los antecedentes técnicos pertinentes para tu operación.",
       ],
       [
-        "Documentación vinculada a la solución",
-        "Las fichas y los antecedentes aplicables deben corresponder al material y al uso propuesto. Nuestro equipo puede orientar la solicitud de información específica.",
+        "Documentación y certificaciones",
+        "Consulta al equipo por las fichas y análisis aplicables al material y al uso propuesto. Un análisis, una ficha técnica y una certificación son documentos distintos. Esta página no acredita certificaciones ni sustituye la documentación de una solución concreta.",
       ],
     ],
   },
@@ -222,16 +267,16 @@ export const corporatePages = {
       "La circularidad se concreta cuando un material recuperado encuentra una nueva aplicación productiva.",
     sections: [
       [
-        "Empezar por el material",
+        "Práctica: evaluar oportunidades de recuperación",
         "Conocer qué se genera, dónde y en qué condiciones permite identificar oportunidades de recuperación. No todas las corrientes tienen el mismo destino.",
       ],
       [
-        "Evaluar la nueva aplicación",
+        "Objetivo: encontrar una nueva aplicación",
         "La posibilidad de reincorporar un recurso depende de sus propiedades, del proceso y de los requisitos de la cadena que lo recibe.",
       ],
       [
-        "Medir desde una base real",
-        "Una evaluación de impacto necesita conocer cantidades, condiciones de proceso y destino. Los objetivos y criterios de seguimiento se definen para cada proyecto.",
+        "Resultados: medir con una base real",
+        "Esta página no publica resultados cuantificados de impacto. Para medirlos se necesitan cantidades, condiciones de proceso, destino y un método de comparación. Los objetivos de valorización no equivalen por sí solos a un ahorro o una reducción demostrada.",
       ],
     ],
   },

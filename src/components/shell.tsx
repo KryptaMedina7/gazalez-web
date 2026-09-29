@@ -33,7 +33,7 @@ export function Header() {
       <Brand />
       <TopbarNavigation key={path} path={path} />
       <Link className="header-cta" href="/contacto/">
-        Hablemos <Icon name="diagonal" />
+        Contacto <Icon name="diagonal" />
       </Link>
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger
@@ -114,7 +114,7 @@ export function Footer() {
           <Link href="/contacto/?interes=colaboracion">
             Iniciar una colaboración
           </Link>
-          <Link href="/casos/">Aplicaciones industriales</Link>
+          <Link href="/casos/">Cómo trabajamos</Link>
           <Link href="/actualidad/">Actualidad</Link>
           {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
         </div>

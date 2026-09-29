@@ -46,7 +46,17 @@ for (const match of navigationSource.matchAll(/"(\/[^"#?]+)"/g)) {
   }
 }
 const home = await readFile(path.join(root, "index.html"), "utf8");
-if (!home.includes("22ce3cc8")) issues.push("Missing emitted design contract");
+if ((home.match(/<section\b/g) || []).length !== 6)
+  issues.push("Home must have six principal editorial blocks");
+for (const destination of [
+  "/soluciones/nutricion-animal/",
+  "/soluciones/valorizacion-industrial/",
+  "/innovacion/",
+])
+  if (!home.includes(`href="${destination}"`))
+    issues.push(`Missing solution path ${destination}`);
+if (home.includes("institution-logos") || home.includes("leadership-section"))
+  issues.push("Institution strip or director biographies leaked into homepage");
 for (const file of ["sitemap.xml", "robots.txt", "404.html"])
   try {
     await stat(path.join(root, file));

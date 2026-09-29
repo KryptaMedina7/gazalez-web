@@ -34,7 +34,6 @@ export function HeroExperience({
           (context) => {
             if (!context.conditions?.motion || !context.conditions.tall) return;
             const desktop = !!context.conditions.desktop;
-            const copy = section.querySelector<HTMLElement>(".forest-copy");
             section.dataset.forestMotion = "ready";
             gsap
               .timeline({
@@ -49,7 +48,6 @@ export function HeroExperience({
                   invalidateOnRefresh: true,
                   onUpdate: (self) => {
                     section.dataset.progress = self.progress.toFixed(3);
-                    if (copy) copy.inert = self.progress > 0.7;
                   },
                   onToggle: (self) => {
                     section.dataset.active = String(self.isActive);
@@ -85,23 +83,11 @@ export function HeroExperience({
                 ".forest-mid",
                 { yPercent: 16, scale: 1.22, opacity: 0, duration: 0.9 },
                 0.1,
-              )
-              .to(
-                ".forest-copy",
-                { y: desktop ? -45 : -24, opacity: 0, duration: 0.32 },
-                0.36,
-              )
-              .fromTo(
-                ".forest-discovery",
-                { y: 28, autoAlpha: 0 },
-                { y: 0, autoAlpha: 1, duration: 0.28 },
-                0.62,
               );
             return () => {
               delete section.dataset.forestMotion;
               delete section.dataset.active;
               delete section.dataset.progress;
-              if (copy) copy.inert = false;
             };
           },
           section,
@@ -136,7 +122,7 @@ export function HeroExperience({
     <section
       className="forest-journey"
       ref={root}
-      aria-label="De subproducto a solución"
+      aria-label="Nutrición animal y valorización industrial"
     >
       <div className="forest-sticky">
         <div className="forest-world" aria-hidden="true">
@@ -147,13 +133,6 @@ export function HeroExperience({
           {plane("fern-right", "forest-near-right")}
         </div>
         <div className="forest-copy">{children}</div>
-        <div className="forest-discovery" aria-hidden="true">
-          <p>
-            Misma materia.
-            <br />
-            <span>Nuevas posibilidades.</span>
-          </p>
-        </div>
         <div className="forest-caption">
           <span>Natural. En constante evolución.</span>
           <span>Paisaje conceptual</span>

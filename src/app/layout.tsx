@@ -7,7 +7,7 @@ import "./gazal-forest.css";
 import "./gazal-video-intro.css";
 import "./gazal-surfaces.css";
 import { Header, Footer } from "@/components/shell";
-import { site } from "@/lib/site";
+import { site, socialImage } from "@/lib/site";
 import { BrandIntro } from "@/components/ui/brand-intro";
 import { ContentMotion } from "@/components/ui/content-motion";
 import { PageMotion } from "@/components/ui/page-motion";
@@ -15,7 +15,7 @@ import { SocialLinks } from "@/components/ui/social-links";
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "GAZAL · De subproducto a solución",
+    default: "GAZAL · Nutrición animal y valorización industrial",
     template: "%s | GAZAL",
   },
   description:
@@ -25,14 +25,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_CL",
     siteName: site.name,
-    images: [
-      {
-        url: "/assets/forest/social.jpg",
-        width: 1200,
-        height: 630,
-        alt: "GAZAL, naturaleza y nuevas posibilidades. Paisaje conceptual.",
-      },
-    ],
+    images: [socialImage],
   },
   twitter: { card: "summary_large_image" },
   icons: {
@@ -78,13 +71,13 @@ export default function RootLayout({
         <noscript>
           <style>
             {
-              ".video-intro{display:none!important}html:has(.video-intro){overflow:auto;scrollbar-width:auto}"
+              ".video-intro,.enquiry,.enquiry-loading{display:none!important}html:has(.video-intro){overflow:auto;scrollbar-width:auto}"
             }
           </style>
         </noscript>
         <script
           dangerouslySetInnerHTML={{
-            __html: `history.scrollRestoration="manual";`,
+            __html: `history.scrollRestoration="manual";try{if(sessionStorage.getItem("gazal-intro-seen")==="1")document.documentElement.dataset.introSeen="true"}catch{}`,
           }}
         />
       </head>
@@ -92,13 +85,6 @@ export default function RootLayout({
         <BrandIntro />
         <PageMotion />
         <ContentMotion />
-        <div
-          hidden
-          dangerouslySetInnerHTML={{
-            __html:
-              "<!-- THESIS: Enter nature to discover industrial transformation. OWN-WORLD: supplied GAZAL serif lockup, photographic forest depth, pale green gradients and forest ink. STORY: step between foliage, understand solutions, explore scientific evidence, contact the team. FIRST VIEWPORT: full-width forest with independent near fern wings, left semantic headline and primary solution action. FORM: user-pinned forest revision 2026-09-29, existing catalogue retained. FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md -->",
-          }}
-        />
         <a href="#contenido" className="skip-link">
           Saltar al contenido
         </a>

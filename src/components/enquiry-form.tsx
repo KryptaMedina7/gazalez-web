@@ -18,7 +18,7 @@ export function EnquiryForm() {
     selection ?? (normalizeIntent(search.get("interes")) as Intent);
   const [summary, setSummary] = useState("");
   const [error, setError] = useState("");
-  const [attachment, setAttachment] = useState("");
+  const [copyStatus, setCopyStatus] = useState("");
   const [ready, setReady] = useState(false);
   const result = useRef<HTMLDivElement>(null);
   const form = useRef<HTMLFormElement>(null);
@@ -43,12 +43,8 @@ export function EnquiryForm() {
       return;
     }
     setError("");
-    setSummary(
-      formatEnquiry(intent, vals) +
-        (attachment
-          ? `\n\nDocumento disponible: ${attachment}\nRecuerda adjuntarlo manualmente al correo.`
-          : ""),
-    );
+    setSummary(formatEnquiry(intent, vals));
+    setCopyStatus("");
     setReady(true);
   }
 
@@ -112,41 +108,49 @@ export function EnquiryForm() {
               maxLength={40}
             />
           </div>
-          {intent === "subproducto" && (
-            <fieldset className="technical-fields">
-              <legend>Sobre tu subproducto</legend>
-              <div className="form-grid">
-                <Field label="Sector industrial" maxLength={100} />
-                <Field label="Tipo de subproducto" required maxLength={120} />
-                <Field label="Origen del material" maxLength={160} />
-                <Field
-                  label="Volumen y frecuencia"
-                  placeholder="Ej. kg/mes o t/mes"
-                  maxLength={100}
-                />
-                <Field label="Ubicación" maxLength={140} />
-                <Field label="Composición conocida" maxLength={200} />
-              </div>
-            </fieldset>
-          )}
-          {intent === "formulacion" && (
-            <fieldset className="technical-fields">
-              <legend>Sobre la solución nutricional</legend>
-              <div className="form-grid">
-                <Field label="Especie" required maxLength={100} />
-                <Field label="Etapa productiva" maxLength={100} />
-                <Field label="Materias primas disponibles" maxLength={200} />
-                <Field label="Volumen aproximado" maxLength={100} />
-                <Field label="Ubicación" maxLength={140} />
-                <Field label="Objetivo nutricional" maxLength={200} />
-              </div>
-            </fieldset>
-          )}
-          {intent === "colaboracion" && (
-            <div className="form-grid">
-              <Field label="Área de investigación" maxLength={160} />
-              <Field label="Etapa del proyecto" maxLength={100} />
-            </div>
+          {intent !== "general" && (
+            <details className="optional-antecedents">
+              <summary>Agregar antecedentes técnicos (opcional)</summary>
+              {intent === "subproducto" && (
+                <fieldset className="technical-fields">
+                  <legend>Sobre tu subproducto</legend>
+                  <div className="form-grid">
+                    <Field label="Sector industrial" maxLength={100} />
+                    <Field label="Tipo de subproducto" maxLength={120} />
+                    <Field label="Origen del material" maxLength={160} />
+                    <Field
+                      label="Volumen y frecuencia"
+                      placeholder="Ej. kg/mes o t/mes"
+                      maxLength={100}
+                    />
+                    <Field label="Ubicación" maxLength={140} />
+                    <Field label="Composición conocida" maxLength={200} />
+                  </div>
+                </fieldset>
+              )}
+              {intent === "formulacion" && (
+                <fieldset className="technical-fields">
+                  <legend>Sobre la solución nutricional</legend>
+                  <div className="form-grid">
+                    <Field label="Especie" maxLength={100} />
+                    <Field label="Etapa productiva" maxLength={100} />
+                    <Field
+                      label="Materias primas disponibles"
+                      maxLength={200}
+                    />
+                    <Field label="Volumen aproximado" maxLength={100} />
+                    <Field label="Ubicación" maxLength={140} />
+                    <Field label="Objetivo nutricional" maxLength={200} />
+                  </div>
+                </fieldset>
+              )}
+              {intent === "colaboracion" && (
+                <div className="form-grid">
+                  <Field label="Área de investigación" maxLength={160} />
+                  <Field label="Etapa del proyecto" maxLength={100} />
+                </div>
+              )}
+            </details>
           )}
           <label className="field full">
             Tu requerimiento *
@@ -158,31 +162,10 @@ export function EnquiryForm() {
               placeholder="Describe el desafío, la aplicación que buscas y los antecedentes disponibles."
             />
           </label>
-          <label className="field file-field">
-            Ficha o análisis disponible{" "}
-            <span className="form-help">
-              PDF, JPG o PNG · hasta 10 MB. El archivo permanece en tu
-              dispositivo; debes adjuntarlo al correo.
-            </span>
-            <input
-              type="file"
-              name="attachment"
-              accept=".pdf,.jpg,.jpeg,.png"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f && f.size > 10 * 1024 * 1024) {
-                  setError(
-                    "El archivo supera los 10 MB. Selecciona uno más pequeño.",
-                  );
-                  e.target.value = "";
-                  setAttachment("");
-                } else {
-                  setAttachment(f?.name || "");
-                  setError("");
-                }
-              }}
-            />
-          </label>
+          <p className="form-help">
+            Si tienes fichas o análisis, adjúntalos después en tu aplicación de
+            correo. Aquí no se cargan archivos.
+          </p>
           <label className="consent">
             <input type="checkbox" name="consent" required />
             <span>
@@ -197,7 +180,7 @@ export function EnquiryForm() {
             </p>
           )}
           <button className="button" type="submit">
-            Revisar mi consulta <Icon name="arrow" />
+            Preparar correo <Icon name="arrow" />
           </button>
         </form>
       }
@@ -212,13 +195,25 @@ export function EnquiryForm() {
             correo para enviarlo a <strong>{site.email}</strong>.
           </p>
           <pre>{summary}</pre>
-          {attachment && (
-            <p className="form-help">
-              Recuerda adjuntar <strong>{attachment}</strong> manualmente al
-              correo.
-            </p>
-          )}
           <div className="result-actions">
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(summary);
+                  setCopyStatus(
+                    "Consulta copiada. Pégala en tu correo para enviarla.",
+                  );
+                } catch {
+                  setCopyStatus(
+                    "No se pudo copiar. Selecciona el resumen o descárgalo para enviarlo desde tu correo.",
+                  );
+                }
+              }}
+            >
+              Copiar consulta
+            </button>
             <a
               className="button"
               href={buildMailto(site.email, intent, summary)}
@@ -232,7 +227,17 @@ export function EnquiryForm() {
             >
               Descargar resumen <Icon name="download" />
             </a>
-            <button className="text-link" onClick={() => setReady(false)}>
+            <button
+              className="text-link"
+              onClick={() => {
+                setReady(false);
+                requestAnimationFrame(() =>
+                  form.current
+                    ?.querySelector<HTMLInputElement>("input")
+                    ?.focus(),
+                );
+              }}
+            >
               Editar mi consulta
             </button>
             <button
@@ -240,7 +245,7 @@ export function EnquiryForm() {
               onClick={() => {
                 form.current?.reset();
                 setIntent("general");
-                setAttachment("");
+                setCopyStatus("");
                 setSummary("");
                 setError("");
                 setReady(false);
@@ -249,6 +254,7 @@ export function EnquiryForm() {
               Nueva consulta
             </button>
           </div>
+          <p role="status">{copyStatus}</p>
           <p className="form-help">
             Si no se abre una aplicación de correo, descarga el resumen y
             envíalo a {site.email}.

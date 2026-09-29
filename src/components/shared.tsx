@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Icon } from "./icon";
+import { ConceptImage, type VisualKey } from "./concept-image";
 export function ButtonLink({
   href,
   children,
@@ -24,13 +25,13 @@ export function ContactBand() {
     <section className="contact-band">
       <div>
         <h2>
-          Tu próximo recurso
+          Conversemos sobre
           <br />
-          puede estar en tu proceso.
+          tu necesidad.
         </h2>
         <p>Cuéntanos qué material tienes o qué solución necesitas.</p>
       </div>
-      <ButtonLink href="/contacto/">Hablemos de tu desafío</ButtonLink>
+      <ButtonLink href="/contacto/">Consultar al equipo técnico</ButtonLink>
     </section>
   );
 }
@@ -59,11 +60,24 @@ export function PageIntro({
   title,
   description,
   children,
+  visual,
 }: {
   title: string;
   description: string;
   children?: React.ReactNode;
+  visual?: VisualKey;
 }) {
+  if (visual)
+    return (
+      <div className="page-intro page-intro--visual">
+        <div className="page-intro-copy">
+          <h1>{title}</h1>
+          <p>{description}</p>
+          {children}
+        </div>
+        <ConceptImage visual={visual} />
+      </div>
+    );
   return (
     <div className="page-intro">
       <h1>{title}</h1>

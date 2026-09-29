@@ -13,6 +13,11 @@ export function BrandIntro() {
   const dismiss = useCallback((immediate = false) => {
     if (finishing.current) return;
     finishing.current = true;
+    try {
+      sessionStorage.setItem("gazal-intro-seen", "1");
+    } catch {
+      /* Storage may be unavailable. */
+    }
     video.current?.pause();
     if (immediate) setVisible(false);
     else {
@@ -27,7 +32,13 @@ export function BrandIntro() {
     const root = overlay.current;
     if (!media || !root) return;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-    if (reduced.matches) {
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem("gazal-intro-seen") === "1";
+    } catch {
+      /* Still allow access. */
+    }
+    if (reduced.matches || seen) {
       const frame = requestAnimationFrame(() => dismiss(true));
       return () => cancelAnimationFrame(frame);
     }
@@ -57,7 +68,7 @@ export function BrandIntro() {
       if (document.hidden || media.currentTime !== lastTime) {
         lastTime = media.currentTime;
         lastProgress = performance.now();
-      } else if (performance.now() - lastProgress > 8000) dismiss(true);
+      } else if (performance.now() - lastProgress > 4000) dismiss(true);
     }, 1000);
     const keyboard = (event: KeyboardEvent) => {
       if (event.key === "Escape") dismiss(true);
@@ -123,7 +134,7 @@ export function BrandIntro() {
         height={1080}
         muted
         playsInline
-        preload="auto"
+        preload="none"
         aria-hidden="true"
         disablePictureInPicture
         onEnded={() => dismiss()}

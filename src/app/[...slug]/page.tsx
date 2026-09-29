@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { solutions, corporatePages, allRoutes } from "@/lib/content";
-import { site, sourceUdec, sourceNews } from "@/lib/site";
+import {
+  solutions,
+  corporatePages,
+  allRoutes,
+  solutionPaths,
+  workingSteps,
+} from "@/lib/content";
+import { site, sourceUdec, sourceNews, socialImage } from "@/lib/site";
 import {
   Breadcrumb,
   PageIntro,
@@ -13,16 +18,36 @@ import {
 } from "@/components/shared";
 import { Icon } from "@/components/icon";
 import { EnquiryForm } from "@/components/enquiry-form";
-import { Process } from "@/components/process";
 import { LeadershipVoices } from "@/components/leadership-voices";
 import { CompanyFaq } from "@/components/company-faq";
+import type { VisualKey } from "@/components/concept-image";
+const descriptions: Record<string, string> = {
+  soluciones:
+    "Tres recorridos: nutrición animal, valorización industrial e innovación y biotecnología. Consulta el ámbito que corresponde a tu operación.",
+  innovacion:
+    "Bioprocesos, transferencia universitaria y colaboración técnica: conoce las líneas de desarrollo y los vínculos documentados de GAZAL.",
+  "innovacion/hidrobac":
+    "Descripción, origen UdeC, licencia, estado y fuentes de HIDROBAC. Presentación informativa, sin disponibilidad comercial confirmada.",
+  casos:
+    "Guía para preparar una conversación técnica sobre nutrición o valorización. Antecedentes útiles y siguiente paso.",
+  actualidad:
+    "Publicaciones fechadas y fuentes sobre investigación y transferencia tecnológica de la Universidad de Concepción.",
+  contacto:
+    "Prepara una consulta para contacto@empresagazalez.cl. Revisa el resumen y completa el envío desde tu aplicación de correo.",
+  privacidad:
+    "Cómo se prepara una consulta en tu navegador, qué información se conserva y cómo completar el envío desde tu correo.",
+  terminos:
+    "Alcance informativo de los contenidos, consultas técnicas e imágenes de GAZAL. Identidad societaria y condiciones de uso.",
+  "preguntas-frecuentes":
+    "Clientes industriales, nutrición avícola, formulación, cobertura y consulta técnica: respuestas sobre GAZAL.",
+};
 const titles: Record<string, string> = {
   soluciones: "Soluciones industriales",
   innovacion: "Innovación y transferencia tecnológica",
   "innovacion/hidrobac": "HIDROBAC: transferencia tecnológica UdeC",
-  casos: "Aplicaciones industriales",
+  casos: "Cómo trabajamos",
   actualidad: "Actualidad",
-  contacto: "Hablemos de tu desafío",
+  contacto: "Consulta técnica",
   privacidad: "Privacidad",
   terminos: "Términos de uso",
   "preguntas-frecuentes": "Preguntas frecuentes",
@@ -42,14 +67,25 @@ export async function generateMetadata({
   const key = slug.join("/");
   const s = solutions.find((s) => key === `soluciones/${s.slug}`);
   const c = corporatePages[key as keyof typeof corporatePages];
+  const title = s?.title || c?.title || titles[key] || "GAZAL";
+  const description =
+    s?.description ||
+    c?.description ||
+    descriptions[key] ||
+    "GAZAL: nutrición animal y valorización industrial desde Coronel, Biobío.";
   return {
-    title: s?.title || c?.title || titles[key] || "GAZAL",
-    description:
-      s?.description ||
-      c?.description ||
-      `${titles[key] || "GAZAL"}. Valorización industrial, nutrición animal y conocimiento aplicado desde Coronel, Biobío.`,
+    title,
+    description,
     alternates: { canonical: `/${key}/` },
-    openGraph: { url: `/${key}/` },
+    openGraph: {
+      url: `/${key}/`,
+      title,
+      description,
+      siteName: site.name,
+      type: "website",
+      locale: "es_CL",
+      images: [socialImage],
+    },
   };
 }
 export default async function ContentPage({
@@ -61,6 +97,25 @@ export default async function ContentPage({
   const key = slug.join("/");
   const solution = solutions.find((s) => key === `soluciones/${s.slug}`);
   const corporate = corporatePages[key as keyof typeof corporatePages];
+  const pageVisual: VisualKey | undefined =
+    key.startsWith("innovacion") || key === "soluciones/bioprocesos"
+      ? "biotech"
+      : [
+            "soluciones/nutricion-animal",
+            "soluciones/nucleos-proteicos",
+            "soluciones/formulacion-tecnica",
+          ].includes(key)
+        ? "nutrition"
+        : [
+              "soluciones/valorizacion-industrial",
+              "sostenibilidad",
+              "casos",
+              "calidad-trazabilidad",
+            ].includes(key)
+          ? "valorization"
+          : ["empresa", "soluciones"].includes(key)
+            ? "nature"
+            : undefined;
   const label =
     solution?.title ||
     (
@@ -80,15 +135,31 @@ export default async function ContentPage({
           href: `/${slug[0]}/`,
         }
       : null;
-  const crumbs = [...(parent ? [parent] : []), { label }];
+  const nutritionParent = [
+    "soluciones/nucleos-proteicos",
+    "soluciones/formulacion-tecnica",
+  ].includes(key)
+    ? [{ label: "Nutrición animal", href: "/soluciones/nutricion-animal/" }]
+    : [];
+  const crumbs = [...(parent ? [parent] : []), ...nutritionParent, { label }];
   return (
     <>
       <div className="page-wrap">
         <Breadcrumb items={crumbs} />
-        {key === "preguntas-frecuentes" && <><PageIntro title="Preguntas frecuentes" description="Lo que necesitas saber antes de iniciar una conversación con nuestro equipo." /><CompanyFaq /></>}
+        {key === "preguntas-frecuentes" && (
+          <>
+            <PageIntro
+              visual={pageVisual}
+              title="Preguntas frecuentes"
+              description="Lo que necesitas saber antes de iniciar una conversación con nuestro equipo."
+            />
+            <CompanyFaq />
+          </>
+        )}
         {solution ? (
           <>
             <PageIntro
+              visual={pageVisual}
               title={solution.title}
               description={solution.description}
             >
@@ -102,16 +173,12 @@ export default async function ContentPage({
             </div>
             <section className="solution-detail">
               <div className="detail-lead">
-                <h2>
-                  La aplicación define
-                  <br />
-                  el camino.
-                </h2>
+                <h2>Qué puedes consultar</h2>
                 <p>{solution.need}</p>
               </div>
               <dl className="technical-list">
                 {[
-                  ["Punto de partida", solution.input],
+                  ["Qué antecedentes aportar", solution.input],
                   ["Cómo lo abordamos", solution.process],
                   ["Qué se define", solution.result],
                 ].map(([t, b], i) => (
@@ -125,6 +192,12 @@ export default async function ContentPage({
                 ))}
               </dl>
             </section>
+            <p className="evaluation-note">
+              La primera consulta no exige una ficha completa. La viabilidad,
+              las especificaciones, la disponibilidad y las condiciones
+              requieren evaluación del equipo; no se confirman automáticamente
+              al escribirnos.
+            </p>
             <section className="faq-section">
               <h2>Antes de comenzar.</h2>
               <div>
@@ -140,10 +213,18 @@ export default async function ContentPage({
               </div>
             </section>
             <div className="related">
-              <h2>Capacidades relacionadas</h2>
+              <h2>Información relacionada</h2>
+              <Link href="/soluciones/">
+                Ver los tres caminos de soluciones <Icon name="arrow" />
+              </Link>
               {solutions
-                .filter((s) => s.slug !== solution.slug)
-                .slice(0, 2)
+                .filter(
+                  (s) =>
+                    s.slug !== solution.slug &&
+                    solutionPaths
+                      .find((path) => path.slugs.includes(solution.slug))
+                      ?.slugs.includes(s.slug),
+                )
                 .map((s) => (
                   <Link href={`/soluciones/${s.slug}/`} key={s.slug}>
                     {s.title}
@@ -156,30 +237,52 @@ export default async function ContentPage({
         {key === "soluciones" && (
           <>
             <PageIntro
-              title="Un recurso. Nuevas posibilidades."
-              description="Conectamos capacidades para abordar desafíos de valorización, nutrición y desarrollo técnico. El punto de partida es entender tu operación."
+              visual={pageVisual}
+              title="Soluciones según tu necesidad."
+              description="Nutrición y formulación, evaluación de subproductos o colaboración tecnológica. Elige el ámbito de tu consulta; las condiciones se revisan para cada caso."
             />
-            <div className="solutions-directory">
-              {solutions.map((s) => (
-                <article key={s.slug}>
+            <div className="path-directory">
+              {solutionPaths.map((path) => (
+                <section key={path.title}>
                   <div>
                     <h2>
-                      <Link href={`/soluciones/${s.slug}/`}>
-                        {s.title}
-                        <Icon name="diagonal" />
-                      </Link>
+                      <Link href={path.href}>{path.title}</Link>
                     </h2>
-                    <p>{s.description}</p>
-                    <span className="audience-text">{s.audience}</span>
+                    <p>{path.description}</p>
+                    <p>{path.audience}</p>
                   </div>
-                  <Link
-                    className="text-link"
-                    href={`/contacto/?interes=${s.intent}`}
-                  >
-                    {s.cta}
-                    <Icon name="arrow" />
-                  </Link>
-                </article>
+                  <div>
+                    {solutions
+                      .filter((s) => path.slugs.includes(s.slug))
+                      .map((s) => (
+                        <Link
+                          className="directory-link"
+                          href={`/soluciones/${s.slug}/`}
+                          key={s.slug}
+                        >
+                          <span>
+                            <strong>{s.title}</strong>
+                            <span>{s.short}</span>
+                          </span>
+                          <Icon name="diagonal" />
+                        </Link>
+                      ))}
+                    {path.href === "/innovacion/" && (
+                      <>
+                        <Link
+                          className="directory-link"
+                          href="/innovacion/hidrobac/"
+                        >
+                          HIDROBAC: tecnología licenciada{" "}
+                          <Icon name="diagonal" />
+                        </Link>
+                        <Link className="text-link" href="/innovacion/">
+                          Panorama de innovación <Icon name="arrow" />
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </section>
               ))}
             </div>
           </>
@@ -187,22 +290,10 @@ export default async function ContentPage({
         {corporate && (
           <>
             <PageIntro
+              visual={pageVisual}
               title={corporate.title}
               description={corporate.description}
             />
-            {key === "empresa" && (
-              <figure className="corporate-material">
-                <Image
-                  src="/assets/materia.webp"
-                  alt="Representación conceptual del paso de materia granular a una forma continua"
-                  width={1400}
-                  height={933}
-                />
-                <figcaption>
-                  Transformación de la materia · Visualización conceptual
-                </figcaption>
-              </figure>
-            )}
             {key === "calidad-trazabilidad" && (
               <ol className="horizontal-trace">
                 {[
@@ -239,9 +330,7 @@ export default async function ContentPage({
                 </a>
               </div>
             )}
-            {key === "empresa" && (
-              <LeadershipVoices />
-            )}
+            {key === "empresa" && <LeadershipVoices />}
             {key === "empresa" && (
               <div className="legal-identity">
                 <span>Identidad societaria</span>
@@ -253,19 +342,77 @@ export default async function ContentPage({
             )}
           </>
         )}
-        {(key === "innovacion" || key === "innovacion/hidrobac") && (
+        {key === "innovacion" && (
           <>
             <PageIntro
-              title={
-                key === "innovacion"
-                  ? "La ciencia encuentra una nueva aplicación."
-                  : "HIDROBAC. Ciencia frente al estrés hídrico."
-              }
-              description={
-                key === "innovacion"
-                  ? "Acercamos investigación y desafíos productivos mediante transferencia tecnológica. Una relación que abre nuevas posibilidades para la industria y la agricultura."
-                  : "Tecnología desarrollada en la Universidad de Concepción, basada en hidrogeles y bacterias benéficas, orientada a mitigar el estrés hídrico en plantas."
-              }
+              visual={pageVisual}
+              title="Innovación y biotecnología."
+              description="Líneas de desarrollo y colaboración que conectan biomasa, conocimiento universitario y necesidades productivas. Cada iniciativa tiene un alcance y un estado propios."
+            />
+            <div className="editorial-sections">
+              <section>
+                <h2>Bioprocesos</h2>
+                <div>
+                  <p>
+                    Exploramos oportunidades de valorización de biomasa a partir
+                    de sus propiedades y de la aplicación buscada. Es una línea
+                    de desarrollo: su viabilidad y escalamiento se evalúan caso
+                    a caso.
+                  </p>
+                  <Link className="text-link" href="/soluciones/bioprocesos/">
+                    Plantear un desafío de biomasa <Icon name="arrow" />
+                  </Link>
+                </div>
+              </section>
+              <section>
+                <h2>Transferencia universitaria</h2>
+                <div>
+                  <p>
+                    HIDROBAC es la tecnología de hidrogeles y bacterias
+                    benéficas desarrollada en la UdeC y licenciada a Gazalez e
+                    Hija durante 2025. La ficha específica reúne su descripción,
+                    vínculo y límites de aplicación.
+                  </p>
+                  <Link className="text-link" href="/innovacion/hidrobac/">
+                    Consultar HIDROBAC y sus fuentes <Icon name="arrow" />
+                  </Link>
+                </div>
+              </section>
+              <section>
+                <h2>Colaboración técnica</h2>
+                <div>
+                  <p>
+                    Empresas y equipos de investigación pueden proponer un
+                    desafío en biomasa, nutrición o aplicaciones agrícolas.
+                    Indica el objetivo, la etapa del trabajo y los antecedentes
+                    disponibles para conversar sobre su alcance.
+                  </p>
+                  <ButtonLink href="/contacto/?interes=colaboracion">
+                    Consultar una colaboración
+                  </ButtonLink>
+                </div>
+              </section>
+            </div>
+            <div className="related">
+              <h2>Más información</h2>
+              <Link href="/innovacion/transferencia-tecnologica/">
+                Cómo se relacionan licencia y aplicación <Icon name="arrow" />
+              </Link>
+              <Link href="/innovacion/proyectos/">
+                Proyectos y colaboración <Icon name="arrow" />
+              </Link>
+              <Link href="/actualidad/">
+                Publicaciones de contexto <Icon name="arrow" />
+              </Link>
+            </div>
+          </>
+        )}
+        {key === "innovacion/hidrobac" && (
+          <>
+            <PageIntro
+              visual={pageVisual}
+              title="HIDROBAC. Ciencia frente al estrés hídrico."
+              description="Tecnología desarrollada en la Universidad de Concepción, basada en hidrogeles y bacterias benéficas, orientada a mitigar el estrés hídrico en plantas."
             />
             <section className="hydrobac-feature">
               <div className="hydrobac-title">
@@ -343,19 +490,13 @@ export default async function ContentPage({
                 </p>
               </section>
             </section>
+            <ButtonLink href="/contacto/?interes=colaboracion">
+              Consultar sobre HIDROBAC
+            </ButtonLink>
             <div className="related">
               <h2>Explora la innovación</h2>
-              <Link
-                href={
-                  key === "innovacion"
-                    ? "/innovacion/hidrobac/"
-                    : "/innovacion/transferencia-tecnologica/"
-                }
-              >
-                {key === "innovacion"
-                  ? "Conocer HIDROBAC"
-                  : "Transferencia tecnológica"}
-                <Icon name="diagonal" />
+              <Link href="/innovacion/transferencia-tecnologica/">
+                Transferencia tecnológica <Icon name="diagonal" />
               </Link>
               <Link href="/innovacion/proyectos/">
                 Proyectos y colaboración
@@ -367,44 +508,34 @@ export default async function ContentPage({
         {key === "casos" && (
           <>
             <PageIntro
-              title="Cada aplicación empieza con un desafío."
-              description="Conoce cómo estructuramos una conversación de valorización: desde el material de origen hasta los criterios para evaluar una nueva aplicación."
+              visual={pageVisual}
+              title="Cómo preparar una primera conversación."
+              description="Esta guía explica cómo iniciar una consulta. No es una galería de casos ni presenta resultados de clientes."
             />
             <section className="case-framework">
-              <h2>Un recorrido de trabajo</h2>
+              <h2>De la necesidad al siguiente paso</h2>
               <ol>
-                {[
-                  ["Desafío", "Qué se genera y qué necesitas resolver."],
-                  [
-                    "Evaluación",
-                    "Qué información permite conocer el material.",
-                  ],
-                  ["Solución", "Qué alternativa merece ser estudiada."],
-                  ["Implementación", "Qué alcance y condiciones se acuerdan."],
-                  [
-                    "Resultado",
-                    "Qué criterios permitirán evaluar el proyecto.",
-                  ],
-                ].map(([t, b]) => (
-                  <li key={t}>
-                    <h3>{t}</h3>
-                    <p>{b}</p>
+                {workingSteps.map(([title, body]) => (
+                  <li key={title}>
+                    <h3>{title}</h3>
+                    <p>{body}</p>
                   </li>
                 ))}
               </ol>
-              <p className="editorial-note">
-                Los casos documentados se incorporarán cuando cuenten con
-                información verificable y autorización de publicación.
+              <p>
+                Para un subproducto, describe origen, ubicación, volumen y
+                frecuencia. Para nutrición, indica especie, etapa y objetivo.
+                Comparte los análisis disponibles después, si son pertinentes;
+                no es necesario completar un expediente antes de contactarnos.
               </p>
-              <ButtonLink href="/contacto/?interes=subproducto">
-                Conversemos sobre tu caso
-              </ButtonLink>
+              <ButtonLink href="/contacto/">Preparar una consulta</ButtonLink>
             </section>
           </>
         )}
         {key === "actualidad" && (
           <>
             <PageIntro
+              visual={pageVisual}
               title="Conocimiento que avanza."
               description="Publicaciones y antecedentes públicos sobre investigación, transferencia tecnológica y la relación entre ciencia e industria."
             />
@@ -458,8 +589,9 @@ export default async function ContentPage({
         {key === "contacto" && (
           <>
             <PageIntro
-              title="Hablemos de tu desafío."
-              description="Un subproducto por evaluar. Una formulación por desarrollar. Una colaboración por comenzar. Cuéntanos qué necesitas resolver."
+              visual={pageVisual}
+              title="Consulta al equipo técnico."
+              description="Describe tu necesidad y prepara un correo para el equipo de GAZAL. El sitio no envía mensajes automáticamente: completa el envío en tu aplicación de correo."
             />
             <div className="contact-meta">
               <p>{site.location}</p>
@@ -468,14 +600,28 @@ export default async function ContentPage({
                 <Icon name="diagonal" />
               </a>
             </div>
-            <Suspense fallback={<p>Cargando formulario…</p>}>
+            <Suspense
+              fallback={
+                <p className="enquiry-loading">
+                  Cargando preparador de correo…
+                </p>
+              }
+            >
               <EnquiryForm />
             </Suspense>
+            <noscript>
+              <p>
+                Para consultar sin JavaScript, escribe directamente a{" "}
+                <a href={`mailto:${site.email}`}>{site.email}</a>. Incluye tu
+                nombre, empresa y la necesidad que quieres evaluar.
+              </p>
+            </noscript>
           </>
         )}
         {(key === "privacidad" || key === "terminos") && (
           <>
             <PageIntro
+              visual={pageVisual}
               title={
                 key === "privacidad"
                   ? "Tu información, con claridad."
@@ -495,13 +641,15 @@ export default async function ContentPage({
                     Los datos introducidos en el formulario se utilizan en el
                     navegador para preparar un resumen. El sitio no guarda ese
                     resumen en una base de datos ni lo envía automáticamente.
-                    Puedes descargarlo o abrirlo en tu aplicación de correo.
+                    Puedes copiarlo, descargarlo o abrirlo en tu aplicación de
+                    correo. No se guardan borradores con datos personales al
+                    recargar.
                   </p>
                   <h2>Documentos adjuntos</h2>
                   <p>
-                    El selector identifica el nombre de un documento. Su
-                    contenido no se carga al sitio. Para compartirlo, debes
-                    adjuntarlo manualmente al mensaje que envíes.
+                    Este sitio no selecciona, carga ni envía documentos. Para
+                    compartir una ficha o análisis, adjúntalo al mensaje en tu
+                    aplicación de correo.
                   </p>
                   <h2>Envío por correo</h2>
                   <p>
@@ -512,10 +660,12 @@ export default async function ContentPage({
                   </p>
                   <h2>Navegación</h2>
                   <p>
-                    Esta versión no incorpora herramientas de analítica ni
-                    cookies publicitarias. Los proveedores de alojamiento y
-                    correo pueden procesar los datos técnicos necesarios para
-                    prestar sus servicios.
+                    Se guarda únicamente una marca de sesión para no repetir la
+                    bienvenida, sin datos del formulario. Esta versión no
+                    incorpora herramientas de analítica ni cookies
+                    publicitarias. Los proveedores de alojamiento y correo
+                    pueden procesar los datos técnicos necesarios para prestar
+                    sus servicios.
                   </p>
                 </>
               ) : (
@@ -536,9 +686,9 @@ export default async function ContentPage({
                   <h2>Investigación y transferencia</h2>
                   <p>
                     HIDROBAC se presenta como tecnología desarrollada en la
-                    Universidad de Concepción y licenciada a GAZAL. No se
-                    ofrece como producto disponible para compra a través de este
-                    sitio.
+                    Universidad de Concepción y licenciada a Gazalez e Hija. No
+                    se ofrece como producto disponible para compra a través de
+                    este sitio.
                   </p>
                   <h2>Imágenes y propiedad</h2>
                   <p>
@@ -562,7 +712,6 @@ export default async function ContentPage({
         )}
         {!solution && !corporate && !titles[key] && notFound()}
       </div>
-      {key === "sostenibilidad" && <Process />}
       {!["contacto", "privacidad", "terminos"].includes(key) && <ContactBand />}
     </>
   );
