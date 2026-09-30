@@ -145,3 +145,25 @@ Detector Impeccable ejecutado: advertencias sobre tamaños/radios de la document
 
 Ajuste de confirmación: el muestreo móvil conserva cobertura en los tres ejes, y el presupuesto se recalcula al cruzar el breakpoint sin perder la etapa ni la vista elegida. Reproducción móvil de una pasada observada hasta etapa 4. Lockfile exclusivo de esta ampliación validado con npm ci --dry-run --ignore-scripts en un directorio separado.
 Prueba adicional de recuperación: bloqueo del script diferido de Three.js mediante CDP; el diagrama SVG permaneció visible y el selector llegó a la etapa final. Bloqueo de prueba retirado y pestaña temporal cerrada.
+
+## Exploración libre, escala y progreso — 2026-09-30
+
+Ampliación solicitada: mejorar el volumen y permitir moverlo, facilitar el recorrido, hacer visibles los puntos fuera del footer y corregir la sensación de zoom. Se revisaron Impeccable, Emil, GSAP Performance y Review Animations. La animación de HIDROBAC permanece intacta.
+
+| Before | After | Why |
+| --- | --- | --- |
+| Giro limitado a botones | Arrastre libre, flechas de teclado y restablecimiento; inclinación acotada | Explorar el volumen sin perder orientación |
+| Volumen pequeño en la formulación | Encuadre por etapa, adaptado a móvil | Reconocer materia y profundidad |
+| Máscaras ocultaban el centro del campo de puntos | Campo salvia visible en Soluciones, proceso, respaldo y aperturas interiores | Dar continuidad sin cubrir el bosque o HIDROBAC |
+| H1 interior cercano a 68 px, H2 a 53 px y header de 100 px | Máximos de 56/44 px y header de 88 px; lectura de 16 px conservada | Reducir escala y espacios sobredimensionados sin empequeñecer contenido útil |
+| Recorrido dependiente del selector superior | Anterior/Siguiente, cuatro hitos y relleno de progreso; indicador de lectura bajo el header | Mostrar posición y siguiente acción |
+
+La escala del navegador comprobada era 100%; se ajustó la jerarquía del diseño, no el zoom del navegador. En la ficha de Nutrición a 1440 px, la apertura baja de aproximadamente 485 a 416 px; en 390 px, H1 de 32 px y header de 72 px. Se redujeron reservas de altura innecesarias del detalle del proceso.
+
+Arrastrar pausa la reproducción. Mouse permite giro e inclinación; touch está preparado para giro horizontal y conserva pan-y/pinch-zoom. Las instancias solo se recalculan al transformar la materia, no al girar la vista. Se mantienen presupuestos de 180/90/60 instancias, carga diferida, render por demanda y liberación de recursos. Campos claros limitados a unas 650 partículas, sin animación autónoma y estáticos en móvil. Sin dependencias nuevas. Fuentes técnicas: https://threejs.org/docs/pages/OrthographicCamera.html y https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/touch-action.
+
+El progreso de lectura sigue el scroll nativo mediante un único RAF solicitado por evento, sin interpolación ni estado React por frame. El progreso de etapas usa una transición de 200 ms para mouse/reproducción e inmediata para teclado o movimiento reducido. Barra nativa accesible conservada, con superficie de interacción de 44 px. Toolbar reserva su altura al cargar WebGL; alternativa SVG y selección de etapas permanecen operativas con movimiento reducido.
+
+Comprobaciones: build, tipos, lint y QA correctos; 17 pruebas pasan, 3 PHP omitidas. QA: 22 páginas y 1036 referencias internas, sin incidencias. Detector Impeccable de layout: sin hallazgos. Chromium: sin overflow a 320/390/768/1440 px; giro real por mouse, botones, teclado, slider Home/End, avance/reinicio y scroll con cursor sobre el canvas comprobados. Progreso de lectura cambia con scroll y vuelve a cero al entrar en Nutrición, con scroll de ruta 0. Consola sin errores recuperados. Movimiento reducido utiliza SVG y conserva la interacción por etapas.
+
+Capturas en qa/freeview-20260930: process-mobile-final.png, process-desktop-final.png, nutrition-scale-desktop.png y nutrition-scale-mobile.png. La simulación táctil no está disponible en este navegador; quedan pendientes los gestos y rendimiento en Samsung A51, iPhone y Safari físicos. No se midieron FPS ni se declara igualdad de rendimiento entre equipos. Sin cambios empresariales ni legales; PHP/BenzaHosting y archivos de paquetes/entrega preexistentes quedan fuera de esta publicación GitHub/Vercel.

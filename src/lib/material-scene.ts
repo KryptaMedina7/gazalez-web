@@ -34,7 +34,8 @@ import {
 
 export interface MaterialScene {
   setStage(stage: number, instant?: boolean): void;
-  setView(angle: number, instant?: boolean): void;
+  setView(angle: number, instant?: boolean, tilt?: number): void;
+  getView(): { angle: number; tilt: number };
   setActive(active: boolean): void;
   dispose(): void;
 }
@@ -67,7 +68,7 @@ export function createMaterialScene(
   const scene = new Scene();
   const camera = new OrthographicCamera(-4.5, 4.5, 3.3, -3.3, 0.1, 30);
   camera.position.set(0, 5.4, 9);
-  camera.lookAt(0, 0.65, 0);
+  camera.lookAt(0, 0.8, 0);
   const root = new Group();
   scene.add(root);
   scene.add(new HemisphereLight(0xf7f8f3, 0x66836b, 2.1));
@@ -172,36 +173,40 @@ export function createMaterialScene(
   let transition: gsap.core.Tween | null = null;
   let viewTween: gsap.core.Tween | null = null;
   let stage = 0;
-  const view = { angle: 0, tilt: 0 };
+  let matterDirty = true;
+  const view = { angle: -0.38, tilt: 0 };
   const render = () => {
     frame = 0;
     if (!active || disposed || document.hidden) return;
     root.rotation.y = view.angle;
     root.rotation.x = view.tilt;
-    for (let slot = 0; slot < indices.length; slot++) {
-      const i = indices[slot];
-      const p = positions[slot];
-      const scale = 0.085 + ((i * 13) % 9) * 0.009;
-      dummy.position.set(p.x, p.y, p.z);
-      dummy.rotation.set(i * 0.7, i * 1.3 + stage * 0.14, i * 0.3);
-      dummy.scale.set(
-        scale * (i % 3 === 0 ? 1.7 : 1),
-        scale * (i % 3 === 1 ? 0.55 : 1),
-        scale,
-      );
-      dummy.updateMatrix();
-      particles.setMatrixAt(slot, dummy.matrix);
-    }
-    particles.instanceMatrix.needsUpdate = true;
-    trays.forEach(({ group, materials, pose }) => {
-      group.position.set(pose.x, pose.y, 0);
-      group.scale.set(pose.scale, 1, pose.scale);
-      group.visible = pose.opacity > 0.01;
-      materials.forEach((m) => {
-        m.opacity = pose.opacity;
-        m.depthWrite = pose.opacity > 0.95;
+    if (matterDirty) {
+      for (let slot = 0; slot < indices.length; slot++) {
+        const i = indices[slot];
+        const p = positions[slot];
+        const scale = 0.085 + ((i * 13) % 9) * 0.009;
+        dummy.position.set(p.x, p.y, p.z);
+        dummy.rotation.set(i * 0.7, i * 1.3 + stage * 0.14, i * 0.3);
+        dummy.scale.set(
+          scale * (i % 3 === 0 ? 1.7 : 1),
+          scale * (i % 3 === 1 ? 0.55 : 1),
+          scale,
+        );
+        dummy.updateMatrix();
+        particles.setMatrixAt(slot, dummy.matrix);
+      }
+      particles.instanceMatrix.needsUpdate = true;
+      trays.forEach(({ group, materials, pose }) => {
+        group.position.set(pose.x, pose.y, 0);
+        group.scale.set(pose.scale, 1, pose.scale);
+        group.visible = pose.opacity > 0.01;
+        materials.forEach((m) => {
+          m.opacity = pose.opacity;
+          m.depthWrite = pose.opacity > 0.95;
+        });
       });
-    });
+      matterDirty = false;
+    }
     renderer.render(scene, camera);
   };
   const requestRender = () => {
@@ -215,7 +220,7 @@ export function createMaterialScene(
       Math.min(devicePixelRatio || 1, compact.matches || constrained ? 1 : 1.5),
     );
     renderer.setSize(width, height, false);
-    const span = Math.max(8.5, (6.3 * width) / height);
+    const span = Math.max(7.8, (4.6 * width) / height);
     camera.left = -span / 2;
     camera.right = span / 2;
     camera.top = span / (width / height) / 2;
@@ -231,6 +236,9 @@ export function createMaterialScene(
     const trayFrom = trays.map((t) => ({ ...t.pose }));
     const trayTarget = trays.map((_, i) => trayPose(stage, i));
     const lineFrom = lineMaterial.opacity;
+    const zoomFrom = camera.zoom;
+    const zoomTarget =
+      stage === 0 ? 1.25 : stage === 2 ? (compact.matches ? 2 : 1.4) : 1;
     const progress = { value: 0 };
     const update = () => {
       const t = progress.value;
@@ -251,6 +259,9 @@ export function createMaterialScene(
       });
       lineMaterial.opacity =
         lineFrom + ((stage === 3 ? 0.8 : 0) - lineFrom) * t;
+      camera.zoom = zoomFrom + (zoomTarget - zoomFrom) * t;
+      camera.updateProjectionMatrix();
+      matterDirty = true;
       requestRender();
     };
     transition = gsap.to(progress, {
@@ -262,11 +273,18 @@ export function createMaterialScene(
       paused: !active,
     });
   };
-  const setView = (angle: number, instant = false) => {
+  const setView = (angle: number, instant = false, tilt = 0) => {
     viewTween?.kill();
+    // Pointer/keyboard input tracks immediately; only preset buttons tween.
+    if (instant) {
+      view.angle = angle;
+      view.tilt = Math.max(-0.3, Math.min(0.3, tilt));
+      requestRender();
+      return;
+    }
     viewTween = gsap.to(view, {
       angle,
-      tilt: 0,
+      tilt: Math.max(-0.3, Math.min(0.3, tilt)),
       duration: instant ? 0 : 0.45,
       ease: "power2.out",
       onUpdate: requestRender,
@@ -305,6 +323,7 @@ export function createMaterialScene(
   return {
     setStage,
     setView,
+    getView: () => ({ ...view }),
     setActive(value) {
       active = value;
       if (active) {

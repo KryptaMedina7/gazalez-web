@@ -3,6 +3,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import {
   ArrowRight,
+  ArrowLeft,
   Combine,
   Pause,
   Play,
@@ -14,6 +15,7 @@ import {
 import Link from "next/link";
 import { processSteps } from "@/lib/content";
 import { ProcessScene } from "./ui/process-scene";
+import { DotGrid } from "./ui/dot-grid";
 
 const stageIcons = [ScanLine, SlidersHorizontal, Combine, Route];
 const stageNames = ["Conocer", "Recuperar", "Formular", "Conectar"];
@@ -31,6 +33,7 @@ export function Process() {
   const [instantScene, setInstantScene] = useState(false);
   const graphic = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLDivElement>(null);
+  const progressFill = useRef<HTMLSpanElement>(null);
   const autoplay = useRef<gsap.core.Timeline | null>(null);
   const manual = useRef(false);
   const initialized = useRef(false);
@@ -99,6 +102,15 @@ export function Process() {
           0,
         );
       else gsap.set(copy.current, { opacity: 1, y: 0 });
+      timeline.to(
+        progressFill.current,
+        {
+          scaleX: step / 3,
+          duration: immediate ? 0 : 0.2,
+          ease: "power3.out",
+        },
+        0,
+      );
     };
     animate();
     reduce.addEventListener("change", animate);
@@ -133,7 +145,9 @@ export function Process() {
       className="section transformation-lab"
       id="transformacion"
       aria-labelledby="transformation-heading"
+      data-instant={instantScene}
     >
+      <DotGrid surface="light" />
       <div className="section-heading">
         <h2 id="transformation-heading">
           De subproducto
@@ -153,6 +167,7 @@ export function Process() {
               key={stage.title}
               aria-pressed={step === i}
               aria-controls="lab-detail"
+              data-complete={i < step}
               onClick={(e) => choose(i, e.detail === 0)}
             >
               <StageIcon size={21} aria-hidden="true" />
@@ -168,28 +183,67 @@ export function Process() {
             <span>{sceneLabels[step]}</span>
             <span aria-hidden="true">0{step + 1} / 04</span>
           </div>
-          <ProcessScene stage={step} instant={instantScene} />
+          <ProcessScene
+            stage={step}
+            instant={instantScene}
+            onInteract={() => {
+              manual.current = true;
+              autoplay.current?.pause();
+              setPlaying(false);
+            }}
+          />
+          <div className="lab-navigation" aria-label="Recorrer las etapas">
+            <button
+              type="button"
+              disabled={step === 0}
+              onClick={(e) => choose(step - 1, e.detail === 0)}
+            >
+              <ArrowLeft size={17} /> Anterior
+            </button>
+            <span>Etapa {step + 1} de 4</span>
+            <button
+              type="button"
+              onClick={(e) => choose(step === 3 ? 0 : step + 1, e.detail === 0)}
+            >
+              {step === 3 ? "Volver al inicio" : "Siguiente"}
+              {step === 3 ? <RotateCcw size={17} /> : <ArrowRight size={17} />}
+            </button>
+          </div>
           <div className="lab-scrubber">
             <label htmlFor="lab-progress">Recorre la transformación</label>
-            <input
-              id="lab-progress"
-              type="range"
-              min="0"
-              max="3"
-              step="1"
-              value={step}
-              aria-valuetext={processSteps[step].title}
-              onPointerDown={() => {
-                instant.current = false;
-              }}
-              onChange={(e) => choose(Number(e.target.value), instant.current)}
-              onKeyDown={() => {
-                instant.current = true;
-              }}
-            />
+            <div className="lab-range">
+              <div className="lab-range-track" aria-hidden="true">
+                <span ref={progressFill} className="lab-range-fill" />
+                {[0, 1, 2, 3].map((i) => (
+                  <i
+                    key={i}
+                    data-complete={i <= step}
+                    style={{ left: `${(i / 3) * 100}%` }}
+                  />
+                ))}
+              </div>
+              <input
+                id="lab-progress"
+                type="range"
+                min="0"
+                max="3"
+                step="1"
+                value={step}
+                aria-valuetext={processSteps[step].title}
+                onPointerDown={() => {
+                  instant.current = false;
+                }}
+                onChange={(e) =>
+                  choose(Number(e.target.value), instant.current)
+                }
+                onKeyDown={() => {
+                  instant.current = true;
+                }}
+              />
+            </div>
           </div>
           <div className="lab-playback">
-            <span>Selecciona una etapa para explorarla.</span>
+            <span>Elige una etapa o mueve el control.</span>
             <button
               type="button"
               onClick={() => {
@@ -217,15 +271,6 @@ export function Process() {
             <p className="lab-detail-note">{processSteps[step].detail}</p>
           </div>
           <div className="lab-detail-actions">
-            <button
-              type="button"
-              onClick={(e) =>
-                step === 3 ? replay() : choose(step + 1, e.detail === 0)
-              }
-            >
-              {step === 3 ? "Volver al origen" : "Siguiente etapa"}
-              {step === 3 ? <RotateCcw size={18} /> : <ArrowRight size={18} />}
-            </button>
             <Link href="/contacto/?interes=subproducto">
               Consultar sobre mi material <ArrowRight size={18} />
             </Link>

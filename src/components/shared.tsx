@@ -92,6 +92,7 @@ export function PageIntro({
     );
   return (
     <div className="page-intro">
+      <DotGrid surface="light" />
       <h1>{title}</h1>
       <div>
         <p>{description}</p>

@@ -93,6 +93,7 @@ export default function Home() {
         className="section evidence-home"
         aria-labelledby="evidence-heading"
       >
+        <DotGrid surface="light" />
         <div>
           <h2 id="evidence-heading">Operación y respaldo</h2>
           <p>

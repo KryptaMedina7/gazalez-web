@@ -12,6 +12,7 @@ import { BrandIntro } from "@/components/ui/brand-intro";
 import { ContentMotion } from "@/components/ui/content-motion";
 import { PageMotion } from "@/components/ui/page-motion";
 import { SocialLinks } from "@/components/ui/social-links";
+import { ReadingProgress } from "@/components/ui/reading-progress";
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -89,6 +90,7 @@ export default function RootLayout({
           Saltar al contenido
         </a>
         <Header />
+        <ReadingProgress />
         <main id="contenido">{children}</main>
         <Footer />
         <SocialLinks
