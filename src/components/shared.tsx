@@ -21,7 +21,11 @@ export function ButtonLink({
     </Link>
   );
 }
-export function ContactBand({ intent, title, description }: {
+export function ContactBand({
+  intent,
+  title,
+  description,
+}: {
   intent?: string;
   title?: string;
   description?: string;
@@ -31,7 +35,10 @@ export function ContactBand({ intent, title, description }: {
       <DotGrid />
       <div>
         <h2>{title || "Conversemos sobre tu necesidad."}</h2>
-        <p>{description || "Cuéntanos qué material tienes o qué solución necesitas."}</p>
+        <p>
+          {description ||
+            "Cuéntanos qué material tienes o qué solución necesitas."}
+        </p>
       </div>
       <ButtonLink href={intent ? `/contacto/?interes=${intent}` : "/contacto/"}>
         Preparar mi consulta
@@ -74,6 +81,7 @@ export function PageIntro({
   if (visual)
     return (
       <div className="page-intro page-intro--visual">
+        <DotGrid surface="light" />
         <div className="page-intro-copy">
           <h1>{title}</h1>
           <p>{description}</p>

@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 
 /** Kexsio-inspired dot field: scoped input, capped raster, idle/offscreen suspension. */
-export function DotGrid() {
+export function DotGrid({ surface = "dark" }: { surface?: "dark" | "light" }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const element = canvas.current;
@@ -39,9 +39,18 @@ export function DotGrid() {
         dot.dy += (targetY - dot.dy) * 0.18;
         if (Math.abs(targetX - dot.dx) + Math.abs(targetY - dot.dy) > 0.035)
           moving = true;
-        ctx.fillStyle = `rgba(174,197,160,${0.2 + strength * 0.2})`;
+        ctx.fillStyle =
+          surface === "light"
+            ? `rgba(66,99,75,${0.32 + strength * 0.2})`
+            : `rgba(174,197,160,${0.2 + strength * 0.2})`;
         ctx.beginPath();
-        ctx.arc(dot.x + dot.dx, dot.y + dot.dy, 1.25, 0, Math.PI * 2);
+        ctx.arc(
+          dot.x + dot.dx,
+          dot.y + dot.dy,
+          surface === "light" ? 1.5 : 1.25,
+          0,
+          Math.PI * 2,
+        );
         ctx.fill();
       }
       if (moving && motion.matches) frame = requestAnimationFrame(draw);
@@ -102,6 +111,12 @@ export function DotGrid() {
       document.removeEventListener("visibilitychange", visibility);
       motion.removeEventListener("change", leave);
     };
-  }, []);
-  return <canvas ref={canvas} className="gazal-dot-grid" aria-hidden="true" />;
+  }, [surface]);
+  return (
+    <canvas
+      ref={canvas}
+      className={`gazal-dot-grid gazal-dot-grid--${surface}`}
+      aria-hidden="true"
+    />
+  );
 }

@@ -505,16 +505,21 @@ html[data-intro-seen="true"] .video-intro {
 }
 .curtain-body { display: flex; flex-direction: column; align-items: flex-start; }
 .curtain-body > .text-link { margin-top: 8px; min-height: 48px; }
-.curtain-media { display: grid; grid-template-rows: 1fr; }
+.curtain-content { position: relative; display: grid; }
+.curtain-summary { align-self: center; }
+.curtain-media { display: block; }
 .curtain-media-inner { min-height: 0; overflow: hidden; }
-.need-paths .concept-image { margin: 24px 0 0; }
+.need-paths .concept-image { margin: 0; }
 .need-paths .concept-image-frame { height: auto; aspect-ratio: 3 / 2; background: transparent; }
 .need-paths .concept-image img { object-fit: contain; transform: none; opacity: 1; }
 .need-paths .concept-image figcaption { padding-top: 8px; }
 @media (min-width: 761px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .curtain-media { grid-template-rows: 0fr; transition: grid-template-rows 360ms var(--ease-out); }
+  .curtain-content { aspect-ratio: 3 / 2; margin-bottom: 16px; }
+  .curtain-summary, .curtain-media { grid-area: 1 / 1; }
+  .curtain-summary { opacity: 1; transition: opacity 160ms ease-out; }
+  .curtain-media { align-self: center; pointer-events: none; }
   .curtain-media .concept-image { clip-path: inset(0 50%); opacity: 0; transition: clip-path 400ms var(--ease-out), opacity 180ms ease-out; }
-  .card-curtain-reveal:is(:hover,:focus-within) .curtain-media { grid-template-rows: 1fr; }
+  .card-curtain-reveal:is(:hover,:focus-within) .curtain-summary { opacity: 0; }
   .card-curtain-reveal:is(:hover,:focus-within) .concept-image { clip-path: inset(0); opacity: 1; }
 }
 .related { gap: 18px; }
@@ -587,6 +592,7 @@ html[data-intro-seen="true"] .video-intro {
   .button:hover svg, .text-link:hover svg { transform: translateX(3px); }
 }
 .card-curtain-reveal:focus-within .curtain-media, .card-curtain-reveal:focus-within .concept-image { transition: none; }
+.card-curtain-reveal:focus-within .curtain-summary { transition: none; }
 .enquiry-result { animation: enquiry-appear var(--motion-state) var(--ease-out) both; }
 @keyframes enquiry-appear { from { opacity: .6; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 1000px) {
@@ -611,4 +617,34 @@ html[data-intro-seen="true"] .video-intro {
   .lab-playback button { display: none; }
   .enquiry-result { animation: none; }
   .button:hover svg, .text-link:hover svg, .button:active { transform: none; }
+}
+
+/* Small fields bridge the editorial surfaces; the forest and science stay clear. */
+.solutions-home, .page-intro--visual { position: relative; isolation: isolate; }
+.gazal-dot-grid--light {
+  mask-image: linear-gradient(90deg, #000, #0008 10%, transparent 22%, transparent 76%, #0008 90%, #000), linear-gradient(transparent, #000 50px, #000 calc(100% - 50px), transparent);
+  mask-composite: intersect;
+}
+.page-intro--visual .gazal-dot-grid--light {
+  mask-image: linear-gradient(90deg, transparent 66%, #000 100%);
+}
+
+/* One material sample, four meaningful arrangements, one bounded WebGL scene. */
+.material-viewport { position: relative; height: clamp(300px, 28vw, 380px); isolation: isolate; margin-block: 12px; }
+.material-canvas, .material-fallback { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: pan-y; }
+.material-rotate { position: absolute; right: 0; bottom: 0; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 12px; border: 1px solid #9eb89a; border-radius: 4px; background: var(--gazal-primary); color: var(--forest); font-size: 12px; }
+.material-rotate:hover { background: var(--canvas); }
+.material-rotate:active { transform: translateY(1px); }
+.material-labels { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; margin-block: 18px 20px; }
+.material-labels span { display: flex; gap: 7px; align-items: center; justify-content: center; font-size: 12px; color: var(--forest); }
+.material-labels i { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+@media (max-width: 760px) {
+  .curtain-content { gap: 18px; }
+  .material-viewport { height: 300px; }
+  .material-labels span { font-size: 12px; gap: 4px; flex-direction: column; }
+  .material-rotate { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .curtain-summary, .material-rotate { transition: none; }
+  .material-rotate:active { transform: none; }
 }

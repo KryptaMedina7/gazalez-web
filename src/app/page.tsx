@@ -47,6 +47,7 @@ export default function Home() {
         className="section solutions-home"
         aria-labelledby="solutions-heading"
       >
+        <DotGrid surface="light" />
         <div className="section-heading">
           <h2 id="solutions-heading">¿Qué necesitas resolver?</h2>
           <p>
@@ -56,21 +57,28 @@ export default function Home() {
         </div>
         <div className="need-paths">
           {solutionPaths.map((path, index) => (
-            <CardCurtainReveal key={path.title} media={<ConceptImage
-                visual={
-                  (["nutrition", "valorization", "biotech"] as VisualKey[])[
-                    index
-                  ]
-                }
-                compact
-              />}>
-              <h3>
-                <Link href={path.href}>
-                  {path.title}
-                  <Icon name="diagonal" />
-                </Link>
-              </h3>
-              <p>{path.description}</p>
+            <CardCurtainReveal
+              key={path.title}
+              title={
+                <h3>
+                  <Link href={path.href}>
+                    {path.title}
+                    <Icon name="diagonal" />
+                  </Link>
+                </h3>
+              }
+              description={<p>{path.description}</p>}
+              media={
+                <ConceptImage
+                  visual={
+                    (["nutrition", "valorization", "biotech"] as VisualKey[])[
+                      index
+                    ]
+                  }
+                  compact
+                />
+              }
+            >
               <p className="path-audience">{path.audience}</p>
               <Link className="text-link" href={path.href}>
                 {path.action}
