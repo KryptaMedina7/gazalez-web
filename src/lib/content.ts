@@ -200,25 +200,25 @@ export const processSteps = [
   {
     title: "Conocer la materia",
     label: "Subproducto · Caracterización",
-    body: "Diagnóstico proximal, perfil de aminoácidos, digestibilidad y microbiología.",
+    body: "Revisamos origen, composición y antecedentes disponibles para entender las propiedades del material y su posible destino.",
     detail: "Punto de partida: los antecedentes de tu proceso.",
   },
   {
     title: "Recuperar su valor",
     label: "Recuperación · Procesamiento",
-    body: "Estabilización, secado controlado, reducción y molienda especializada.",
+    body: "Evaluamos alternativas de recuperación y procesamiento según el estado del material y las condiciones de la operación.",
     detail: "La ruta depende de las características del material.",
   },
   {
     title: "Dar una nueva forma",
     label: "Formulación · Control",
-    body: "Mezclas de alta precisión nutricional adaptadas al requerimiento de la especie de destino.",
+    body: "Relacionamos las propiedades de la materia con un objetivo técnico. En nutrición animal, la especie, la etapa y la dieta orientan la evaluación.",
     detail: "Un objetivo definido guía la formulación.",
   },
   {
     title: "Conectar otra cadena",
     label: "Trazabilidad · Nueva solución",
-    body: "Lotes analizados, consistencia técnica y entrega lista para integrar en planta.",
+    body: "La aplicación y sus condiciones se definen con el equipo. Los antecedentes de origen y proceso acompañan la conversación sobre trazabilidad.",
     detail: "La nueva aplicación cierra el recorrido.",
   },
 ];

@@ -339,7 +339,7 @@ export function HydrobacExplorer() {
         <h4>{stages[active].title}</h4>
         <p>{stages[active].text}</p>
       </div>
-      <p className="hydrobac-concept">Representación conceptual · sin escala</p>
+      <p className="hydrobac-concept">Diagrama sin escala</p>
     </div>
   );
 }

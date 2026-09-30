@@ -135,7 +135,7 @@ export function HeroExperience({
         <div className="forest-copy">{children}</div>
         <div className="forest-caption">
           <span>Natural. En constante evolución.</span>
-          <span>Paisaje conceptual</span>
+
         </div>
       </div>
     </section>

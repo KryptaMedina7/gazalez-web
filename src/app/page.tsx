@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ButtonLink } from "@/components/shared";
 import { Icon } from "@/components/icon";
-import { solutionPaths, workingSteps } from "@/lib/content";
+import { solutionPaths } from "@/lib/content";
 import { sourceUdec } from "@/lib/site";
+import { Process } from "@/components/process";
+import { DotGrid } from "@/components/ui/dot-grid";
 import { HeroExperience } from "@/components/ui/hero-experience";
 import { HydrobacExplorer } from "@/components/ui/hydrobac-explorer";
 import { CardCurtainReveal } from "@/components/ui/card-curtain-reveal";
@@ -78,29 +80,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section
-        className="section working-home"
-        aria-labelledby="working-heading"
-      >
-        <div className="section-heading">
-          <h2 id="working-heading">Cómo trabajamos</h2>
-          <p>
-            La consulta comienza con tu necesidad. El alcance técnico se define
-            con los antecedentes de cada caso.
-          </p>
-        </div>
-        <ol className="working-steps">
-          {workingSteps.map(([title, body]) => (
-            <li key={title}>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </li>
-          ))}
-        </ol>
-        <Link href="/casos/" className="text-link">
-          Preparar una primera conversación <Icon name="arrow" />
-        </Link>
-      </section>
+      <Process />
       <section
         className="section evidence-home"
         aria-labelledby="evidence-heading"
@@ -170,6 +150,7 @@ export default function Home() {
         className="section consultation-home"
         aria-labelledby="consult-heading"
       >
+        <DotGrid />
         <div>
           <h2 id="consult-heading">Cuéntanos qué necesitas evaluar.</h2>
           <p>

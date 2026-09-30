@@ -41,7 +41,6 @@ export function ConceptImage({
           />
         </picture>
       </div>
-      <figcaption>Visualización conceptual</figcaption>
     </figure>
   );
 }

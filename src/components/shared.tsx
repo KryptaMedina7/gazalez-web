@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DotGrid } from "./ui/dot-grid";
 import { Icon } from "./icon";
 import { ConceptImage, type VisualKey } from "./concept-image";
 export function ButtonLink({
@@ -27,6 +28,7 @@ export function ContactBand({ intent, title, description }: {
 }) {
   return (
     <section className="contact-band">
+      <DotGrid />
       <div>
         <h2>{title || "Conversemos sobre tu necesidad."}</h2>
         <p>{description || "Cuéntanos qué material tienes o qué solución necesitas."}</p>

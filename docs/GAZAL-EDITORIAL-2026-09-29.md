@@ -106,3 +106,20 @@ Referencia: componente card-curtain-reveal entregado por el usuario en Texto peg
 Validación: build, lint y QA correctos (1033 referencias). Chromium: cerrado 0 px, abierto 285.48 px a 1440; relación observada 1.5. Sin overflow en portada a 320/390/768/1440; Innovación a 390 con acciones de 72 px. Movimiento reducido sin transición y medio visible. Consola sin incidencias recuperadas. No se han probado dispositivos físicos.
 
 Corrección puntual del logo en footer: eliminado el rectángulo marfil y su padding. El mismo asset transparente aprobado se presenta en blanco mediante filtro CSS exclusivo del footer; encabezado intacto, sin redibujo ni nuevo asset. Build correcto.
+
+## Movimiento explicativo — 2026-09-30
+Solicitud aprobada: recuperar y mejorar De subproducto a solución; conservar la animación de HIDROBAC; fondo Kexsio sutil; retirar tags visuales de imágenes y pulir interacciones.
+
+| Antes | Después | Motivo |
+| --- | --- | --- |
+| Proceso ausente de la portada | Secuencia de cuatro etapas con identidad persistente de partículas, guías, selector, slider y reproducción de una pasada | Explicar relaciones entre materia, evaluación y aplicación |
+| Fondo DotGrid de referencia con bucle continuo | Canvas propio acotado al cierre, reacción local de 4 px, resolución máxima 1.5 DPR, pausa fuera de vista y en inactividad | Conservar respuesta sutil sin trabajo permanente |
+| Etiquetas conceptuales visibles en imágenes | Imágenes sin rótulo; descripciones accesibles conservadas | Atender la dirección visual sin representar instalaciones reales |
+| Microinteracciones con tiempos dispersos | Tokens de respuesta/estado, feedback en acciones, apertura por teclado instantánea | Continuidad y accesibilidad |
+
+HIDROBAC: geometría, controles y animación intactos; únicamente cambia el rótulo inferior a “Diagrama sin escala”. No se añadieron fotografías ni afirmaciones de infraestructura real. Reutilizados los assets de materiales y naturaleza ya generados. Los textos de proceso se armonizaron con las fichas actuales: alternativas sujetas a evaluación, sin garantías automáticas. El bloque sustituye Cómo trabajamos en portada y conserva los seis bloques; /casos/ mantiene la preparación de consulta.
+
+Implementación en Process, DotGrid, Page/Shared, ConceptImage y gazal-surfaces.css. Sin nuevas dependencias ni Three.js: SVG/GSAP para etapas y Canvas para respuesta del fondo. GSAP solo anima durante transición; reproducción se pausa fuera de vista y al ocultar la pestaña. 120 partículas desktop / 40 móviles. Preferencia de movimiento reducido elimina autoplay y transiciones; selector/slider siguen funcionando. DotGrid móvil estático, sin captura del gesto de scroll. Cierre y páginas internas comparten DotGrid; transición corta bosque→canvas y acentos temáticos discretos por ficha.
+
+Comprobaciones: build, lint, 13 pruebas correctas y 3 PHP omitidas. QA: 1035 referencias sin incidencias. Chromium: botones, Home/End del slider, reinicio y avance automático hasta etapa 4; móvil 390 con 40 partículas y sin overflow; 320 y 1440 sin overflow. Movimiento reducido cambia de etapa inmediatamente y oculta reproducción. Consola sin incidencias recuperadas. Sin FPS ni mediciones sobre Samsung A51/iPhone físicos; no se promete igualdad de rendimiento medida. PHP corporativo y cambios de dependencias preexistentes quedan fuera del despliegue.
+Comprobación adicional: tableta a 768 px y captura de la interacción en qa/motion-20260930/process-desktop.png. El archivo de HIDROBAC solo tiene el cambio de texto indicado; la animación no se retocó.

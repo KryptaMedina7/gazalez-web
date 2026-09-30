@@ -540,3 +540,75 @@ html[data-intro-seen="true"] .video-intro {
 @media (prefers-reduced-motion: reduce) {
   .curtain-media, .curtain-media .concept-image, .related > a { transition: none; }
 }
+
+/* One explanatory sequence; quiet, event-driven responses elsewhere. */
+:root { --motion-feedback: 160ms; --motion-state: 240ms; }
+.transformation-lab { background: var(--gazal-accent); }
+.transformation-lab .section-heading > p { max-width: 46ch; }
+.lab-controls { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin-bottom: 26px; }
+.lab-controls button { display: flex; align-items: center; gap: 12px; padding: 18px 20px; min-height: 58px; background: transparent; border: 1px solid #9eb89a; border-radius: 6px; color: var(--forest); transition: background-color var(--motion-feedback) ease-out,color var(--motion-feedback) ease-out; text-align: left; }
+.lab-controls button[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--canvas); }
+.lab-controls button:hover:not([aria-pressed="true"]) { background: var(--canvas); }
+.lab-number { margin-left: auto; font-size: 12px; font-variant-numeric: tabular-nums; }
+.lab-stage { display: grid; grid-template-columns: minmax(0,1.3fr) minmax(0,1fr); gap: clamp(24px,4vw,64px); align-items: center; }
+.lab-visual { border: 1px solid #9eb89a; background: var(--gazal-primary); border-radius: 18px; padding: 24px; min-width: 0; }
+.lab-scene-title { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; color: var(--forest); }
+.lab-scene-title span:last-child { font-variant-numeric: tabular-nums; font-size: 12px; }
+.lab-visual > svg { display: block; width: 100%; height: auto; margin: 22px 0; overflow: visible; }
+.lab-guide { fill: #cbdcc3; stroke: #88a27c; stroke-width: 1.2; opacity: 0; transition: opacity var(--motion-state) ease-out; }
+.lab-guide[data-active="true"] { opacity: 1; }
+.lab-guide path { fill: none; stroke: #42634b; stroke-width: 1.5; }
+.lab-scrubber { border-top: 1px solid #b4c9aa; padding-top: 20px; }
+.lab-scrubber label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--forest); }
+.lab-scrubber input { display: block; width: 100%; height: 36px; accent-color: var(--forest); cursor: pointer; }
+.lab-playback { display: flex; justify-content: space-between; gap: 12px; align-items: center; font-size: 12px; margin-top: 8px; }
+.lab-playback > span { max-width: 30ch; color: var(--body); }
+.lab-playback button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; min-width: 100px; border: 1px solid #9eb89a; border-radius: 4px; color: var(--forest); background: transparent; }
+.lab-detail { min-height: 320px; display: flex; flex-direction: column; justify-content: center; }
+.lab-detail h3 { font-size: clamp(28px,3vw,42px); margin-bottom: 22px; }
+.lab-detail p { font-size: 16px; line-height: 1.8; max-width: 48ch; color: var(--forest); }
+.lab-detail .lab-detail-note { font-size: 14px; color: var(--body); margin-top: 16px; }
+.lab-detail-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 28px; }
+.lab-detail-actions :is(button,a) { display: inline-flex; gap: 12px; align-items: center; justify-content: space-between; min-height: 48px; padding: 12px 16px; border: 1px solid #9eb89a; border-radius: 4px; font-size: 13px; }
+.lab-detail-actions button { background: var(--forest); color: var(--canvas); border-color: var(--forest); }
+.lab-detail-actions a { color: var(--forest); }
+.lab-context { margin-top: 24px; font-size: 13px; line-height: 1.7; color: var(--body); max-width: 85ch; }
+.contact-band, .consultation-home { position: relative; isolation: isolate; }
+.gazal-dot-grid { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mask-image: linear-gradient(90deg,#000,transparent 28%,transparent 70%,#000); }
+.forest-journey { position: relative; }
+.forest-journey::after { content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 32px; background: linear-gradient(transparent,var(--canvas)); pointer-events: none; }
+.page-intro--visual:has(.concept-image--nutrition) { border-bottom: 2px solid #b8ceae; }
+.page-intro--visual:has(.concept-image--valorization) { border-bottom: 2px solid #88a88e; }
+.page-intro--visual:has(.concept-image--biotech) { border-bottom: 2px solid #9ac6b8; }
+.button, .related > a, .lab-playback button { transition: background-color var(--motion-feedback) ease-out, transform var(--motion-feedback) var(--ease-out); }
+.button:active, .lab-playback button:active { transform: translateY(1px); }
+.button svg, .text-link svg { transition: transform var(--motion-feedback) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .button:hover svg, .text-link:hover svg { transform: translateX(3px); }
+}
+.card-curtain-reveal:focus-within .curtain-media, .card-curtain-reveal:focus-within .concept-image { transition: none; }
+.enquiry-result { animation: enquiry-appear var(--motion-state) var(--ease-out) both; }
+@keyframes enquiry-appear { from { opacity: .6; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 1000px) {
+  .lab-stage { grid-template-columns: minmax(0,1fr); gap: 26px; }
+  .lab-detail { min-height: 280px; }
+  .lab-detail p { max-width: 65ch; }
+}
+@media (max-width: 760px) {
+  .lab-controls { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .lab-controls button { padding: 12px; gap: 8px; font-size: 13px; }
+  .lab-number { display: none; }
+  .lab-visual { padding: 18px 12px; border-radius: 12px; }
+  .lab-scene-title { font-size: 12px; }
+  .lab-particles > circle:not(:nth-child(3n+1)) { display: none; }
+  .lab-playback > span { max-width: 18ch; }
+  .lab-detail { min-height: 350px; justify-content: flex-start; }
+  .lab-detail-actions { gap: 10px; }
+  .lab-context { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-guide, .lab-controls button, .button, .button svg, .text-link svg, .related > a, .lab-playback button { transition: none; }
+  .lab-playback button { display: none; }
+  .enquiry-result { animation: none; }
+  .button:hover svg, .text-link:hover svg, .button:active { transform: none; }
+}
