@@ -47,7 +47,6 @@ export default function Home() {
         className="section solutions-home"
         aria-labelledby="solutions-heading"
       >
-        <DotGrid surface="light" />
         <div className="section-heading">
           <h2 id="solutions-heading">¿Qué necesitas resolver?</h2>
           <p>
@@ -93,7 +92,6 @@ export default function Home() {
         className="section evidence-home"
         aria-labelledby="evidence-heading"
       >
-        <DotGrid surface="light" />
         <div>
           <h2 id="evidence-heading">Operación y respaldo</h2>
           <p>

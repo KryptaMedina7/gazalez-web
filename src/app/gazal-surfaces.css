@@ -1,4 +1,4 @@
-/* Editorial reform: quiet fields; only interior opening and science visual use soft gradients. */
+/* Editorial reform: quiet fields with localized botanical depth. */
 :root {
   --site-header-height: 88px;
   --section-title-size: clamp(30px, 3vw, 44px);
@@ -21,6 +21,8 @@
   --gz-link: var(--gazal-link);
   --brass: var(--body);
   --brass-ink: var(--ink);
+  --surface-process: linear-gradient(180deg, var(--canvas), var(--gazal-primary) 28%, var(--gazal-accent) 64%, var(--canvas));
+  --surface-contact: radial-gradient(ellipse at 85% 0%, #2b503b, transparent 72%);
 }
 .solutions-home,
 .intro-section,
@@ -460,6 +462,7 @@ html[data-intro-seen="true"] .video-intro {
   color: var(--canvas);
   --line: #527260;
 }
+.consultation-home, .contact-band { background-image: var(--surface-contact); }
 .consultation-home :is(h2,h3,p,a), .contact-band :is(h2,p), .footer :is(h2,p,a,.location) { color: var(--canvas); }
 .consultation-home .button, .contact-band .button {
   background: var(--gazal-primary); color: var(--forest); border-color: var(--gazal-primary);
@@ -551,7 +554,7 @@ html[data-intro-seen="true"] .video-intro {
 
 /* One explanatory sequence; quiet, event-driven responses elsewhere. */
 :root { --motion-feedback: 160ms; --motion-state: 240ms; }
-.transformation-lab { background: var(--gazal-accent); }
+.transformation-lab { background: var(--surface-process); }
 .transformation-lab .section-heading > p { max-width: 46ch; }
 .lab-controls { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin-bottom: 26px; }
 .lab-controls button { display: flex; align-items: center; gap: 12px; padding: 18px 20px; min-height: 58px; background: transparent; border: 1px solid #9eb89a; border-radius: 6px; color: var(--forest); transition: background-color var(--motion-feedback) ease-out,color var(--motion-feedback) ease-out; text-align: left; }
@@ -653,22 +656,26 @@ main :is(.section-heading,.evidence-home,.innovation-copy,.consultation-home,.so
 .lab-playback > span { max-width: 36ch; }
 .reading-progress { position: fixed; inset: var(--site-header-height) 0 auto; height: 2px; z-index: 31; pointer-events: none; background: transparent; }
 .reading-progress > span { display: block; height: 100%; background: #73966c; transform: scaleX(0); transform-origin: left; }
-.lab-range { position: relative; }
+.lab-range { position: relative; overflow: clip; overflow-clip-margin: 6px; }
 .lab-range-track { position: absolute; inset: calc(50% - 3px) 10px auto; height: 6px; border-radius: 3px; background: #bbcfb3; pointer-events: none; }
 .lab-range-fill { position: absolute; inset: 0; border-radius: inherit; background: var(--forest); transform: scaleX(0); transform-origin: left; }
 .lab-range-track i { position: absolute; top: -2px; width: 10px; height: 10px; border-radius: 50%; background: #bbcfb3; border: 2px solid var(--gazal-primary); transform: translateX(-50%); }
 .lab-range-track i[data-complete="true"] { background: var(--forest); }
+.lab-range-track i { transition: background-color 160ms var(--ease-out); }
+.lab-range-handle { position: absolute; inset: 0; }
+.lab-range-handle > span { position: absolute; top: 50%; left: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--forest); border: 3px solid var(--gazal-primary); box-shadow: 0 2px 5px #16302426; transform: translate(-50%, -50%); transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out); }
+.lab-range:has(input:active) .lab-range-handle > span { transform: translate(-50%, -50%) scale(1.16); }
+.lab-range:has(input:focus-visible) .lab-range-handle > span { outline: 2px solid var(--forest); outline-offset: 3px; }
 .lab-scrubber input { position: relative; height: 44px; margin: 0; padding: 0; background: transparent; appearance: none; -webkit-appearance: none; border: 0; }
 .lab-scrubber input::-webkit-slider-runnable-track { height: 6px; background: transparent; }
 .lab-scrubber input::-moz-range-track { height: 6px; background: transparent; border: 0; }
 .lab-scrubber input::-moz-range-progress { background: transparent; }
-.lab-scrubber input::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; margin-top: -7px; background: var(--forest); border: 3px solid var(--gazal-primary); box-shadow: 0 2px 5px #16302426; }
-.lab-scrubber input::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--forest); border: 3px solid var(--gazal-primary); box-shadow: 0 2px 5px #16302426; }
+.lab-scrubber input::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin-top: -7px; background: transparent; border: 0; box-shadow: none; }
+.lab-scrubber input::-moz-range-thumb { width: 20px; height: 20px; background: transparent; border: 0; box-shadow: none; }
 .lab-navigation button, .material-view-controls button { transition: background-color 160ms var(--ease-out), transform 120ms var(--ease-out); }
 @media (hover: hover) and (pointer: fine) {
   .lab-navigation button:last-child:hover { background: #244c36; }
-  .lab-scrubber input:hover::-webkit-slider-thumb { background: #287452; }
-  .lab-scrubber input:hover::-moz-range-thumb { background: #287452; }
+  .lab-range:hover .lab-range-handle > span { background: #287452; }
 }
 @media (max-width: 1000px) {
   :root { --site-header-height: 78px; }
@@ -686,22 +693,23 @@ main :is(.section-heading,.evidence-home,.innovation-copy,.consultation-home,.so
   .lab-navigation > span { font-size: 12px; }
 }
 .transformation-lab[data-instant="true"] .lab-controls button::after,
-.transformation-lab[data-instant="true"] :is(.lab-navigation button,.material-view-controls button) { transition: none; }
+.transformation-lab[data-instant="true"] :is(.lab-navigation button,.material-view-controls button,.lab-range-track i,.lab-range-handle > span) { transition: none; }
 @media (prefers-reduced-motion: reduce) {
   .lab-controls button::after, .lab-navigation button, .material-view-controls button { transition: none; }
+  .lab-range-track i, .lab-range-handle > span { transition: none; }
+  .lab-range:has(input:active) .lab-range-handle > span { transform: translate(-50%, -50%); }
   .lab-controls button:active { transform: none; }
 }
 
-/* A visible field across quiet surfaces, with content above the canvas. */
-.solutions-home, .page-intro, .evidence-home, .transformation-lab { position: relative; isolation: isolate; }
-.gazal-dot-grid--light {
-  z-index: 0;
-  mask-image: linear-gradient(transparent, #000 36px, #000 calc(100% - 36px), transparent);
-  mask-composite: add;
+/* Color gathers around the illustration and fades into the reading surface. */
+.page-intro--visual {
+  --opening-tint: var(--gazal-primary);
+  background-image: radial-gradient(ellipse at 82% 45%, var(--opening-tint), transparent 67%);
 }
-.solutions-home > :not(canvas), .page-intro > :not(canvas), .evidence-home > :not(canvas), .transformation-lab > :not(canvas) {
-  position: relative;
-  z-index: 1;
+.page-intro--visual:has(.concept-image--valorization) { --opening-tint: #dde9dc; }
+.page-intro--visual:has(.concept-image--biotech) { --opening-tint: #dcebe3; }
+@media (max-width: 760px) {
+  .page-intro--visual { background-image: radial-gradient(ellipse at 50% 78%, var(--opening-tint), transparent 65%); }
 }
 
 /* One material sample, four meaningful arrangements, one bounded WebGL scene. */

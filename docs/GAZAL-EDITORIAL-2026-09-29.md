@@ -167,3 +167,20 @@ El progreso de lectura sigue el scroll nativo mediante un único RAF solicitado 
 Comprobaciones: build, tipos, lint y QA correctos; 17 pruebas pasan, 3 PHP omitidas. QA: 22 páginas y 1036 referencias internas, sin incidencias. Detector Impeccable de layout: sin hallazgos. Chromium: sin overflow a 320/390/768/1440 px; giro real por mouse, botones, teclado, slider Home/End, avance/reinicio y scroll con cursor sobre el canvas comprobados. Progreso de lectura cambia con scroll y vuelve a cero al entrar en Nutrición, con scroll de ruta 0. Consola sin errores recuperados. Movimiento reducido utiliza SVG y conserva la interacción por etapas.
 
 Capturas en qa/freeview-20260930: process-mobile-final.png, process-desktop-final.png, nutrition-scale-desktop.png y nutrition-scale-mobile.png. La simulación táctil no está disponible en este navegador; quedan pendientes los gestos y rendimiento en Samsung A51, iPhone y Safari físicos. No se midieron FPS ni se declara igualdad de rendimiento entre equipos. Sin cambios empresariales ni legales; PHP/BenzaHosting y archivos de paquetes/entrega preexistentes quedan fuera de esta publicación GitHub/Vercel.
+
+## Fondos limpios y progreso continuo — 2026-09-30
+
+Ajuste solicitado tras la revisión del usuario: retirar los puntos extendidos, animar también el tirador del progreso y recuperar profundidad mediante gradientes moderados. Dirección: verdes salvia y marfil en superficies claras; bosque en contacto. Se conservan los puntos discretos del cierre oscuro anterior. HIDROBAC y el hero no cambian.
+
+| Before | After | Why |
+| --- | --- | --- |
+| Puntos en las superficies claras | Sin canvas en Soluciones, proceso, respaldo ni aperturas | Volver al fondo limpio preferido por el usuario |
+| Relleno animado con tirador nativo que salta | Tirador visual y relleno sincronizados en 280 ms | Hacer legible el paso de una etapa a otra |
+| Proceso y contacto de color uniforme | Salvia que se funde con el marfil y un matiz bosque en el cierre | Profundidad en regiones concretas sin decorar cada tarjeta |
+| Aperturas interiores uniformes | Matiz localizado junto a la ilustración, adaptado a su tema | Conectar la imagen con su superficie y mantener lectura limpia |
+
+El rango nativo conserva semántica, área de 44 px, teclado y valor accesible. El tirador visual tiene respuesta al presionar y foco visible. GSAP anima únicamente transformaciones; una selección nueva retoma el movimiento desde su posición actual. Teclado y movimiento reducido son inmediatos. Se corrigió el desbordamiento que producía el contenedor desplazado del tirador, limitando la pintura al control. Los gradientes son CSS estático, sin animación continua ni nuevos assets o dependencias.
+
+Validación: build y comprobación de tipos correctos, lint correcto, 17 pruebas pasan y 3 PHP omitidas. QA: 22 páginas, 1036 referencias, sin incidencias. Detector Impeccable de layout sin hallazgos. Chromium: barra activada con clic real, relleno y tirador observados en el mismo progreso intermedio (0.9865) y al final; Home, selección con movimiento reducido y alternativa SVG comprobados. Confirmación final sin overflow con etapa 4 a 320/390/768/1440 px. No se recuperaron errores de consola. Cero campos de puntos claros en la portada.
+
+Contraste calculado de los pares afectados: cuerpo #4c6254 sobre el extremo claro más oscuro #dcebd8, 5.32:1; texto #f7f8f3 sobre el extremo oscuro más claro #2b503b, 8.51:1. Capturas de proceso, apertura Nutrición móvil/escritorio y cierre en qa/soft-gradients-20260930. La validación sigue siendo Chromium emulado; Safari, Firefox y teléfonos físicos no comprobados en esta ampliación. Publicación limitada a GitHub/Vercel, sin modificar el paquete PHP ni los cambios de dependencias preexistentes.

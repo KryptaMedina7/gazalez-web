@@ -15,7 +15,6 @@ import {
 import Link from "next/link";
 import { processSteps } from "@/lib/content";
 import { ProcessScene } from "./ui/process-scene";
-import { DotGrid } from "./ui/dot-grid";
 
 const stageIcons = [ScanLine, SlidersHorizontal, Combine, Route];
 const stageNames = ["Conocer", "Recuperar", "Formular", "Conectar"];
@@ -34,6 +33,7 @@ export function Process() {
   const graphic = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLDivElement>(null);
   const progressFill = useRef<HTMLSpanElement>(null);
+  const progressHandle = useRef<HTMLSpanElement>(null);
   const autoplay = useRef<gsap.core.Timeline | null>(null);
   const manual = useRef(false);
   const initialized = useRef(false);
@@ -106,8 +106,17 @@ export function Process() {
         progressFill.current,
         {
           scaleX: step / 3,
-          duration: immediate ? 0 : 0.2,
-          ease: "power3.out",
+          duration: immediate ? 0 : 0.28,
+          ease: "power2.inOut",
+        },
+        0,
+      );
+      timeline.to(
+        progressHandle.current,
+        {
+          xPercent: (step / 3) * 100,
+          duration: immediate ? 0 : 0.28,
+          ease: "power2.inOut",
         },
         0,
       );
@@ -147,7 +156,6 @@ export function Process() {
       aria-labelledby="transformation-heading"
       data-instant={instantScene}
     >
-      <DotGrid surface="light" />
       <div className="section-heading">
         <h2 id="transformation-heading">
           De subproducto
@@ -221,6 +229,9 @@ export function Process() {
                     style={{ left: `${(i / 3) * 100}%` }}
                   />
                 ))}
+                <span ref={progressHandle} className="lab-range-handle">
+                  <span />
+                </span>
               </div>
               <input
                 id="lab-progress"

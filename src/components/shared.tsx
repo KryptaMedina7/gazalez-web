@@ -81,7 +81,6 @@ export function PageIntro({
   if (visual)
     return (
       <div className="page-intro page-intro--visual">
-        <DotGrid surface="light" />
         <div className="page-intro-copy">
           <h1>{title}</h1>
           <p>{description}</p>
@@ -92,7 +91,6 @@ export function PageIntro({
     );
   return (
     <div className="page-intro">
-      <DotGrid surface="light" />
       <h1>{title}</h1>
       <div>
         <p>{description}</p>
