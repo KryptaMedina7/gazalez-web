@@ -45,6 +45,7 @@ export default function Home() {
       </HeroExperience>
       <section
         className="section solutions-home"
+        id="soluciones"
         aria-labelledby="solutions-heading"
       >
         <div className="section-heading">

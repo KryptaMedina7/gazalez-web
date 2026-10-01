@@ -296,8 +296,14 @@ export function HydrobacExplorer() {
           <Layers3 size={18} aria-hidden="true" />
           {opening > 0 ? "Reunir capas" : "Separar capas"}
         </button>
-        <label className="hb-range">
-          <span className="sr-only">Separación de las capas</span>
+        <label
+          className="hb-range"
+          style={{ "--hb-progress": `${opening}%` } as CSSProperties}
+        >
+          <span>Separación de las capas</span>
+          <span className="hb-range-value" aria-hidden="true">
+            {opening}%
+          </span>
           <input
             type="range"
             min="0"

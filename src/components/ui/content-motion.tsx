@@ -68,11 +68,14 @@ export function ContentMotion() {
                       const connections = target.querySelectorAll(
                         ".trace-connection > span",
                       );
+                      const axis = target.matches(".quality-trace")
+                        ? "scaleX"
+                        : "scaleY";
                       sequence.fromTo(
                         connections,
-                        { scaleY: 0 },
+                        { [axis]: 0 },
                         {
-                          scaleY: 1,
+                          [axis]: 1,
                           duration: 0.45,
                           stagger: 0.42,
                           ease: "power1.inOut",

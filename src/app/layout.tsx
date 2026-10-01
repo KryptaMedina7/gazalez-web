@@ -6,6 +6,8 @@ import "./gazal-gradients.css";
 import "./gazal-forest.css";
 import "./gazal-video-intro.css";
 import "./gazal-surfaces.css";
+import "./gazal-campo.css";
+import "./hydrobac-lab.css";
 import { Header, Footer } from "@/components/shell";
 import { site, socialImage } from "@/lib/site";
 import { BrandIntro } from "@/components/ui/brand-intro";

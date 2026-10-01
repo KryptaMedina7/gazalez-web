@@ -1,5 +1,7 @@
 # GAZAL — atravesar el bosque
 
+Historical surface brief (2026-09-29). The local 2026-10-01 homepage now follows `docs/GAZAL-CAMPO-PLAN-2026-10-01.md`: countryside welcome and the restored official DNA-only particle ribbon; the pellet/fiber morph is discarded. The forest layer contract below records the previous design; it is not the current implementation target.
+
 Direction supplied by the user, implementation decisions authored within that scope.
 
 - Vibe: immersive, natural, refined. Reference: ferrometltda.com for depth, not industrial imagery.

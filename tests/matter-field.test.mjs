@@ -42,6 +42,27 @@ test("matter geometry is finite and reversible across phone, landscape and deskt
   }
 });
 
+test("lateral release preserves the DNA, reverses exactly and clears the canvas", () => {
+  for (const compact of [false, true]) {
+    const field = createMatterField(compact);
+    field.update(390, 766, 1);
+    const formed = snapshot(field);
+    for (const release of [0.15, 0.5, 0.85, 1]) {
+      field.update(390, 766, 1, release);
+      assert.ok(snapshot(field).flat().every(Number.isFinite));
+      assert.equal(
+        [...field.lengths].reduce((a, b) => a + b),
+        field.count,
+      );
+    }
+    for (const bucket of snapshot(field))
+      for (let i = 0; i < bucket.length; i += 3)
+        assert.ok(bucket[i + 1] - bucket[i + 2] > 766);
+    field.update(390, 766, 1, 0);
+    assert.deepEqual(snapshot(field), formed);
+  }
+});
+
 test("raster budget holds on high density phones and 4K screens", () => {
   for (const [w, h, deviceRatio, compact] of [
     [390, 844, 3, true],

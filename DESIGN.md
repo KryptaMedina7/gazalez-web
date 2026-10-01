@@ -1,6 +1,6 @@
 ---
 name: GAZAL
-description: Editorial industrial biotechnology with photographic forest depth, pale greens and forest ink.
+description: Editorial industrial biotechnology with a rural welcome, an immersive particle ribbon, pale greens and forest ink.
 colors:
   canvas: "#f7f8f3"
   surface: "#fff"
@@ -19,6 +19,11 @@ colors:
   field-border: "#b9c8b4"
   placeholder: "#657460"
   tag-border: "#9eb89a"
+  ribbon-heading: "#4c7050"
+  ribbon-world: "#18251e"
+  ribbon-contour: "#8daa8a"
+  ribbon-caption: "#edf3df"
+  ribbon-support: "#c5d5b9"
 typography:
   display:
     fontFamily: '"Manrope Variable", sans-serif'
@@ -26,6 +31,11 @@ typography:
     fontWeight: 500
     lineHeight: 1.05
     letterSpacing: "-0.04em"
+  ribbon-display:
+    fontFamily: '"Manrope Variable", sans-serif'
+    fontSize: "clamp(36px, 4.2vw, 64px)"
+    lineHeight: 1.1
+    letterSpacing: "-0.035em"
   headline:
     fontFamily: '"Manrope Variable", sans-serif'
     fontSize: "clamp(34px, 3.65vw, 58px)"
@@ -120,19 +130,21 @@ components:
 
 Pale mint and sage fields, forest ink, generous editorial typography and fine rules connect industrial material to applied science. The tone is serious, clear, technical and human. The supplied GAZAL lockup preserves its exact serif lettering and symbol as a transparent raster asset; it is not reconstructed with Manrope or an invented font.
 
-The interface uses open sections and typographic hierarchy to organize information. A layered photographic forest introduces the homepage, followed by calmer kit-gradient surfaces, material artwork and restrained scientific diagrams. Generated scenery and material concepts retain visible conceptual labels. The light green identity is the user's chosen direction; gold remains restricted to previously authorized subtle accents outside the five-color gradient kit; a generic SaaS identity is excluded.
+The interface uses open sections and typographic hierarchy to organize information. A brief rural welcome precedes the restored official ADN particle ribbon, followed by calm kit-gradient surfaces, material artwork and scientific diagrams. The hero retains its ADN-only geometry throughout native scrolling. Generated scenery and material concepts remain distinct from operational evidence. Light green remains the chosen identity; gold is restricted to previously authorized subtle accents outside the five-color gradient kit; a generic SaaS identity is excluded.
 
 **Key Characteristics:**
 
 - Light green fields with forest text and focused dark sections.
 - Exact supplied GAZAL lettering and static gradients from the brand kit.
-- Photographic forest depth driven by a short native scroll passage.
+- A rural welcome followed by an immersive particle ribbon driven by native scroll.
 - Large Manrope headlines paired with readable Lexend supporting text.
 - Square controls, fine rules and open editorial rows.
 - Material concepts visibly distinguished from operational evidence.
 - Keyboard access and reduced motion built into interactions.
 
-This is a scan of the implemented system in `src/app/globals.css`, `src/app/gazal-forest.css`, `src/app/gazal-gradients.css`, `src/app/layout.tsx` and `src/components/`, including the approved 2026-09-29 forest refresh. Frontmatter records reusable defaults; the stylesheet remains authoritative for responsive and component-specific overrides. The companion `.impeccable/design.json` contains extension metadata and framework-free component previews. The homepage journey and asset contract remain in `scrollcraft/builds/gazal-forest-2026-09-29/BRIEF.md`.
+This scan captures the local unpublished restoration of 2026-10-01 in `src/app/globals.css`, `src/app/gazal-campo.css`, `src/app/gazal-surfaces.css`, `src/app/hydrobac-lab.css`, `src/lib/matter-field.mjs` and the active components. The official particle hero and process geometry are restored while the current editorial architecture, navigation content and factual claims are retained. The internal HIDROBAC lab is recovered from `qa/restoration/hidrobac-lab.official.js` using the existing React runtime. Frontmatter records reusable defaults; stylesheets remain authoritative for responsive and component-specific overrides. The companion `.impeccable/design.json` contains extension metadata and framework-free previews. Earlier forest and material-morph plans are historical references, not the current implementation contract.
+
+Restoration QA reported by the main task: lint and build pass, 17 tests pass with 3 PHP-dependent skips, and DOM checks at 390px and 1440px show no horizontal overflow. These checks do not certify physical devices or a production deployment. The 31 font/color/radius findings in `qa/restoration/detector.json` are advisory; local component exceptions do not establish new global tokens.
 
 ## Colors
 
@@ -140,7 +152,7 @@ The palette stays in a subdued green family, balancing light mineral surfaces wi
 
 ### Primary
 
-- **Forest** supplies primary action fills and the transformation section's dark ground.
+- **Forest** supplies primary action fills and high-contrast text; the current transformation laboratory uses pale green surfaces.
 - **Ink** carries headings, navigation and high-priority copy.
 - **Mint**, **Light Mint** and **Sage** provide feature fields, hover feedback and selection color.
 - **Kit Primary** supplies pale actions on the forest and the light gradient surfaces.
@@ -151,6 +163,8 @@ The palette stays in a subdued green family, balancing light mineral surfaces wi
 - **Body** softens paragraph text without introducing a separate hue.
 - **Line** separates light sections; **Dark Line** separates content on forest.
 - **Field Border**, **Placeholder** and **Tag Border** retain the observed form and metadata treatments.
+
+The `ribbon-*` frontmatter shades describe the active hero heading, dark particle field, caption and supporting copy in `gazal-campo.css`. Particle colors and the restored process and HIDROBAC diagram colors remain local scientific-illustration values; they do not redefine the global palette or gradient kit. Unused morph-phase and sample-fiber colors are not normative system tokens.
 
 The error color is reserved for error copy. Focus and button-hover colors express interaction states rather than additional brand accents.
 
@@ -170,33 +184,35 @@ Both fonts are bundled locally through `@fontsource-variable` imports. Manrope s
 
 ### Hierarchy
 
-- **Display** is the home hero role in frontmatter. General page headings instead begin at `clamp(44px, 6vw, 88px)`; page-specific selectors refine them.
+- **Display** retains the earlier reusable hero baseline. The current homepage alone uses **Ribbon Display** from `main .ribbon-copy h1`: `clamp(36px, 4.2vw, 64px)`, 1.1 line-height and -0.035em tracking; at widths up to 1000px or heights up to 719px it uses `clamp(30px, 7vw, 46px)`. Do not apply this local override to interior-page headings.
 - **Headline** is the default section heading. Headings use balanced wrapping and medium weight rather than bold slabs.
 - **Title** is the default third-level heading; the transformation panel uses a larger title (32px).
-- **Body** is the inherited paragraph baseline. Supporting editorial copy commonly uses 12–13px. The forest hero description uses 16px with a 1.7 line-height, reducing to 14px/1.65 at 1000px and 13px at 420px.
+- **Body** is the inherited paragraph baseline. Supporting editorial copy commonly uses 12–13px. The ribbon hero description uses 16px/1.7 with a 42ch maximum, changing to 15px and 56ch in its compact layout. Its audience line uses 13px/1.7, changing to 12px. These are component-specific values.
 - **Action** is the button role; **Label** captures the shared 12px label size. Metadata tags use 9px and 0.01em tracking.
 
 The critical form labels, consent and help text retain the final 12px overrides; enquiry results use 14px copy. On mobile, text inputs and textareas use 16px. Do not copy the tiny decorative caption sizes into instructions.
 
 ## Layout
 
-The site uses full-width sections with a shared fluid horizontal gutter. Standard section padding is defined in frontmatter; wide screens increase vertical section padding to 130px. The homepage hero is a full-width forest with an overlaid copy region (720px maximum width, 10vw horizontal inset on desktop). The process stage uses 57% / 43%, and innovation and traceability use equal columns. These are observed page patterns, not mandatory proportions for every future screen.
+The site uses full-width sections with a shared fluid horizontal gutter. General section spacing and interior layouts retain their existing stylesheet overrides. The particle hero opens with pale copy at 47% width and its dark visual clipped to the remaining area. Scrolling fades the copy and opens the dark visual across the full sticky frame below the header. These proportions belong to this opening surface.
 
-At 1100px, spacing and type compact. At 1000px, desktop navigation yields to the mobile dialog and the enquiry layout becomes one column; the forest reduces its travel and removes its intermediate plane. At 760px, the process stage and most editorial structures stack; the gutter becomes 24px and process controls become two columns. The forest uses its own 420px narrow breakpoint, with 24px copy insets and smaller display type. At 380px, the general gutter becomes 18px, the header CTA hides and form fields stack. At 290px, the gutter becomes 14px and secondary grids simplify further; the forest copy inset is 18px. The wide-screen expansion begins at 1700px.
+At widths of at least 1001px and heights of at least 720px, the motion-ready hero uses a viewport-height sticky frame below `--site-header-height` with 1160px of extra travel. At widths up to 1000px or heights up to 719px, copy and visual stack: the copy scrolls normally and only the visual sticks, with 820px of extra travel. Its height is `min(760px, 100svh - var(--site-header-height))`, with a 260px minimum. Native scrolling and the “Ver soluciones” anchor remain available throughout. No JavaScript retains the original static particle plate; reduced motion keeps a static particle composition without an added scroll track.
 
-The header is sticky, with desktop height 100px, compact height 86px, mobile height 78px and wide-screen height 112px. Action controls generally provide at least 44px interactive height; primary buttons start at 54px. Long field content can wrap, and enquiry columns explicitly allow shrinking with `minmax(0, ...)`.
+The following solutions surface overlaps the hero by 16px, sits at z-index 4 and uses 24px upper corners. The progress bar sits 16px above the visual bottom edge. Reduced motion removes this overlap and rounding. The original particle field drifts downward by 6% and scales to 1.04 over the final 70% of native scroll. The restored transformation section uses its original particle diagram and editorial copy rather than the superseded compact sample layout.
 
-The animated forest uses a native sticky frame sized to `100svh` minus the matching header height, with 780px extra travel on desktop and 420px at widths up to 1000px. Extra travel is enabled only after image decoding succeeds, with motion allowed and a viewport at least 600px tall. Reduced motion, no JavaScript, failed image decoding and shorter viewports retain the static content and actions without an added scroll track. Short viewports use a 600px minimum static frame.
+The homepage HIDROBAC explorer retains its original layered illustration, followed by the separation toggle/range, component buttons and explanatory copy. It has no compact side-by-side workspace wrapper or forced 320px/235px figure sizing. The internal HIDROBAC page additionally uses the official six-stage SVG lab: Sistema, Matriz, Agua, Bacterias, Raíz and Evidencia. Its stage keeps a 3:2 aspect ratio, a maximum width of 1020px and a viewport-height bound of 74vh; its local responsive rules change at 720px. These are separate components with different interaction layouts.
+
+The surrounding site retains its own responsive breakpoints; do not propagate the hero thresholds globally. Action controls generally provide at least 44px interactive height; the hero skip action uses 46px on desktop and 44px in compact layouts.
 
 ## Elevation & Depth
 
-The interface does not define a box-shadow vocabulary. Depth comes from alternating tonal fields, static kit gradients, photographic/conceptual material texture, fine dividers and the forest process panel. The homepage forest separates a background clearing, a smaller intermediate vegetation plane and independent transparent foreground wings. A stable dark contrast veil supports the HTML copy. The mobile dialog uses a translucent forest overlay (`#16302466`) and stacking order, without a shadow. Avoid adding ambient card shadows as a new default.
+The general editorial interface conveys depth through tonal fields, static kit gradients, fine dividers, conceptual texture and the forest process panel. The ADN hero layers Canvas 2D particle tones with contour lines and botanical edges. Countryside imagery belongs only to the welcome overlay. The restored transformation diagram retains the same particles across four conceptual operations. The mobile dialog uses a translucent forest overlay (`#16302466`) and stacking order. The recovered internal HIDROBAC lab adds a local evidence-card shadow (`0 18px 40px -24px rgba(22, 48, 36, 0.45)`) and an active-control ring (`0 0 0 5px rgba(201, 226, 166, 0.6)`); these are component exceptions, not a general card-elevation system.
 
 **The Tonal Depth Rule.** Separate content through field color, spacing and hairlines before adding elevation effects.
 
 ## Shapes
 
-Controls and content regions are predominantly square. Fields explicitly use zero radius; buttons, tags and open rows retain the same rectangular character. Circular geometry is reserved for small status markers, arrow containers and scientific diagrams. The conceptual hydrogel core has a local 10px radius; it is not a general card token.
+Controls and content regions are predominantly square. Fields explicitly use zero radius; buttons, tags and open rows retain the same rectangular character. Circular geometry is reserved for small status markers, arrow containers and scientific diagrams. The internal HIDROBAC lab has an 18px stage radius, 14px evidence-card corners and pill/circular controls. These restored local shapes are not general card tokens.
 
 Light surfaces use thin green borders. Rows usually carry a bottom rule rather than an enclosing card outline. Images crop within their section region; visible captions sit over a light tonal strip.
 
@@ -206,7 +222,7 @@ Light surfaces use thin green borders. Rows usually carry a bottom rule rather t
 
 Primary actions are forest-filled rectangular controls with a 1px forest border, 24px content/icon gap and a 19px arrow. Secondary actions are transparent with ink text and border. Their frontmatter values capture default padding and colors; large and narrow screens override sizing where needed.
 
-On the photographic hero and dark contact band, primary actions use Kit Primary with Forest text. Hero hover changes the fill to Canvas, text links remain Canvas, and focus outlines stay light. The hero presents “Explorar soluciones” before the commercial conversation action.
+The ribbon hero copy uses the standard forest-filled primary action on a pale ground, followed by a text link. The pale action variant remains available for dark sections; do not transfer the previous forest hero's light text and pale button treatment to the ribbon copy.
 
 Fine-pointer hover changes primary fill to button-hover and secondary fill to ink, over 0.2s. Text links use a bottom rule, 18px icon gap and 44px minimum height. Their arrow shifts by 2px right and 2px up on fine-pointer hover. There is no distinct pressed animation. Disabled buttons use 0.55 opacity and a waiting cursor.
 
@@ -238,9 +254,11 @@ The reusable solution pattern is an open ruled row with a title, compact descrip
 
 ### Transformation interaction
 
-The signature process section combines a dark forest ground, four numbered controls and an SVG particle composition. The selected control has a light top border and brighter text, with `aria-pressed` carrying selection. The copy panel announces updates politely. Scroll advances the process until a user explicitly chooses a step; manual choice then retains control.
+The transformation laboratory restores the official particle composition from revision `1dcd984` while retaining current editorial copy. Its 120 SVG particles move through four conceptual arrangements: material characterization, recovered fractions, formulation and a traceable chain. On compact screens, one in every three particles is animated. Four stage buttons, pause/replay and a repeat action control the sequence; no range-input or compact fiber/pellet sample is part of this component.
 
-The same 120 particles pass through scattered matter, sorted lanes, formulation clusters and a connected ribbon. GSAP animates from the current position in 720ms plus a 130ms total stagger. A single four-stage sequence starts when the diagram is visible, pauses offscreen, and yields to manual selection. Replay restarts it; keyboard changes are immediate. The progress line and copy follow the selected stage. Dark-panel controls use a pale focus outline (`#d3e8c5`).
+Particle movement lasts 720ms on desktop and 380ms in compact layouts, with a 130ms desktop stagger. Initial, keyboard and reduced-motion stage positioning is immediate. Autoplay advances at 4.5-second intervals in one bounded pass, pauses below the visibility threshold or in a hidden document, and yields to manual selection. Stage controls retain `aria-pressed`; manual stage changes activate polite copy announcements. The homepage HIDROBAC explorer retains its original layer animation, with controls below the figure.
+
+The internal HIDROBAC lab preserves the official six chapters and SVG geometry in `hydrobac-lab.jsx`, using the existing React runtime. A manually started sequence spans 14 seconds; chapter selection seeks directly and stops playback. Playback suspends offscreen and skips progression while the document is hidden. With reduced motion, the play control seeks directly to the next chapter; informational hotspots and evidence remain accessible without playing. Its diagram is conceptual and carries no measured-performance claim.
 
 **The Concept Label Rule.** Keep conceptual artwork and diagrams visibly labeled; do not present them as plant photography, measured process evidence or product proof.
 
@@ -250,13 +268,15 @@ The same 120 particles pass through scattered matter, sorted lanes, formulation 
 
 ### Welcome and page movement
 
-A document-entry and refresh welcome plays the user-supplied six-second GAZAL chick video, muted and inline. The desktop clip is 16:9; portrait viewports up to 800px use the separately supplied 9:16 mobile clip. Both fill the viewport with `object-fit: cover` and matching cover posters. A proportional edge crop is intentional; no letterboxing or distortion. Document scrollbars stay hidden from first paint during the welcome. The `ended` event triggers a 180ms fade into the page. The welcome repeats on refresh; client-side page navigation does not replay it. A visible “Omitir y entrar” button and Escape dismiss it immediately. Background content is inert and document scrolling is held while the overlay is present, then both are restored. Reduced-motion users bypass playback without downloading the clip. No-JavaScript, failed playback and an eight-second playback stall open the site rather than trapping the visitor. The vertical mobile encode is 720 × 1280 and approximately 1.19 MB; the desktop video stream is remuxed without changing its imagery.
+The welcome pairs the supplied name-only GAZAL raster wordmark with generated rural imagery. Automatic exit begins after 1200ms and lasts 900ms. The wordmark stays opaque through 65% of the exit at scale 4, then reaches scale 12 and fades; the landscape reaches scale 1.3. The overlay fades during the final 40% and explicitly remains visible during its exit animation. It appears once per session when session storage is available. “Omitir y entrar” and Escape dismiss it immediately; background inertness, scroll locking and focus are restored on dismissal. Reduced motion and no-JavaScript bypass the opening. The countryside asset is atmospheric artwork rather than company-facility photography and remains exclusive to the welcome. No chick video is loaded.
 
 The browser favicon is a transparent optical adaptation of the GAZAL emblem, without a square background. Its SVG alpha mask changes from forest to pale green in dark browser themes; PNG/ICO fallbacks retain the green symbol at 16/32/48/64px. URLs use v3. The header logo remains unchanged. Source: `assets/gazal-favicon-transparent.png`.
 
-The homepage forest replaces the former particle-canvas hero. GSAP ScrollTrigger drives image transforms and opacity from native scrolling: the foreground wings move outwards, the intermediate plane separates and fades, and the clearing advances more slowly. The opening HTML offer yields to “Misma materia. Nuevas posibilidades.” near the exit. Hidden opening actions become inert beyond 70% progress and become available again when scrolling back; cleanup restores their state. Desktop scrub is 0.25 and mobile scrub follows scroll directly. There is no hero Canvas, WebGL, video decoder or persistent rendering loop. Mobile hides the intermediate plane and uses three distinct responsive WebP assets totaling approximately 463 KB. Keep the visible “Paisaje conceptual” caption: the generated photographic scene is atmosphere, not evidence of company facilities.
+The hero restores the official **ADN-only particle ribbon**. `hero-experience.tsx` uses the original `matter-field.mjs` Canvas 2D renderer with 2200 desktop or 1100 compact particles. GSAP ScrollTrigger follows native scroll with 0.22 desktop scrub and direct compact scrub. The ribbon forms by 58% scroll and holds until 68%. Release starts at 68% of the sticky travel: the same grains gather toward the right edge and fall below the canvas. A second scroll-linked tween continues the fall until the following section covers 65% of the visual, preventing an empty dark viewport at the sticky endpoint. There are no illustrated pellet silhouettes or vegetal fibers; reversing scroll rebuilds the exact same particles. The canvas drifts downward by 6% and scales to 1.04 from scroll progress 0.3 to 1, carrying the same ADN field behind the following surface. Rendering is requested by progress, size and visibility changes and is inactive offscreen or in hidden documents. The original static particle plate remains until canvas readiness and on initialization failure. Reduced motion keeps a static composition. Desktop copy becomes inert after 20% scroll progress, moving focus to the skip action if required; reversing scroll restores access.
 
-Pointer navigation first covers the old page with three green layers in 180ms plus 25ms stagger, commits the destination at the top, then reveals it in 320ms plus 35ms stagger. A 1500ms failsafe restores visibility. Keyboard navigation skips this effect. GSAP contexts and media-query listeners clean up on unmount.
+The active hero uses no Three.js or WebGL. Superseded transformation-field and 3D proposals do not define the current hero. Particle geometry is a visual metaphor, not measured process evidence.
+
+Navigation restores the three-panel green route curtain in `page-motion.tsx`. A primary pointer activation of an internal link covers the screen in 180ms with a 25ms panel stagger, changes the route, then reveals it in 320ms with a 35ms stagger. Keyboard activation, reduced motion, modified clicks, downloads, external destinations and same-path anchors bypass this cover. A 1500ms watchdog releases a stalled curtain. Route-top settlement respects fragment destinations and is canceled by wheel, touch or keyboard input; its final 360ms check is not an animation duration.
 
 Buttons use 140ms press feedback; arrows move 3px over 180ms only on fine-pointer hover. The 21st Social Links adaptation keeps a desktop reveal and mobile expandable contact dock in brand greens. Only the verified email is configured; no unverified social accounts are displayed. Collapsed links are inert, Escape closes and restores focus.
 
@@ -269,7 +289,7 @@ Buttons use 140ms press feedback; arrows move 3px over 180ms only on fine-pointe
 - **Do** retain visible keyboard focus, semantic labels and reduced-motion behavior.
 - **Do** keep conceptual image captions visible and critical form guidance legible.
 - **Do** inspect stylesheet overrides before extending a responsive component.
-- **Do** keep the forest scroll native and its static fallback complete.
+- **Do** keep the particle scroll native, its local type overrides scoped and its static image fallback complete.
 - **Do** use the supplied gradients as static surfaces within their five-color kit.
 
 ### Don't:

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { HydrobacLab } from "@/components/ui/hydrobac-lab";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -218,10 +219,28 @@ export default async function ContentPage({
                 Ver los tres caminos de soluciones <Icon name="arrow" />
               </Link>
               {solution.slug === "valorizacion-industrial" && (
-                <Link href="/calidad-trazabilidad/"><span><strong>Calidad y trazabilidad</strong><span className="related-description">Conoce qué antecedentes y documentación conviene revisar para evaluar un material.</span></span><Icon name="diagonal" /></Link>
+                <Link href="/calidad-trazabilidad/">
+                  <span>
+                    <strong>Calidad y trazabilidad</strong>
+                    <span className="related-description">
+                      Conoce qué antecedentes y documentación conviene revisar
+                      para evaluar un material.
+                    </span>
+                  </span>
+                  <Icon name="diagonal" />
+                </Link>
               )}
               {solution.slug === "bioprocesos" && (
-                <Link href="/innovacion/"><span><strong>Innovación y biotecnología</strong><span className="related-description">Explora las líneas de desarrollo y los vínculos tecnológicos documentados.</span></span><Icon name="diagonal" /></Link>
+                <Link href="/innovacion/">
+                  <span>
+                    <strong>Innovación y biotecnología</strong>
+                    <span className="related-description">
+                      Explora las líneas de desarrollo y los vínculos
+                      tecnológicos documentados.
+                    </span>
+                  </span>
+                  <Icon name="diagonal" />
+                </Link>
               )}
               {solutions
                 .filter(
@@ -233,7 +252,12 @@ export default async function ContentPage({
                 )
                 .map((s) => (
                   <Link href={`/soluciones/${s.slug}/`} key={s.slug}>
-                    <span><strong>{s.title}</strong><span className="related-description">{s.description}</span></span>
+                    <span>
+                      <strong>{s.title}</strong>
+                      <span className="related-description">
+                        {s.description}
+                      </span>
+                    </span>
                     <Icon name="diagonal" />
                   </Link>
                 ))}
@@ -301,7 +325,7 @@ export default async function ContentPage({
               description={corporate.description}
             />
             {key === "calidad-trazabilidad" && (
-              <ol className="horizontal-trace">
+              <ol className="trace-path quality-trace" aria-label="Recorrido de trazabilidad">
                 {[
                   "Origen",
                   "Recepción",
@@ -310,10 +334,11 @@ export default async function ContentPage({
                   "Control",
                   "Producto",
                   "Despacho",
-                ].map((t) => (
+                ].map((t, index) => (
                   <li key={t}>
-                    {t}
-                    <Icon name="arrow" />
+                    <span className="trace-node" aria-hidden="true" />
+                    <span>{t}</span>
+                    {index < 6 && <span className="trace-connection" aria-hidden="true"><span /></span>}
                   </li>
                 ))}
               </ol>
@@ -420,6 +445,7 @@ export default async function ContentPage({
               title="HIDROBAC. Ciencia frente al estrés hídrico."
               description="Tecnología desarrollada en la Universidad de Concepción, basada en hidrogeles y bacterias benéficas, orientada a mitigar el estrés hídrico en plantas."
             />
+            <HydrobacLab />
             <section className="hydrobac-feature">
               <div className="hydrobac-title">
                 <h2>
@@ -720,9 +746,27 @@ export default async function ContentPage({
       </div>
       {!["contacto", "privacidad", "terminos"].includes(key) && (
         <ContactBand
-          intent={solution?.intent || (key.startsWith("innovacion") ? "colaboracion" : undefined)}
-          title={solution?.intent === "formulacion" ? "Cuéntanos tu necesidad nutricional." : solution?.intent === "subproducto" ? "Conversemos sobre tu subproducto." : solution?.intent === "colaboracion" || key.startsWith("innovacion") ? "Exploremos tu desafío de aplicación." : undefined}
-          description={solution ? solution.input : key.startsWith("innovacion") ? "Comparte la aplicación que te interesa y los antecedentes disponibles para orientar una conversación técnica." : undefined}
+          intent={
+            solution?.intent ||
+            (key.startsWith("innovacion") ? "colaboracion" : undefined)
+          }
+          title={
+            solution?.intent === "formulacion"
+              ? "Cuéntanos tu necesidad nutricional."
+              : solution?.intent === "subproducto"
+                ? "Conversemos sobre tu subproducto."
+                : solution?.intent === "colaboracion" ||
+                    key.startsWith("innovacion")
+                  ? "Exploremos tu desafío de aplicación."
+                  : undefined
+          }
+          description={
+            solution
+              ? solution.input
+              : key.startsWith("innovacion")
+                ? "Comparte la aplicación que te interesa y los antecedentes disponibles para orientar una conversación técnica."
+                : undefined
+          }
         />
       )}
     </>

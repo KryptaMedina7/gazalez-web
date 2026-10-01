@@ -1,0 +1,339 @@
+.hb-lab {
+  margin: 24px 0 72px;
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+.hb-lab-head {
+  max-width: 640px;
+  margin-bottom: 20px;
+}
+.hb-lab-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #287452;
+  margin-bottom: 12px;
+  transition: opacity 0.3s;
+}
+.hb-lab-head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 40px);
+  line-height: 1.1;
+  margin: 0 0 10px;
+  color: var(--forest);
+}
+.hb-lab-head p {
+  margin: 0;
+  opacity: 0.8;
+}
+.hb-lab-stage {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fbfcf7, #eef3e6);
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  width: min(100%, 1020px, calc(74vh * 3 / 2));
+  margin-inline: auto;
+}
+.hb-lab-stage svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hb-lab-label text {
+  font-family: var(--font-display);
+  font-size: 17px;
+  fill: #2b503a;
+}
+.hb-lab-hot {
+  cursor: pointer;
+  color: var(--forest);
+  outline: none;
+}
+.hb-lab-hot-pulse {
+  fill: #dcebc9;
+  opacity: 0.75;
+}
+.hb-lab-hot-dot {
+  fill: #fff;
+  stroke: #287452;
+  stroke-width: 1.5;
+  transition: fill 0.2s;
+}
+.hb-lab-hot:hover .hb-lab-hot-dot,
+.hb-lab-hot:focus-visible .hb-lab-hot-dot {
+  fill: #c9e2a6;
+}
+.hb-lab-card {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  max-width: 340px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 20px 16px;
+  box-shadow: 0 18px 40px -24px rgba(22, 48, 36, 0.45);
+  animation: hb-card-in 0.35s ease both;
+}
+.hb-lab-card-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #287452;
+}
+.hb-lab-card h3 {
+  font-family: var(--font-display);
+  font-size: 21px;
+  margin: 6px 0 8px;
+  color: var(--forest);
+}
+.hb-lab-card p {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.hb-lab-card small {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+.hb-lab-card-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink);
+}
+.hb-lab-card-close:hover {
+  background: #eef3e6;
+}
+@keyframes hb-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hb-lab-transfer {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  display: flex;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  color: var(--forest);
+}
+.hb-lab-evidence {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  border: 1px solid var(--forest);
+  background: #fff;
+  color: var(--forest);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font: 600 13px var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  animation: hb-card-in 0.4s ease both;
+}
+.hb-lab-evidence:hover {
+  background: #dcebc9;
+}
+.hb-lab-timeline {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 22px;
+  margin: 18px 0 10px;
+}
+.hb-lab-play {
+  border: 1px solid var(--forest);
+  background: transparent;
+  color: var(--forest);
+  border-radius: 999px;
+  padding: 9px 16px;
+  font: 600 12px var(--font-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+.hb-lab-play:hover {
+  background: #dcebc9;
+}
+.hb-lab-pct {
+  font-family: var(--font-display);
+  font-size: 14px;
+  min-width: 3.2em;
+  text-align: right;
+  color: var(--forest);
+  font-variant-numeric: tabular-nums;
+}
+.hb-lab-track {
+  position: relative;
+  padding-bottom: 30px;
+}
+.hb-lab-track input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  margin: 0;
+  cursor: pointer;
+  touch-action: none;
+}
+.hb-lab-track input::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--forest) var(--hb-p),
+    #cfd9ca var(--hb-p)
+  );
+}
+.hb-lab-track input::-moz-range-track {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--forest) var(--hb-p),
+    #cfd9ca var(--hb-p)
+  );
+}
+.hb-lab-track input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  margin-top: -10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--forest);
+  box-shadow: 0 0 0 5px rgba(201, 226, 166, 0.6);
+}
+.hb-lab-track input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--forest);
+}
+.hb-lab-track ol {
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  top: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 20px;
+}
+.hb-lab-track li {
+  position: absolute;
+  transform: translateX(-50%);
+}
+.hb-lab-track li:first-child {
+  transform: none;
+}
+.hb-lab-track li:last-child {
+  transform: translateX(-100%);
+}
+.hb-lab-track li button {
+  border: 0;
+  background: none;
+  padding: 2px 0;
+  font: 600 11px var(--font-body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.hb-lab-track li[data-active] button,
+.hb-lab-track li button:hover {
+  opacity: 1;
+  color: #287452;
+}
+@media (max-width: 720px) {
+  .hb-lab-stage {
+    aspect-ratio: 1 / 1;
+  }
+  .hb-lab-label text {
+    font-size: 26px;
+  }
+  .hb-lab-timeline {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+  .hb-lab-play {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .hb-lab-track li button {
+    font-size: 0;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+  }
+  .hb-lab-track li button::before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 6px;
+    margin: 4px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .hb-lab-track li[data-active] button {
+    font-size: 10px;
+    width: auto;
+    height: auto;
+  }
+  .hb-lab-track li[data-active] button::before {
+    display: none;
+  }
+  .hb-lab-card {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    max-width: none;
+  }
+  .hb-lab-transfer {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    justify-content: center;
+    font-size: 10px;
+    gap: 6px;
+  }
+  .hb-lab-evidence {
+    bottom: 10px;
+    right: 10px;
+  }
+}

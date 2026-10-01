@@ -1,0 +1,590 @@
+/* Restored official DNA particle language; no pellet/fiber morph. */
+.ribbon-journey {
+  position: relative;
+  overflow-anchor: none;
+  --ribbon-travel: 1160px;
+  background: var(--canvas);
+}
+.ribbon-sticky {
+  position: relative;
+  isolation: isolate;
+  min-height: 650px;
+}
+.ribbon-copy {
+  position: relative;
+  z-index: 2;
+  width: 47%;
+}
+.ribbon-copy .hero-copy {
+  padding: 64px 36px 110px var(--space);
+}
+main .ribbon-copy h1 {
+  font-size: clamp(36px, 4.2vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.ribbon-copy h1 span {
+  color: #4c7050;
+}
+.ribbon-copy .hero-description {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-top: 24px;
+  max-width: 42ch;
+}
+.ribbon-copy .hero-audience {
+  font-size: 13px;
+  line-height: 1.7;
+  margin-top: 18px;
+  max-width: 48ch;
+  color: var(--body);
+}
+.ribbon-copy .hero-actions {
+  margin-top: 24px;
+  gap: 14px;
+}
+.ribbon-copy .hero-actions .text-link {
+  font-size: 13px;
+}
+.ribbon-track,
+.ribbon-visual {
+  position: absolute;
+  inset: 0;
+}
+.ribbon-world {
+  position: absolute;
+  inset: 0;
+  background: #18251e;
+  overflow: hidden;
+  clip-path: inset(0 0 0 47%);
+}
+.ribbon-world canvas,
+.ribbon-fallback,
+.ribbon-contours,
+.ribbon-edges {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.ribbon-fallback img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.ribbon-world:has(canvas[data-ready="true"]) .ribbon-fallback {
+  visibility: hidden;
+}
+.ribbon-contours {
+  fill: none;
+  stroke: #8daa8a;
+  stroke-width: 1;
+  opacity: 0.16;
+}
+.ribbon-edges {
+  fill: #294b3b;
+  stroke: #45644c;
+  stroke-width: 1;
+}
+.ribbon-caption {
+  position: absolute;
+  left: var(--space);
+  bottom: 122px;
+  color: #edf3df;
+  pointer-events: none;
+  max-width: 70%;
+}
+.ribbon-caption > span {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 58px);
+  line-height: 1.1;
+}
+.ribbon-caption p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #c5d5b9;
+}
+.ribbon-footer {
+  position: absolute;
+  inset-inline: var(--space);
+  bottom: 26px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  z-index: 3;
+}
+.ribbon-skip {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  padding: 13px 18px;
+  min-height: 46px;
+  background: var(--canvas);
+  color: var(--forest);
+  border: 1px solid #b8ceae;
+  font-size: 12px;
+}
+.ribbon-phases {
+  display: flex;
+  gap: 24px;
+  font-size: 12px;
+  color: #a8bca0;
+}
+.ribbon-phases span {
+  padding-block: 10px;
+  border-bottom: 2px solid transparent;
+}
+.ribbon-phases span[data-active="true"] {
+  color: #f7f8f3;
+  border-color: #c2d8ab;
+}
+.ribbon-progress {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  inset-inline: 0;
+  background: #73906b40;
+}
+.ribbon-progress > span {
+  display: block;
+  height: 100%;
+  background: #b8ceae;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@media (min-width: 1001px) and (min-height: 720px) and (prefers-reduced-motion: no-preference) {
+  .ribbon-journey[data-motion="ready"] {
+    height: calc(100svh - var(--site-header-height) + var(--ribbon-travel));
+  }
+  .ribbon-journey[data-motion="ready"] .ribbon-sticky {
+    position: sticky;
+    top: var(--site-header-height);
+    height: calc(100svh - var(--site-header-height));
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+@media (max-width: 1000px), (max-height: 719px) {
+  .ribbon-sticky {
+    min-height: 0;
+  }
+  .ribbon-copy {
+    width: 100%;
+  }
+  .ribbon-copy .hero-copy {
+    padding: 30px var(--space);
+    max-width: 760px;
+  }
+  main .ribbon-copy h1 {
+    font-size: clamp(30px, 7vw, 46px);
+    max-width: 22ch;
+  }
+  .ribbon-copy .hero-description {
+    font-size: 15px;
+    max-width: 56ch;
+    margin-top: 18px;
+  }
+  .ribbon-copy .hero-audience {
+    font-size: 12px;
+    margin-top: 12px;
+    max-width: 60ch;
+  }
+  .ribbon-copy .hero-actions {
+    margin-top: 20px;
+  }
+  .ribbon-track {
+    position: relative;
+    inset: auto;
+  }
+  .ribbon-visual {
+    position: relative;
+    inset: auto;
+    height: min(760px, calc(100svh - var(--site-header-height)));
+    min-height: 260px;
+    overflow: hidden;
+  }
+  .ribbon-world {
+    clip-path: none;
+  }
+  .ribbon-caption {
+    bottom: 135px;
+    max-width: 90%;
+  }
+  .ribbon-caption > span {
+    font-size: 32px;
+  }
+  .ribbon-caption p {
+    font-size: 12px;
+  }
+  .ribbon-footer {
+    bottom: 20px;
+    gap: 16px;
+    align-items: flex-start;
+    flex-direction: column-reverse;
+  }
+  .ribbon-phases {
+    gap: 20px;
+    font-size: 11px;
+  }
+  .ribbon-phases span {
+    padding-block: 6px;
+  }
+  .ribbon-skip {
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 1000px),
+  (prefers-reduced-motion: no-preference) and (max-height: 719px) {
+  .ribbon-journey[data-motion="ready"] .ribbon-track {
+    height: calc(min(760px, 100svh - var(--site-header-height)) + 820px);
+  }
+  .ribbon-journey[data-motion="ready"] .ribbon-visual {
+    position: sticky;
+    top: var(--site-header-height);
+  }
+}
+@media (max-height: 520px) {
+  .ribbon-caption {
+    bottom: 86px;
+  }
+  .ribbon-caption > span {
+    font-size: 26px;
+  }
+  .ribbon-caption p {
+    display: none;
+  }
+  .ribbon-footer {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-caption {
+    display: none;
+  }
+  .ribbon-progress {
+    display: none;
+  }
+}
+
+/* Countryside belongs to the welcome, separate from the particle hero. */
+.brand-opening {
+  display: grid;
+  place-items: center;
+  background: #e4eedc;
+}
+.brand-opening-landscape {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.brand-opening-landscape img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: gazal-campo-enter 1600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.brand-opening::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #f7f8f380, transparent 72%);
+  pointer-events: none;
+}
+.brand-opening > .brand-opening-mark {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(62vw, 500px);
+  height: auto;
+  align-self: start;
+  margin-top: 22svh;
+  animation: gazal-opening-mark 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.brand-opening .video-intro-skip {
+  z-index: 2;
+}
+@keyframes gazal-campo-enter {
+  from {
+    transform: scale(1.14) translateY(1%);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes gazal-opening-mark {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+html[data-intro-seen="true"] .brand-opening {
+  display: none;
+}
+html[data-intro-seen="true"]:has(.brand-opening) {
+  overflow: auto;
+  scrollbar-width: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-opening {
+    display: none;
+  }
+  .brand-opening img {
+    animation: none;
+  }
+}
+
+/* Scroll carries the material below the following editorial surface. */
+.ribbon-journey + .solutions-home {
+  position: relative;
+  z-index: 4;
+  margin-top: -16px;
+  border-radius: 24px 24px 0 0;
+  background: var(--canvas);
+}
+.ribbon-world canvas {
+  transform-origin: 50% 50%;
+}
+.ribbon-progress {
+  bottom: 16px;
+}
+/* The camera passes through the approved wordmark; skip remains immediate. */
+.brand-opening.is-leaving {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+  transition: none;
+  animation: gazal-opening-exit 900ms ease-in both;
+}
+.brand-opening.is-leaving > .brand-opening-mark {
+  transform-origin: 50% 50%;
+  animation: gazal-wordmark-enter 900ms cubic-bezier(0.7, 0, 0.84, 0) both;
+}
+.brand-opening.is-leaving .brand-opening-landscape img {
+  animation: gazal-landscape-exit 900ms cubic-bezier(0.7, 0, 0.84, 0) both;
+}
+@keyframes gazal-wordmark-enter {
+  65% {
+    transform: scale(4);
+    opacity: 1;
+  }
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(12);
+    opacity: 0;
+  }
+}
+@keyframes gazal-landscape-exit {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.3);
+  }
+}
+@keyframes gazal-opening-exit {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 1000px), (max-height: 719px) {
+  .ribbon-caption {
+    bottom: 92px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-opening.is-leaving,
+  .brand-opening.is-leaving img {
+    animation: none;
+  }
+  .ribbon-journey + .solutions-home {
+    margin-top: 0;
+    border-radius: 0;
+  }
+}
+
+/* Compact the restored scenes without altering their geometry or controls. */
+.process.section {
+  padding-block: clamp(40px, 4vw, 60px);
+}
+.process .section-heading {
+  margin-bottom: 24px;
+}
+.process-controls + .process-stage {
+  margin-top: 18px;
+}
+.process .matter-graphic > svg {
+  max-height: 270px;
+}
+.process .process-copy {
+  min-height: 0;
+  padding-block: 20px;
+}
+.process .process-copy h3 {
+  margin-block: 12px;
+}
+.process .process-detail {
+  margin-top: 16px;
+}
+.process .process-progress {
+  margin-top: 16px;
+}
+.process .process-bottom {
+  margin-top: 16px;
+  padding-top: 12px;
+}
+.process-controls button {
+  min-height: 48px;
+}
+.innovation-home {
+  align-items: center;
+}
+.innovation-home .innovation-visual {
+  min-height: 0;
+}
+.innovation-home .hydrobac-explorer {
+  padding: 24px;
+}
+.innovation-home .hydrobac-figure {
+  max-width: 380px;
+}
+.innovation-home .innovation-copy {
+  padding: clamp(28px, 4vw, 56px);
+}
+.innovation-home .hydrobac-controls {
+  margin-block: 14px;
+}
+.innovation-home .hb-detail {
+  min-height: 102px;
+}
+.hb-range {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 12px;
+  font-size: 11px;
+  padding-top: 4px;
+}
+.hb-range-value {
+  font-variant-numeric: tabular-nums;
+}
+.hb-range input {
+  grid-column: 1 / -1;
+  appearance: none;
+  background: transparent;
+}
+.hb-range input::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    #315e40 var(--hb-progress),
+    #b5c9ac var(--hb-progress)
+  );
+}
+.hb-range input::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6.5px;
+  border: 2px solid #e4eedc;
+  border-radius: 50%;
+  background: #315e40;
+}
+.hb-range input::-moz-range-track {
+  height: 5px;
+  border-radius: 3px;
+  background: #b5c9ac;
+}
+.hb-range input::-moz-range-progress {
+  height: 5px;
+  background: #315e40;
+}
+.hb-range input::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border: 2px solid #e4eedc;
+  border-radius: 50%;
+  background: #315e40;
+}
+.quality-trace {
+  margin-block: 32px;
+}
+@media (min-width: 1001px) {
+  .quality-trace {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  .quality-trace li,
+  .quality-trace li:first-child {
+    align-items: flex-start;
+    border: 0;
+    padding: 24px 8px 0 0;
+    min-height: 54px;
+  }
+  .quality-trace .trace-node {
+    top: 0;
+    left: 0;
+    right: auto;
+  }
+  .quality-trace .trace-connection {
+    left: 7px;
+    top: 3px;
+    width: calc(100% - 7px);
+    height: 1px;
+  }
+  .quality-trace .trace-connection > span {
+    transform-origin: left;
+  }
+}
+@media (max-width: 1000px) {
+  .process .process-controls {
+    gap: 4px 16px;
+  }
+  .process .process-controls button {
+    padding-block: 10px;
+  }
+  .process .matter-graphic {
+    padding-block: 12px;
+  }
+  .process .matter-graphic > svg {
+    max-height: 240px;
+  }
+  .process .process-copy {
+    padding: 20px 0 0;
+  }
+  .innovation-home .hydrobac-figure {
+    max-width: 320px;
+  }
+  .innovation-home .innovation-copy {
+    padding: 36px var(--space) 12px;
+  }
+  .innovation-home .hydrobac-explorer {
+    padding: 20px var(--space) 32px;
+  }
+  .innovation-home .hb-spread {
+    gap: 0 14px;
+  }
+  .innovation-home .hb-range {
+    min-width: 150px;
+  }
+  .quality-trace li {
+    min-height: 48px;
+  }
+}

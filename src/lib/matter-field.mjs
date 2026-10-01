@@ -46,8 +46,11 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
     count,
     buckets,
     lengths,
-    update(width, height, progress) {
+    update(width, height, progress, release = 0) {
       const p = Math.max(0, Math.min(1, progress));
+      const exit = Math.max(0, Math.min(1, release));
+      const shift = Math.min(1, exit / 0.55);
+      const gather = shift * shift * (3 - 2 * shift);
       const sin = Math.sin(p * 0.7),
         cos = Math.cos(p * 0.7);
       const center = width * (0.76 - p * 0.26);
@@ -59,13 +62,13 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
         const c = baseCos * cos - baseSin * sin;
         const depth = c * v;
         const scatter = (1 - p) * (1 - u) ** 2;
-        const x = compact
+        let x = compact
           ? width * 0.5 +
             s * width * 0.23 +
             v * c * width * 0.38 +
             nx * width * scatter
           : center + (u - 0.5) * span + nx * span * 0.4 * scatter;
-        const y = compact
+        let y = compact
           ? height * 0.38 +
             (u - 0.5) * height * 0.61 +
             ny * height * 0.48 * scatter
@@ -77,6 +80,15 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
           0.65,
           (compact ? 1.8 : 2.3) + depth * 1.6 + nr * (1 - p),
         );
+        // Keep each original point and tone. Gather at the edge, then let
+        // the same grains fall. Pure scroll geometry makes reversal exact.
+        if (exit > 0) {
+          x += (width * (compact ? 0.77 : 0.82) - x) * gather * 0.8;
+          const delay = 0.18 + u * 0.22 + nr * 0.08;
+          const fall = Math.max(0, (exit - delay) / (1 - delay));
+          x += nx * width * 0.12 * fall;
+          y += height * 2.4 * fall * fall;
+        }
         const tone =
           i % 67 === 0
             ? 8
