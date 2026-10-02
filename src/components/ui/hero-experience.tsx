@@ -86,12 +86,12 @@ export function HeroExperience({
                 frame = requestAnimationFrame(paint);
             };
             const moveX = gsap.quickTo(pointer, "x", {
-              duration: 0.55,
+              duration: 0.28,
               ease: "power3.out",
               onUpdate: request,
             });
             const moveY = gsap.quickTo(pointer, "y", {
-              duration: 0.55,
+              duration: 0.28,
               ease: "power3.out",
               onUpdate: request,
             });

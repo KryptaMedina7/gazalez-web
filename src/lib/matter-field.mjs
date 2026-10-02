@@ -64,7 +64,7 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
       // Touch and the release sequence keep their deterministic scroll geometry.
       const px = compact || exit > 0 ? 0 : Math.max(-1, Math.min(1, pointerX));
       const py = compact || exit > 0 ? 0 : Math.max(-1, Math.min(1, pointerY));
-      const angle = p * 0.7 + px * 0.32 + py * 0.1;
+      const angle = p * 0.7 + px * 0.85 + py * 0.22;
       const sin = Math.sin(angle),
         cos = Math.cos(angle);
       const framing = Math.max(0, Math.min(1, expansion));
@@ -91,8 +91,10 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
             s * height * 0.19 +
             v * c * height * 0.3 +
             ny * height * 0.65 * scatter;
-        x += px * width * 0.025 * depth;
-        y += py * height * 0.045 * (0.5 + depth);
+        x += px * width * 0.045 * depth;
+        // Vertical movement also tilts the ribbon along its length, so it feels
+        // like manipulating the material rather than moving a flat picture.
+        y += py * height * (0.06 * (0.5 + depth) + (u - 0.5) * 0.12);
         const radius = Math.max(
           0.65,
           (compact ? 1.8 : 2.3) + depth * 1.6 + nr * (1 - p),

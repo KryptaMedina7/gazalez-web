@@ -128,6 +128,12 @@ Petición posterior: permitir explorar el ADN durante el recorrido, hasta que se
 
 Validación: build, lint, typecheck, 20 tests aprobados / 3 PHP omitidos, QA 22 páginas y 1080 referencias sin incidencias. En navegador de escritorio, scroll activo deshabilita el cursor; tras detenerse al 59.6% se habilita y las capturas izquierda/derecha difieren. Al 88.5% permanece deshabilitado y mover el cursor produce capturas idénticas. Capturas `qa/hero-interactive/paused-mid-{left,right}.png`. Sin publicación.
 
+## Ajuste de reactividad del ADN — 2 de octubre
+
+Mayor giro horizontal, paralaje por profundidad e inclinación vertical a lo largo de la cinta. La respuesta usa 280ms con salida suave en lugar de 550ms. Se conserva la misma geometría neutral, el recorte que protege el texto y la prioridad del scroll: interacción al detenerse antes del 70%, atenuación entre 64–70% y salida sin influencia del cursor. No se agregan partículas, dependencias ni cambios en touch o movimiento reducido.
+
+Validación: build, lint, typecheck y QA de 22 páginas / 1080 referencias correctos. 20 pruebas aprobadas y 3 PHP omitidas. Navegador local a 1440×900: giro visible en ambos extremos, texto despejado, cursor suspendido durante scroll y habilitado tras detenerse al 68.1%; deshabilitado al 86.8%. Consola sin errores ni advertencias. Capturas en `qa/hero-interactive/reactive-{left,right,mid}.png`. Sin medición de FPS ni prueba en teléfonos físicos. La entrega PHP no se modifica.
+
 ## Colección de imágenes sin repetición entre aperturas
 
 La revisión anterior diferenciaba tres fichas, pero dejaba once aperturas usando los recursos de portada o compartiéndolos entre sí. Se sustituyó la selección por categorías por un mapa explícito de 14 rutas, cada una con su propia imagen. Las tres imágenes originales de Nutrición, Valorización y Biotecnología quedan exclusivamente en las tarjetas de portada; las praderas del hero no se reutilizan en aperturas internas.
