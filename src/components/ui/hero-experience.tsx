@@ -2,13 +2,9 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { ArrowDown } from "lucide-react";
 import gsap from "gsap";
-import {
-  createMatterField,
-  matterPixelRatio,
-  helixFormation,
-} from "@/lib/matter-field.mjs";
+import type { createDnaRenderer } from "@/lib/dna-renderer";
 
-/** The official site's particle ribbon, with native reversible scroll. */
+/** Image-shaped DNA particles with local pointer impulses and reversible scroll. */
 export function HeroExperience({
   children,
   assetBase = "",
@@ -38,11 +34,12 @@ export function HeroExperience({
           (scope) => {
             const desktop = !!scope.conditions?.desktop;
             const motion = !!scope.conditions?.motion;
-            const ctx = surface.getContext("2d");
-            if (!ctx) return;
-            const field = createMatterField(!desktop);
+            // Reduced motion uses the matching pre-rendered particle plate.
+            if (!motion) return;
+            const controller = new AbortController();
+            let renderer:
+              Awaited<ReturnType<typeof createDnaRenderer>> | undefined;
             const state = { progress: 0 };
-            const pointer = { x: 0, y: 0 };
             const interactive =
               desktop && motion && !!scope.conditions?.pointer;
             const copy = section.querySelector<HTMLElement>(".ribbon-copy")!;
@@ -61,48 +58,23 @@ export function HeroExperience({
               frame = 0;
               if (dead || !visible || document.hidden || !width || !height)
                 return;
-              ctx.clearRect(0, 0, width, height);
-              field.update(
-                width,
-                height,
-                0.82 + Math.min(1, state.progress / 0.65) * 0.18,
-                motion
-                  ? Math.max(
-                      0,
-                      (state.progress - (desktop ? 0.7 : 0.48)) /
-                        (desktop ? 0.3 : 0.52),
-                    )
-                  : 0,
-                Math.max(0, Math.min(1, (state.progress - 0.49) / 0.2)),
-                pointer.x,
-                pointer.y,
-                motion ? helixFormation(state.progress, !desktop) : 1,
+              const active = renderer?.render(
+                state.progress,
+                performance.now(),
               );
-              field.paint(ctx);
-              surface.dataset.ready = "true";
+              if (active) request();
             };
             const request = () => {
               if (!frame && !dead && visible && !document.hidden)
                 frame = requestAnimationFrame(paint);
             };
-            const moveX = gsap.quickTo(pointer, "x", {
-              duration: 0.28,
-              ease: "power3.out",
-              onUpdate: request,
-            });
-            const moveY = gsap.quickTo(pointer, "y", {
-              duration: 0.28,
-              ease: "power3.out",
-              onUpdate: request,
-            });
             let pointerAllowed = false;
             let scrolling = false;
             let settleTimer: ReturnType<typeof setTimeout> | undefined;
-            let pointerBounds = visual.getBoundingClientRect();
+            let pointerBounds = surface.getBoundingClientRect();
             let pointerInset = 0.47;
             const resetPointer = () => {
-              moveX(0);
-              moveY(0);
+              renderer?.clearPointer();
             };
             const syncPointer = () => {
               const allowed =
@@ -115,7 +87,7 @@ export function HeroExperience({
               pointerAllowed = allowed;
               section.dataset.interactive = String(allowed);
               if (allowed) {
-                pointerBounds = visual.getBoundingClientRect();
+                pointerBounds = surface.getBoundingClientRect();
                 // Read once after scroll settles, not on every pointer event.
                 const inset =
                   getComputedStyle(world).clipPath.match(/([\d.]+)%\)$/);
@@ -144,16 +116,8 @@ export function HeroExperience({
                 resetPointer();
                 return;
               }
-              moveX(
-                Math.max(
-                  -1,
-                  Math.min(
-                    1,
-                    ((x - pointerInset) / (1 - pointerInset)) * 2 - 1,
-                  ),
-                ),
-              );
-              moveY(Math.max(-1, Math.min(1, y * 2 - 1)));
+              renderer?.pointer(x * width, y * height, performance.now());
+              request();
             };
             if (interactive) {
               section.addEventListener("pointermove", movePointer);
@@ -169,12 +133,9 @@ export function HeroExperience({
               if (w === width && h === height) return;
               width = w;
               height = h;
-              const ratio = matterPixelRatio(w, h, devicePixelRatio, !desktop);
-              surface.width = Math.round(w * ratio);
-              surface.height = Math.round(h * ratio);
-              ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+              renderer?.resize(w, h);
               request();
-              pointerBounds = visual.getBoundingClientRect();
+              pointerBounds = surface.getBoundingClientRect();
             };
             const resizeObserver = new ResizeObserver(resize);
             resizeObserver.observe(surface);
@@ -255,7 +216,7 @@ export function HeroExperience({
               // A small downward drift carries the material behind the next surface.
               // This is tied to scroll, so reversing reconstructs the same scene.
               timeline.to(
-                surface,
+                [surface, section.querySelector(".ribbon-fallback")],
                 { yPercent: 6, scale: 1.04, duration: 0.7 },
                 0.3,
               );
@@ -270,6 +231,43 @@ export function HeroExperience({
                 0.9,
               );
             }
+            const contextLost = (event: Event) => {
+              event.preventDefault();
+              delete surface.dataset.ready;
+              cancelAnimationFrame(frame);
+              frame = 0;
+            };
+            surface.addEventListener("webglcontextlost", contextLost);
+            surface.addEventListener("webglcontextrestored", request);
+            void import("@/lib/dna-renderer")
+              .then(({ createDnaRenderer }) => {
+                if (dead) return;
+                return createDnaRenderer(
+                  surface,
+                  !desktop,
+                  assetBase,
+                  controller.signal,
+                );
+              })
+              .then((result) => {
+                if (!result) return;
+                if (dead) {
+                  result.dispose();
+                  return;
+                }
+                renderer = result;
+                renderer.resize(width, height);
+                request();
+              })
+              .catch(() => {
+                /* The pre-rendered DNA remains usable without WebGL. */
+              });
+            // The static safety plate also clears when WebGL cannot be initialized.
+            timeline?.to(
+              section.querySelector(".ribbon-fallback"),
+              { opacity: 0, duration: 0.2 },
+              0.8,
+            );
             resize();
             return () => {
               dead = true;
@@ -284,7 +282,10 @@ export function HeroExperience({
               section.removeEventListener("pointerleave", resetPointer);
               window.removeEventListener("scroll", suspendPointer);
               clearTimeout(settleTimer);
-              gsap.killTweensOf(pointer);
+              controller.abort();
+              surface.removeEventListener("webglcontextlost", contextLost);
+              surface.removeEventListener("webglcontextrestored", request);
+              renderer?.dispose();
               timeline?.scrollTrigger?.kill();
               timeline?.kill();
               copy.inert = false;
@@ -304,7 +305,7 @@ export function HeroExperience({
       disposed = true;
       media.revert();
     };
-  }, []);
+  }, [assetBase]);
   return (
     <section
       className="ribbon-journey"
@@ -318,15 +319,15 @@ export function HeroExperience({
             <div
               className="ribbon-world"
               role="img"
-              aria-label="Una cinta de partículas forma una doble hélice de ADN y cae al avanzar por la página."
+              aria-label="ADN de partículas que reaccionan al cursor y descienden al avanzar por la página."
             >
               <picture className="ribbon-fallback">
                 <source
                   media="(max-width:1000px), (max-height:719px)"
-                  srcSet={`${assetBase}/assets/matter/portrait-opening.webp`}
+                  srcSet={`${assetBase}/assets/dna/portrait.webp`}
                 />
                 <img
-                  src={`${assetBase}/assets/matter/landscape-opening.webp`}
+                  src={`${assetBase}/assets/dna/landscape.webp`}
                   alt=""
                   width="1200"
                   height="720"

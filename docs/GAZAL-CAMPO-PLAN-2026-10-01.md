@@ -148,6 +148,23 @@ Rutas con fondo: Preguntas frecuentes, Actualidad, Contacto, Privacidad y Térmi
 
 Validación: build y tipos correctos; 21 pruebas aprobadas y 3 PHP omitidas; QA de 22 páginas y 1081 referencias sin incidencias. Comprobación visual a 1440, 390 y 320px: formación, retorno, reacción al cursor al 85.1% durante caída, puntos interactivos y acordeón utilizable. Puntos estáticos con movimiento reducido; consola sin errores. Evidencia local en `qa/hero-interactive/`: `double-helix.png`, `helix-falling.png`, `helix-mobile.png`, `faq-subtle-dots.png`. Sin medición de FPS ni prueba de teléfonos físicos/Safari. Entrega PHP no regenerada.
 
+## Análisis de Heartgenetics — revisión posterior de la silueta
+
+Se inspeccionaron el sitio en navegador, su bundle público y la imagen de origen. Hallazgo: la referencia no calcula una doble hélice paramétrica como la actual de GAZAL. Convierte una imagen de ADN en partículas: `TextureLoader`, lectura de píxeles con `getImageData`, filtro de intensidad, `InstancedBufferGeometry` y `RawShaderMaterial`. Usa Three.js/WebGL y una cámara de perspectiva. La forma reconocible procede de la imagen, no de una rotación de un modelo molecular.
+
+Fuentes verificadas:
+- https://www.heartgenetics.com/
+- https://www.heartgenetics.com/files/litespeed/js/7aaf431eb3757f4ba6e1ff0bfa633573.js?ver=5363c
+- https://www.heartgenetics.com/files/themes/heartgenetics2022/assets/third-party/hg-interactive-particles/images/sample-01.png (320×180 px)
+
+El puntero alimenta una textura de interacción de 64×64: un historial de posiciones con fuerza calculada según desplazamiento entre eventos, vida de 120 actualizaciones y radio proporcional a esa fuerza. El shader aplica desplazamientos locales X/Y/Z y variación de tamaño. La estela se desvanece y las partículas vuelven a la imagen. No debe confundirse con rotación global del ADN ni con una duración fija en segundos. Existen imágenes específicas para orientación vertical. No se copiaron esos assets al producto.
+
+Diagnóstico local: `matter-field.mjs:47` define vueltas uniformes; `:126` y `:129` proyectan la hélice con eje recto y amplitud constante. El campo usa profundidad para tamaño/color, pero no una perspectiva completa. Las hebras de pocas filas y las uniones regulares se leen como ondas o espirales. El puntero cambia la fase global, no una región cercana al cursor. Decisión de revisión: rehacer la representación antes de seguir intensificando ese giro.
+
+Dirección recomendada: una silueta propia de ADN, con perspectiva oblicua, dos hebras de volumen claro, uniones y espacio negativo bien resueltos; muestrearla en partículas con posiciones de reposo estables. Mantener Canvas 2D y GSAP, como pidió el usuario, con perturbación local amortiguada y dependiente de velocidad. El scroll fija la pose base; el puntero agrega un desplazamiento transitorio que no cambia el progreso ni impide la salida. Recorrido: ADN legible desde la apertura, encuadre que acompaña el scroll sin tapar texto, recogida lateral y caída de las mismas partículas. En móvil, encuadre propio y recorrido por scroll sin exigir hover. Validar silueta quieta y reacción local antes de conectar la salida. Rendimiento por medir; no prometer equivalencia visual exacta con su WebGL usando el presupuesto actual.
+
+Esta revisión es análisis y recomendación: no modifica ni publica otra versión del hero. Las capturas y scripts de referencia se guardan en `qa/heartgenetics-reference/` (ignorado por Git); no se incorporan dependencias o código de terceros al sitio.
+
 ## Colección de imágenes sin repetición entre aperturas
 
 La revisión anterior diferenciaba tres fichas, pero dejaba once aperturas usando los recursos de portada o compartiéndolos entre sí. Se sustituyó la selección por categorías por un mapa explícito de 14 rutas, cada una con su propia imagen. Las tres imágenes originales de Nutrición, Valorización y Biotecnología quedan exclusivamente en las tarjetas de portada; las praderas del hero no se reutilizan en aperturas internas.
@@ -157,3 +174,21 @@ Se generaron once ilustraciones nuevas con image_gen integrado, sin alterar hech
 Archivos y prompts: `docs/assets/2026-10-01-image-collection.json` registra cada prompt completo, origen generado y dos salidas WebP en `public/assets/solutions/` (640 y 1200 px). Los móviles pesan 26–63 KB; los de escritorio 61–171 KB. La carga por página sigue siendo una imagen adaptada al dispositivo.
 
 Validación: build, lint y typecheck correctos. QA: 22 páginas / 1080 referencias sin incidencias. Inventario de HTML compilado: 14 aperturas internas, 14 imágenes únicas, cero reutilizaciones de las tres imágenes de portada. Evidencia en `qa/image-variety/route-inventory.json`. Revisión visual de Innovación en escritorio, HIDROBAC móvil y Empresa tablet. No se publica ni se regenera el paquete PHP en esta revisión.
+
+## ADN de partículas con Three.js — implementación aprobada, 2 de octubre
+
+Tras consultar si Three.js permitiría acercarse a la referencia, el usuario respondió «entonces dale». Esta aprobación sustituye la recomendación anterior de conservar Canvas 2D para el hero. Se mantiene la estructura editorial, el recorrido GSAP, la intro rural, las otras animaciones y los fondos informativos existentes.
+
+| Antes | Ahora | Motivo |
+| --- | --- | --- |
+| Hélice paramétrica que se leía como espiral | Silueta original muestreada desde una ilustración, con dos hebras gruesas y uniones visibles desde el inicio | Reconocimiento del ADN sin esperar a una transformación |
+| Giro global con el cursor | Perturbación local dependiente de velocidad, estela de 12 muestras y retorno de 850ms | Respuesta más cercana al gesto y al carácter de la referencia |
+| Pintado Canvas de bandas | Un Points de Three.js, posiciones inmutables y deformación en shader | Evitar recalcular y dibujar miles de partículas en JavaScript |
+
+Se generó un asset propio con image_gen integrado; no se copió imagen ni código de Heartgenetics. Fuente y prompt exacto: `docs/assets/2026-10-02-dna.json`. Original: `assets/dna/gazal-dna-source.png`. El script `scripts/build-dna-particles.mjs` produce un buffer de 144.000 bytes y dos placas WebP transparentes de menos de 100KB. Presupuesto: 18.000 partículas en escritorio y 6.000 en compacto, con prefijo aleatorizado reproducible que conserva toda la figura. Three.js ya estaba instalado; no se modifican dependencias.
+
+El renderizado se solicita por scroll, resize o estela activa; duerme en reposo, fuera de vista y con documento oculto. El cursor se habilita 180ms después de detener el scroll, incluso durante la recogida y caída hasta completar la salida. No captura gestos táctiles. Movimiento reducido utiliza la placa estática sin crear el renderer. Si falla el recurso o WebGL no está disponible, se conserva esa alternativa. La pérdida de contexto tiene manejador de respaldo; no se simuló una pérdida real de GPU.
+
+Verificación final local: build, lint y typecheck correctos; 25 pruebas aprobadas y 3 PHP omitidas. QA estático: 22 páginas, 1080 referencias, cero incidencias. Navegador Chromium a 320, 390, 768 y 1440px sin desbordamiento horizontal. Se comprobó reacción local, retorno exacto al reposo por comparación de capturas, respuesta al pausar al 83,4% del recorrido, regreso al subir, versión móvil y movimiento reducido. Se bloqueó la petición `particles.bin` mediante CDP y se verificó que la placa seguía visible y la página utilizable. Consola normal sin errores ni advertencias. Evidencia: `qa/dna-three/` (ignorada por Git), incluyendo escritorio, reacción, móvil, movimiento reducido y respaldo en tablet.
+
+Limitaciones: no se midieron FPS ni se probaron Galaxy A51, iPhone físico o Safari. Las comprobaciones responsive no equivalen a una certificación de rendimiento en esos dispositivos. La entrega PHP y los cambios de backend/dependencias que ya estaban en el directorio se conservan fuera de esta publicación.
