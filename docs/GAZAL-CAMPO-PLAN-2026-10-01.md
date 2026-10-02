@@ -134,6 +134,20 @@ Mayor giro horizontal, paralaje por profundidad e inclinación vertical a lo lar
 
 Validación: build, lint, typecheck y QA de 22 páginas / 1080 referencias correctos. 20 pruebas aprobadas y 3 PHP omitidas. Navegador local a 1440×900: giro visible en ambos extremos, texto despejado, cursor suspendido durante scroll y habilitado tras detenerse al 68.1%; deshabilitado al 86.8%. Consola sin errores ni advertencias. Capturas en `qa/hero-interactive/reactive-{left,right,mid}.png`. Sin medición de FPS ni prueba en teléfonos físicos. La entrega PHP no se modifica.
 
+## Doble hélice y fondos informativos — 2 de octubre
+
+Petición posterior al ajuste de sensibilidad: mantener la interacción durante toda la salida, formar un ADN reconocible con las mismas partículas e incorporar puntos muy sutiles en páginas informativas. Referencias visuales consultadas con navegador: https://www.heartgenetics.com/ y https://insertit.cl/. Implementación propia en Canvas 2D y GSAP, sin Three.js ni nuevas dependencias.
+
+| Antes | Después | Motivo |
+| --- | --- | --- |
+| Cinta única durante toda la secuencia | Las mismas partículas forman dos hebras opuestas y 22 uniones; transición 8–48% escritorio / 3–30% compacto | Hacer reconocible la doble hélice antes de caer |
+| Cursor deshabilitado desde el 70% | Disponible al pausar hasta completar la salida; respuesta acotada durante recogida y caída | Mantener interacción sin impedir que las partículas desaparezcan |
+| Fondos informativos lisos | Puntos verdes de 1.1px y 16% de opacidad base, reacción local y sin movimiento autónomo | Aportar profundidad sin competir con la lectura |
+
+Rutas con fondo: Preguntas frecuentes, Actualidad, Contacto, Privacidad y Términos. Canvas decorativo, sin capturar clics; estático con movimiento reducido y sin reacción al tacto. Máximo de dos millones de píxeles de raster. La hélice compacta tiene menos vueltas y reserva espacio inferior para el texto. Se conservan conteo de partículas, presupuestos de raster del hero, navegación, contenido y animaciones de HIDROBAC.
+
+Validación: build y tipos correctos; 21 pruebas aprobadas y 3 PHP omitidas; QA de 22 páginas y 1081 referencias sin incidencias. Comprobación visual a 1440, 390 y 320px: formación, retorno, reacción al cursor al 85.1% durante caída, puntos interactivos y acordeón utilizable. Puntos estáticos con movimiento reducido; consola sin errores. Evidencia local en `qa/hero-interactive/`: `double-helix.png`, `helix-falling.png`, `helix-mobile.png`, `faq-subtle-dots.png`. Sin medición de FPS ni prueba de teléfonos físicos/Safari. Entrega PHP no regenerada.
+
 ## Colección de imágenes sin repetición entre aperturas
 
 La revisión anterior diferenciaba tres fichas, pero dejaba once aperturas usando los recursos de portada o compartiéndolos entre sí. Se sustituyó la selección por categorías por un mapa explícito de 14 rutas, cada una con su propia imagen. Las tres imágenes originales de Nutrición, Valorización y Biotecnología quedan exclusivamente en las tarjetas de portada; las praderas del hero no se reutilizan en aperturas internas.

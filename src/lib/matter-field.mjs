@@ -14,6 +14,15 @@ const noise = (n) => {
   const value = Math.sin(n * 127.1 + 311.7) * 43758.5453;
   return value - Math.floor(value);
 };
+const smooth = (value) => {
+  const t = Math.max(0, Math.min(1, value));
+  return t * t * (3 - 2 * t);
+};
+
+/** Complete the double helix before the same particles start their exit. */
+export function helixFormation(progress, compact = false) {
+  return smooth((progress - (compact ? 0.03 : 0.08)) / (compact ? 0.27 : 0.4));
+}
 
 /** Bound raster memory independently of device pixel ratio and screen size. */
 export function matterPixelRatio(width, height, deviceRatio, compact) {
@@ -31,6 +40,16 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
   const seeds = Array.from({ length: count }, (_, i) => {
     const u = (i % 110) / 109;
     const angle = u * Math.PI * 2.15 - 1.3;
+    const row = Math.floor(i / 110);
+    const backboneRows = Math.ceil((count / 110) * 0.7);
+    const backbone = row < backboneRows;
+    const helixU = backbone ? u : (i % 22) / 21;
+    const helixAngle = helixU * Math.PI * (compact ? 3.2 : 4.4) - 0.7;
+    const radial = backbone
+      ? (row % 2 ? -1 : 1) + (noise(i + 31) - 0.5) * 0.14
+      : (Math.floor((i - backboneRows * 110) / 22) /
+          Math.max(1, Math.ceil((count - backboneRows * 110) / 22) - 1)) *
+          2 - 1;
     return [
       u,
       Math.floor(i / 110) / (count / 110 - 1) - 0.5,
@@ -39,6 +58,10 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
       noise(i) - 0.5,
       noise(i + 87) - 0.5,
       noise(i + 16),
+      helixU,
+      Math.sin(helixAngle),
+      Math.cos(helixAngle),
+      radial,
     ];
   });
   const buckets = tones.map(() => new Float32Array(count * 3));
@@ -55,15 +78,17 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
       expansion = progress,
       pointerX = 0,
       pointerY = 0,
+      formation = 0,
     ) {
       const p = Math.max(0, Math.min(1, progress));
       const exit = Math.max(0, Math.min(1, release));
       const shift = Math.min(1, exit / 0.55);
       const gather = shift * shift * (3 - 2 * shift);
       // A bounded turn of the same ribbon, never a cursor-following translation.
-      // Touch and the release sequence keep their deterministic scroll geometry.
-      const px = compact || exit > 0 ? 0 : Math.max(-1, Math.min(1, pointerX));
-      const py = compact || exit > 0 ? 0 : Math.max(-1, Math.min(1, pointerY));
+      // Touch stays scroll-only. Mouse input remains bounded through the exit.
+      const px = compact ? 0 : Math.max(-1, Math.min(1, pointerX));
+      const py = compact ? 0 : Math.max(-1, Math.min(1, pointerY));
+      const morph = Math.max(0, Math.min(1, formation));
       const angle = p * 0.7 + px * 0.85 + py * 0.22;
       const sin = Math.sin(angle),
         cos = Math.cos(angle);
@@ -72,10 +97,17 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
       const span = width * (0.53 + framing * 0.36);
       lengths.fill(0);
       for (let i = 0; i < count; i++) {
-        const [u, v, baseSin, baseCos, nx, ny, nr] = seeds[i];
+        const [u, v, baseSin, baseCos, nx, ny, nr, hu, hs, hc, radial] =
+          seeds[i];
         const s = baseSin * cos + baseCos * sin;
         const c = baseCos * cos - baseSin * sin;
-        const depth = c * v;
+        const helixSin = hs * cos + hc * sin;
+        const helixCos = hc * cos - hs * sin;
+        const helixDepth = Math.max(
+          -0.5,
+          Math.min(0.5, helixCos * radial * 0.46),
+        );
+        const depth = c * v + (helixDepth - c * v) * morph;
         const scatter = (1 - p) * (1 - u) ** 2;
         let x = compact
           ? width * 0.5 +
@@ -91,6 +123,16 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
             s * height * 0.19 +
             v * c * height * 0.3 +
             ny * height * 0.65 * scatter;
+        const helixX = compact
+          ? width * 0.5 + helixSin * radial * width * 0.29 + nx * width * 0.014
+          : center + (hu - 0.5) * span * 0.91 + nx * width * 0.004;
+        const helixY = compact
+          ? height * 0.34 + (hu - 0.5) * height * 0.54 + ny * height * 0.004
+          : height * 0.48 +
+            helixSin * radial * height * 0.22 +
+            ny * height * 0.009;
+        x += (helixX - x) * morph;
+        y += (helixY - y) * morph;
         x += px * width * 0.045 * depth;
         // Vertical movement also tilts the ribbon along its length, so it feels
         // like manipulating the material rather than moving a flat picture.
@@ -107,6 +149,9 @@ export function createMatterField(compact, rows = compact ? 10 : 20) {
           const fall = Math.max(0, (exit - delay) / (1 - delay));
           x += nx * width * 0.12 * fall;
           y += height * 2.4 * fall * fall;
+          // A little lateral response survives gathering; never pull falling
+          // particles back into view or prevent their deterministic exit.
+          x += px * width * 0.04 * gather * (1 - exit);
         }
         const tone = Math.min(8, Math.max(0, Math.floor((depth + 0.5) * 9)));
         const offset = lengths[tone] * 3;

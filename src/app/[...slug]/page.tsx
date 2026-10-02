@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { HydrobacLab } from "@/components/ui/hydrobac-lab";
+import { DotGrid } from "@/components/ui/dot-grid";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -116,6 +117,13 @@ export default async function ContentPage({
   const solution = solutions.find((s) => key === `soluciones/${s.slug}`);
   const corporate = corporatePages[key as keyof typeof corporatePages];
   const pageVisual = pageVisuals[key];
+  const quietBackground = [
+    "preguntas-frecuentes",
+    "actualidad",
+    "contacto",
+    "privacidad",
+    "terminos",
+  ].includes(key);
   const label =
     solution?.title ||
     (
@@ -144,7 +152,10 @@ export default async function ContentPage({
   const crumbs = [...(parent ? [parent] : []), ...nutritionParent, { label }];
   return (
     <>
-      <div className="page-wrap">
+      <div
+        className={`page-wrap${quietBackground ? " page-wrap--quiet-dots" : ""}`}
+      >
+        {quietBackground && <DotGrid surface="light" />}
         <Breadcrumb items={crumbs} />
         {key === "preguntas-frecuentes" && (
           <>

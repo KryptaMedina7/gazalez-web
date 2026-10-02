@@ -5,6 +5,7 @@ import sharp from "sharp";
 import {
   createMatterField,
   matterPixelRatio,
+  helixFormation,
 } from "../src/lib/matter-field.mjs";
 
 const snapshot = (field) =>
@@ -121,7 +122,7 @@ test("paint uses a bounded depth pass and small front-surface highlights", () =>
   }
 });
 
-test("pointer exploration is bounded, reversible and disabled for touch and release", () => {
+test("pointer exploration stays bounded and reversible through release, with touch scroll-only", () => {
   const field = createMatterField(false);
   field.update(1440, 800, 0.82, 0, 0);
   const neutral = snapshot(field);
@@ -136,12 +137,39 @@ test("pointer exploration is bounded, reversible and disabled for touch and rele
   field.update(1440, 800, 1, 0.5, 1);
   const released = snapshot(field);
   field.update(1440, 800, 1, 0.5, 1, 1, 1);
+  assert.notDeepEqual(snapshot(field), released);
+  field.update(1440, 800, 1, 0.5, 1, 0, 0);
   assert.deepEqual(snapshot(field), released);
   const mobile = createMatterField(true);
   mobile.update(390, 600, 1, 0, 0);
   const touch = snapshot(mobile);
   mobile.update(390, 600, 1, 0, 0, 1, -1);
   assert.deepEqual(snapshot(mobile), touch);
+});
+
+test("the same particles form a complete helix before release and reconstruct on reverse", () => {
+  for (const compact of [false, true]) {
+    const width = compact ? 390 : 1440, height = 800;
+    const field = createMatterField(compact);
+    assert.equal(helixFormation(0, compact), 0);
+    assert.equal(helixFormation(compact ? 0.48 : 0.7, compact), 1);
+    field.update(width, height, 1, 0, 1, 0, 0, 1);
+    const complete = snapshot(field);
+    for (const morph of [0, 0.2, 0.5, 0.8, 1]) {
+      field.update(width, height, 1, 0, 1, 0, 0, morph);
+      assert.equal([...field.lengths].reduce((a, b) => a + b), field.count);
+      assert.ok(snapshot(field).flat().every(Number.isFinite));
+    }
+    assert.deepEqual(snapshot(field), complete);
+    for (const pointer of [-1, 0, 1]) {
+      field.update(width, height, 1, 1, 1, pointer, pointer, 1);
+      for (const band of snapshot(field))
+        for (let i = 0; i < band.length; i += 3)
+          assert.ok(band[i + 1] - band[i + 2] > height, "pointer must not pull the final particles back into view");
+    }
+    field.update(width, height, 1, 0, 1, 0, 0, 1);
+    assert.deepEqual(snapshot(field), complete);
+  }
 });
 
 test("mobile scenes decode with transparency within transfer and texture budgets", async () => {

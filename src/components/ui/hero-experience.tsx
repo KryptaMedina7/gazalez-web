@@ -2,7 +2,11 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { ArrowDown } from "lucide-react";
 import gsap from "gsap";
-import { createMatterField, matterPixelRatio } from "@/lib/matter-field.mjs";
+import {
+  createMatterField,
+  matterPixelRatio,
+  helixFormation,
+} from "@/lib/matter-field.mjs";
 
 /** The official site's particle ribbon, with native reversible scroll. */
 export function HeroExperience({
@@ -58,11 +62,6 @@ export function HeroExperience({
               if (dead || !visible || document.hidden || !width || !height)
                 return;
               ctx.clearRect(0, 0, width, height);
-              // Hand over continuously to the gathering phase, even on a fast scroll.
-              const pointerInfluence = Math.max(
-                0,
-                Math.min(1, (0.7 - state.progress) / 0.06),
-              );
               field.update(
                 width,
                 height,
@@ -75,8 +74,9 @@ export function HeroExperience({
                     )
                   : 0,
                 Math.max(0, Math.min(1, (state.progress - 0.49) / 0.2)),
-                pointer.x * pointerInfluence,
-                pointer.y * pointerInfluence,
+                pointer.x,
+                pointer.y,
+                motion ? helixFormation(state.progress, !desktop) : 1,
               );
               field.paint(ctx);
               surface.dataset.ready = "true";
@@ -110,7 +110,7 @@ export function HeroExperience({
                 visible &&
                 !document.hidden &&
                 !scrolling &&
-                state.progress < 0.7;
+                state.progress < 1;
               if (allowed === pointerAllowed) return;
               pointerAllowed = allowed;
               section.dataset.interactive = String(allowed);
@@ -318,7 +318,7 @@ export function HeroExperience({
             <div
               className="ribbon-world"
               role="img"
-              aria-label="Partículas que se reúnen en una cinta de ADN y se despliegan al recorrer la página."
+              aria-label="Una cinta de partículas forma una doble hélice de ADN y cae al avanzar por la página."
             >
               <picture className="ribbon-fallback">
                 <source
