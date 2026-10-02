@@ -75,7 +75,31 @@ test("raster budget holds on high density phones and 4K screens", () => {
   }
 });
 
-test("paint batches every particle into at most nine fills", () => {
+test("depth bands preserve occlusion order while framing reverses independently", () => {
+  const field = createMatterField(false);
+  field.update(1440, 800, 1, 0, 0);
+  const opening = snapshot(field);
+  let previousRadius = 0;
+  for (const band of opening) {
+    if (!band.length) continue;
+    const radii = band.filter((_, index) => index % 3 === 2);
+    const mean = radii.reduce((sum, radius) => sum + radius, 0) / radii.length;
+    assert.ok(mean > previousRadius, "near planes must not be painted behind smaller far planes");
+    previousRadius = mean;
+  }
+  field.update(1440, 800, 1, 0, 1);
+  const expanded = snapshot(field);
+  assert.notDeepEqual(expanded, opening);
+  for (let band = 0; band < opening.length; band++) {
+    for (let index = 0; index < opening[band].length; index++) {
+      if (index % 3 !== 0) assert.equal(expanded[band][index], opening[band][index]);
+    }
+  }
+  field.update(1440, 800, 1, 0, 0);
+  assert.deepEqual(snapshot(field), opening);
+});
+
+test("paint uses a bounded depth pass and small front-surface highlights", () => {
   for (const compact of [true, false]) {
     const field = createMatterField(compact);
     let fills = 0,
@@ -92,9 +116,32 @@ test("paint batches every particle into at most nine fills", () => {
         fills++;
       },
     });
-    assert.equal(arcs, field.count);
-    assert.ok(fills <= 9);
+    assert.ok(arcs >= field.count && arcs <= field.count * 1.5);
+    assert.ok(fills <= 12);
   }
+});
+
+test("pointer exploration is bounded, reversible and disabled for touch and release", () => {
+  const field = createMatterField(false);
+  field.update(1440, 800, 0.82, 0, 0);
+  const neutral = snapshot(field);
+  field.update(1440, 800, 0.82, 0, 0, 1, -1);
+  const explored = snapshot(field);
+  assert.notDeepEqual(explored, neutral);
+  assert.ok(explored.flat().every(Number.isFinite));
+  field.update(1440, 800, 0.82, 0, 0, 100, -100);
+  assert.deepEqual(snapshot(field), explored);
+  field.update(1440, 800, 0.82, 0, 0, 0, 0);
+  assert.deepEqual(snapshot(field), neutral);
+  field.update(1440, 800, 1, 0.5, 1);
+  const released = snapshot(field);
+  field.update(1440, 800, 1, 0.5, 1, 1, 1);
+  assert.deepEqual(snapshot(field), released);
+  const mobile = createMatterField(true);
+  mobile.update(390, 600, 1, 0, 0);
+  const touch = snapshot(mobile);
+  mobile.update(390, 600, 1, 0, 0, 1, -1);
+  assert.deepEqual(snapshot(mobile), touch);
 });
 
 test("mobile scenes decode with transparency within transfer and texture budgets", async () => {

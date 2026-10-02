@@ -1,0 +1,104 @@
+{
+  "generator": "Built-in image_gen, individual new images",
+  "assets": [
+    {
+      "name": "protein-study",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. Macro still life of three distinct fine and coarse beige protein-feed ingredient samples arranged as small tactile mounds on overlapping ivory paper, one simple steel scoop, soft sage background. Make composition minimal, sculptural, closer than a full table, no bowls, no plants.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-e95a7513-5297-4c03-8cca-a3756b5c3b37.png",
+      "outputs": [
+        "public/assets/solutions/protein-study-640.webp",
+        "public/assets/solutions/protein-study-1200.webp"
+      ]
+    },
+    {
+      "name": "crop-recovery",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. An open shallow wooden sorting tray holding dry corn husks, small cut stalk sections and stripped corn cobs in separate loose groups, with a rural agricultural field softly blurred in the background. Show the origin and distinct textures of plant byproducts, no pellets, no waste piles.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-faafa543-1385-4663-8361-0fabd91180b3.png",
+      "outputs": [
+        "public/assets/solutions/crop-recovery-640.webp",
+        "public/assets/solutions/crop-recovery-1200.webp"
+      ]
+    },
+    {
+      "name": "bioprocess-study",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. A close photographic laboratory still life of two clean unbranded glass flasks containing amber plant extract and one transparent dish of finely cut plant biomass on a sage workbench, soft light refracted through glass. A few green leaves softly blurred far behind. No large facility, no invented molecular structures.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-ae3795ed-bf07-4f4d-a4dc-eb0572f1b89e.png",
+      "outputs": [
+        "public/assets/solutions/bioprocess-study-640.webp",
+        "public/assets/solutions/bioprocess-study-1200.webp"
+      ]
+    },
+    {
+      "name": "research-seedlings",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. A row of several young cereal seedlings at different small growth stages in individual clear glass containers, fine pale roots visible against neutral ivory background, sparse sage scientific workspace, delicate lifelike detail. Focus on observation of growth and agricultural research. No hydrogel beads, no microscope.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-ede6c8ff-3f8b-487f-b40c-2edf3ecb754b.png",
+      "outputs": [
+        "public/assets/solutions/research-seedlings-640.webp",
+        "public/assets/solutions/research-seedlings-1200.webp"
+      ]
+    },
+    {
+      "name": "hydrogel-roots",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. A finely detailed close-up illustrative soil cross-section showing a young green seedling with delicate branching roots in moist dark soil and a few translucent irregular hydrogel granules among roots. Photographic macro treatment, organic subtlety, true scale not implied, not a product package or a measured comparison. Sage blurred background and directional soft daylight. No diagrams, blue glowing balls or labels.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-a53e057e-3430-4d3c-b0af-4b1c1c7606ad.png",
+      "outputs": [
+        "public/assets/solutions/hydrogel-roots-640.webp",
+        "public/assets/solutions/hydrogel-roots-1200.webp"
+      ]
+    },
+    {
+      "name": "technology-transfer",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. Two pairs of hands, no faces visible, gently exchanging a small glass seedling container above an uncluttered ivory research table. One hand has a neutral laboratory sleeve and the other a sage work-shirt cuff. Soft agricultural research atmosphere, natural roots and leaf details, collaboration not a handshake, no documents or visible identities.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-f90f7bbe-8400-44c7-868c-86f3543dc3f3.png",
+      "outputs": [
+        "public/assets/solutions/technology-transfer-640.webp",
+        "public/assets/solutions/technology-transfer-1200.webp"
+      ]
+    },
+    {
+      "name": "field-trials",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. Close-to-ground view of an orderly small agricultural trial bed with different rows of young green cereal plants, a modest unbranded measuring ruler lying on soil at the edge with no legible markings, distant rolling farmland softly blurred. Scientific field exploration, no infrastructure, no flags, no claims of real company trials.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-c5dc48e0-fd7a-4a1e-8527-b1862cf1630a.png",
+      "outputs": [
+        "public/assets/solutions/field-trials-640.webp",
+        "public/assets/solutions/field-trials-1200.webp"
+      ]
+    },
+    {
+      "name": "rural-company",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. Broad cinematic view along a quiet rural dirt farm lane between green agricultural fields and simple weathered fence posts, rolling hills in the distance, low soft morning light, natural Biobio-inspired temperate countryside without recognizable landmarks. No forest/jungle, no buildings, no vehicles, no logos. Different from an aerial patchwork panorama.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-7171c60b-8b36-4646-8069-1ef84a0fd1fb.png",
+      "outputs": [
+        "public/assets/solutions/rural-company-640.webp",
+        "public/assets/solutions/rural-company-1200.webp"
+      ]
+    },
+    {
+      "name": "circular-soil",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. Intimate photographic close-up of dark rich agricultural soil, dry crop stubble and fresh low green cover plants growing between harvested rows. Texture and renewal, soft morning side light, rural field fading to sage blur. No hands, no seedlings in glass, no infographic or sustainability icons.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-2620d6eb-648e-448c-9203-32b6c8c6ce10.png",
+      "outputs": [
+        "public/assets/solutions/circular-soil-640.webp",
+        "public/assets/solutions/circular-soil-1200.webp"
+      ]
+    },
+    {
+      "name": "solution-overview",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. Beautiful overhead editorial flat-lay on soft ivory paper: a curved wheat ear, three tiny ingredient sample piles in different textures, a clear shallow glass dish and one green field leaf arranged in an airy asymmetrical composition. Show agricultural materials meeting technical evaluation, subtle sage shadows, no repeated large bowls, no text.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-7a6ebfaa-7c15-4fe9-8038-26c9ae591482.png",
+      "outputs": [
+        "public/assets/solutions/solution-overview-640.webp",
+        "public/assets/solutions/solution-overview-1200.webp"
+      ]
+    },
+    {
+      "name": "technical-dialogue",
+      "prompt": "Create a single landscape 3:2 premium editorial photographic illustration for GAZAL, a countryside and applied-science industrial website. Muted sage green, natural ivory, dark forest accents and restrained earthy colors; soft daylight, believable material details, calm spacious composition. Keep main subject comfortably within central 75% for responsive framing. No text, logos, labels, badges, collage, diagrams, generic glowing science effects, or branded packaging. Generic illustrative scene, not evidence of a named company's facilities or products. An overhead view of two people represented only by natural cropped hands around an ivory table reviewing blank cream paper beside a small soil-and-fiber sample in a glass dish, a pen and a wheat stem. Muted sage sleeves, careful professional collaboration, no faces, no handwriting or charts, no laptops, no logos.",
+      "source": "C:\\Users\\BenjaminPetit\\.codex\\generated_images\\01a083c7-108d-7bc0-9a40-a5ca2b012a5e\\exec-01307a79-e31b-4fa1-9c17-936098a68567.png",
+      "outputs": [
+        "public/assets/solutions/technical-dialogue-640.webp",
+        "public/assets/solutions/technical-dialogue-1200.webp"
+      ]
+    }
+  ]
+}

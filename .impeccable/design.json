@@ -38,13 +38,13 @@
       },
       {
         "name": "hero-scroll",
-        "value": "1160px desktop / 820px compact; scrub 0.22 desktop / true compact",
-        "purpose": "Restored official ADN-only ribbon using matter-field.mjs Canvas 2D: 2200 desktop / 1100 compact particles. Native reversible scroll, demand rendering, inactive offscreen/hidden, original static plate fallback. No pellet/fiber morph, Three.js or WebGL."
+        "value": "clamp(480px,90svh,900px) desktop / no extended compact travel (normal flow); scrub 0.22 / true",
+        "purpose": "Restored official ADN-only ribbon using matter-field.mjs Canvas 2D: 2200 desktop / 1100 compact particles. Native reversible scroll, demand rendering, inactive offscreen/hidden, matching opening-pose static fallback. No pellet/fiber morph, Three.js or WebGL."
       },
       {
         "name": "hero-particle-exit",
-        "value": "ADN formed at 58%, release starts at 68%; original grains gather rightward and fall until the following section covers 65% of the visual",
-        "purpose": "Scroll-reversible release of the original particles, without new shapes, extra points or paint passes. The six percent surface drift and native sticky sequence remain; reduced motion is static."
+        "value": "One normalized timeline; copy holds to 25%, inert at 49%; framing opens 49-69% after the copy is hidden; release 70% desktop / 48% compact and continues under Soluciones",
+        "purpose": "Mouse exploration resumes 180ms after scroll/scrub settles, before 70% progress; influence tapers at 64-70%. Scroll-reversible release of the original particles, without new shapes or extra points. Nine depth bands and three matte highlight passes. The six percent surface drift and native sticky sequence remain; reduced motion is static."
       },
       {
         "name": "dropdown",
@@ -58,7 +58,7 @@
       },
       {
         "name": "transformation",
-        "value": "720ms desktop / 380ms compact particle movement; 130ms desktop stagger; 4.5-second stage intervals",
+        "value": "720ms desktop / 500ms compact particle movement; 130ms desktop stagger; 4.5-second stage intervals",
         "purpose": "Official 1dcd984 particle diagram restored with current editorial copy. 120 SVG particles across four conceptual stages; compact animates every third particle. Stage buttons, pause/replay and repeat; no range input. One visible pass, manual control takes precedence; immediate keyboard/reduced-motion positioning."
       },
       {
@@ -188,8 +188,8 @@
       },
       {
         "name": "particle-fallback",
-        "source": "public/assets/matter/landscape-formed.webp and portrait-formed.webp",
-        "purpose": "Original static particle plate, visible before Canvas 2D is ready and when canvas initialization fails."
+        "source": "public/assets/matter/landscape-opening.webp and portrait-opening.webp",
+        "purpose": "Matching opening-pose static plate, generated with scripts/generate-matter-opening.mjs. New praderas-640/1600.webp scenery supports the hero and internal nature illustrations; the welcome stays unchanged."
       }
     ],
     "typographyMeta": {

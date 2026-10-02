@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Pause, RotateCcw } from "lucide-react";
 import { processSteps } from "@/lib/content";
@@ -12,9 +12,10 @@ import {
 } from "@/lib/process-layout.mjs";
 
 export function Process() {
+  const materialId = useId().replace(/:/g, "");
   const [step, setStep] = useState(0);
   const [announce, setAnnounce] = useState(false);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const manual = useRef(false);
   const initialized = useRef(false);
@@ -22,14 +23,17 @@ export function Process() {
   const autoplay = useRef<gsap.core.Timeline | null>(null);
   const syncPlayback = useRef<(() => void) | null>(null);
   const nodes = useRef<SVGCircleElement[]>([]);
-  const copy = useRef<HTMLDivElement>(null);
   const progress = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const root = ref.current;
     if (!root) return;
     const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: reduce)", () => {
+      setPlaying(false);
+    });
     media.add("(prefers-reduced-motion: no-preference)", () => {
+      if (!manual.current) setPlaying(true);
       const sequence = gsap.timeline({
         paused: true,
         onComplete: () => setPlaying(false),
@@ -94,7 +98,7 @@ export function Process() {
             position(step, Number(node.dataset.particle)).x,
           y: (_i, node: SVGCircleElement) =>
             position(step, Number(node.dataset.particle)).y,
-          duration: immediate ? 0 : compact ? 0.38 : 0.72,
+          duration: immediate ? 0 : compact ? 0.5 : 0.72,
           stagger: immediate || compact ? 0 : { amount: 0.13, from: "center" },
           overwrite: "auto",
         },
@@ -109,14 +113,6 @@ export function Process() {
         },
         0,
       );
-      if (copy.current && !immediate)
-        timeline.fromTo(
-          copy.current,
-          { opacity: 0.45, y: 7 },
-          { opacity: 1, y: 0, duration: 0.32, ease: "power2.out" },
-          0.06,
-        );
-      else gsap.set(copy.current, { opacity: 1, y: 0 });
     };
     animate();
     reduce.addEventListener("change", animate);
@@ -166,9 +162,14 @@ export function Process() {
             aria-pressed={step === i}
             onClick={(event) => choose(i, event.detail === 0)}
           >
-            <span>0{i + 1}</span>
-            <span>{p.label}</span>
-            <Icon name="arrow" />
+            <span className="process-step-number" aria-hidden="true">
+              0{i + 1}
+            </span>
+            <span className="process-step-label">
+              <strong>{p.label.split(" · ")[0]}</strong>
+              <span>{p.label.split(" · ")[1]}</span>
+            </span>
+            <span className="process-step-status" aria-hidden="true" />
           </button>
         ))}
       </div>
@@ -179,6 +180,24 @@ export function Process() {
             role="img"
             aria-label={`Representación conceptual: ${processSteps[step].title}`}
           >
+            <defs>
+              {[
+                ["#e4efce", "#95b591"],
+                ["#aacaae", "#4e805f"],
+                ["#f5f5dc", "#b3c5a3"],
+              ].map(([light, dark], index) => (
+                <radialGradient
+                  key={index}
+                  id={`${materialId}-matter-${index}`}
+                  cx="32%"
+                  cy="28%"
+                  r="75%"
+                >
+                  <stop stopColor={light} />
+                  <stop offset="1" stopColor={dark} />
+                </radialGradient>
+              ))}
+            </defs>
             <g className="process-guides" aria-hidden="true">
               <g className="process-guide" data-active={step === 0}>
                 <path d="M173 73H145V103 M427 73H455V103 M145 244V274H173 M455 244V274H427" />
@@ -247,7 +266,7 @@ export function Process() {
                 cx="0"
                 cy="0"
                 r={p.r}
-                fill={["#b8d8bc", "#75a58a", "#e0eddb"][Math.floor(i / 40)]}
+                fill={`url(#${materialId}-matter-${Math.floor(i / 40)})`}
                 style={{ transform: `translate(${p.x}px,${p.y}px)` }}
               />
             ))}
@@ -255,7 +274,9 @@ export function Process() {
           <button
             className="process-playback"
             aria-label={
-              playing ? "Pausar transformación" : "Reproducir transformación"
+              playing
+                ? "Pausar transformación"
+                : "Repetir transformación desde el inicio"
             }
             onClick={() => {
               if (playing) {
@@ -270,7 +291,7 @@ export function Process() {
             ) : (
               <RotateCcw size={14} aria-hidden="true" />
             )}
-            {playing ? "Pausar" : "Reproducir"}
+            {playing ? "Pausar" : "Repetir"}
           </button>
           <div className="graphic-caption">
             <span>Materia → nueva aplicación</span>
@@ -279,18 +300,31 @@ export function Process() {
         </div>
         <div
           className="process-copy"
+          onFocusCapture={() => {
+            manual.current = true;
+            autoplay.current?.pause();
+            setPlaying(false);
+          }}
           aria-live={announce ? "polite" : "off"}
           aria-atomic="true"
         >
-          <div ref={copy}>
-            <span className="step-count">0{step + 1} / 04</span>
-            <h3>{processSteps[step].title}</h3>
-            <p>{processSteps[step].body}</p>
-            <span className="process-detail">{processSteps[step].detail}</span>
-            <Link className="text-link" href="/contacto/?interes=subproducto">
-              Consultar sobre mi material <Icon name="arrow" />
-            </Link>
-          </div>
+          {processSteps.map((stage, index) => (
+            <div
+              key={stage.title}
+              className="process-copy-panel"
+              data-active={step === index}
+              aria-hidden={step !== index}
+              inert={step !== index}
+            >
+              <span className="step-count">0{index + 1} / 04</span>
+              <h3>{stage.title}</h3>
+              <p>{stage.body}</p>
+              <span className="process-detail">{stage.detail}</span>
+              <Link className="text-link" href="/contacto/?interes=subproducto">
+                Consultar sobre mi material <Icon name="arrow" />
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
       <div className="process-progress" aria-hidden="true">

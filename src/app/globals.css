@@ -638,6 +638,7 @@ fieldset {
 }
 .process-controls button[aria-pressed="true"] {
   border-top-color: #c4deb5;
+  background: #c4deb510;
   color: #f5faee;
 }
 .process-controls button > span:first-child {
@@ -3861,10 +3862,10 @@ input[type="file"]::file-selector-button {
   outline: none;
 }
 .hb-plane-surface {
-  fill-opacity: 0.55;
+  fill-opacity: 0.68;
 }
 .hb-plane-edge {
-  opacity: 0.24;
+  opacity: 0.4;
 }
 .hb-plane-label {
   font-size: 16px;

@@ -119,6 +119,7 @@ export function HydrobacExplorer() {
           <defs>
             <linearGradient id={`${id}-gel`} x1="0" y1="0" x2="0.8" y2="1">
               <stop stopColor="#eff8e0" />
+              <stop offset="0.48" stopColor="#c6ddbb" />
               <stop offset="1" stopColor="#86ad82" />
             </linearGradient>
             <linearGradient id={`${id}-water`} x1="0" y1="0" x2="0.8" y2="1">
@@ -170,7 +171,7 @@ export function HydrobacExplorer() {
                   ry="66"
                   fill={
                     index === 1
-                      ? "#d1e7dd"
+                      ? `url(#${id}-water)`
                       : index === 2
                         ? "#e4eed8"
                         : `url(#${id}-gel)`

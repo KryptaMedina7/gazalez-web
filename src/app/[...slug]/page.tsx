@@ -22,6 +22,23 @@ import { EnquiryForm } from "@/components/enquiry-form";
 import { LeadershipVoices } from "@/components/leadership-voices";
 import { CompanyFaq } from "@/components/company-faq";
 import type { VisualKey } from "@/components/concept-image";
+// Each internal opening has its own artwork; homepage category images stay there.
+const pageVisuals: Partial<Record<string, VisualKey>> = {
+  soluciones: "solution-overview",
+  "soluciones/nutricion-animal": "poultry",
+  "soluciones/nucleos-proteicos": "protein-study",
+  "soluciones/formulacion-tecnica": "formulation",
+  "soluciones/valorizacion-industrial": "crop-recovery",
+  "soluciones/bioprocesos": "bioprocess-study",
+  innovacion: "research-seedlings",
+  "innovacion/hidrobac": "hydrogel-roots",
+  "innovacion/transferencia-tecnologica": "technology-transfer",
+  "innovacion/proyectos": "field-trials",
+  empresa: "rural-company",
+  "calidad-trazabilidad": "quality",
+  sostenibilidad: "circular-soil",
+  casos: "technical-dialogue",
+};
 const descriptions: Record<string, string> = {
   soluciones:
     "Tres recorridos: nutrición animal, valorización industrial e innovación y biotecnología. Consulta el ámbito que corresponde a tu operación.",
@@ -98,25 +115,7 @@ export default async function ContentPage({
   const key = slug.join("/");
   const solution = solutions.find((s) => key === `soluciones/${s.slug}`);
   const corporate = corporatePages[key as keyof typeof corporatePages];
-  const pageVisual: VisualKey | undefined =
-    key.startsWith("innovacion") || key === "soluciones/bioprocesos"
-      ? "biotech"
-      : [
-            "soluciones/nutricion-animal",
-            "soluciones/nucleos-proteicos",
-            "soluciones/formulacion-tecnica",
-          ].includes(key)
-        ? "nutrition"
-        : [
-              "soluciones/valorizacion-industrial",
-              "sostenibilidad",
-              "casos",
-              "calidad-trazabilidad",
-            ].includes(key)
-          ? "valorization"
-          : ["empresa", "soluciones"].includes(key)
-            ? "nature"
-            : undefined;
+  const pageVisual = pageVisuals[key];
   const label =
     solution?.title ||
     (
@@ -325,7 +324,10 @@ export default async function ContentPage({
               description={corporate.description}
             />
             {key === "calidad-trazabilidad" && (
-              <ol className="trace-path quality-trace" aria-label="Recorrido de trazabilidad">
+              <ol
+                className="trace-path quality-trace"
+                aria-label="Recorrido de trazabilidad"
+              >
                 {[
                   "Origen",
                   "Recepción",
@@ -338,7 +340,11 @@ export default async function ContentPage({
                   <li key={t}>
                     <span className="trace-node" aria-hidden="true" />
                     <span>{t}</span>
-                    {index < 6 && <span className="trace-connection" aria-hidden="true"><span /></span>}
+                    {index < 6 && (
+                      <span className="trace-connection" aria-hidden="true">
+                        <span />
+                      </span>
+                    )}
                   </li>
                 ))}
               </ol>

@@ -502,16 +502,17 @@ html[data-intro-seen="true"] .video-intro {
 }
 
 /* Curtain reference adapted to botanical media, without blend-mode inversion. */
-.need-paths { align-items: start; }
+.need-paths { align-items: stretch; }
 .need-paths article.card-curtain-reveal {
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding: 24px;
   border: 1px solid var(--line);
   background: var(--gazal-primary);
 }
-.curtain-body { display: flex; flex-direction: column; align-items: flex-start; }
-.curtain-body > .text-link { margin-top: 8px; min-height: 48px; }
-.curtain-content { position: relative; display: grid; }
+.curtain-body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; }
+.curtain-body > .text-link { margin-top: auto; min-height: 48px; }
+.curtain-content { position: relative; display: grid; gap: 16px; margin-bottom: 16px; }
 .curtain-summary { align-self: center; }
 .curtain-media { display: block; }
 .curtain-media-inner { min-height: 0; overflow: hidden; }
@@ -519,15 +520,24 @@ html[data-intro-seen="true"] .video-intro {
 .need-paths .concept-image-frame { height: auto; aspect-ratio: 3 / 2; background: transparent; }
 .need-paths .concept-image img { object-fit: contain; transform: none; opacity: 1; }
 .need-paths .concept-image figcaption { padding-top: 8px; }
-@media (min-width: 761px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .curtain-content { aspect-ratio: 3 / 2; margin-bottom: 16px; }
-  .curtain-summary, .curtain-media { grid-area: 1 / 1; }
-  .curtain-summary { opacity: 1; transition: opacity 160ms ease-out; }
-  .curtain-media { align-self: center; pointer-events: none; }
-  .curtain-media .concept-image { clip-path: inset(0 50%); opacity: 0; transition: clip-path 400ms var(--ease-out), opacity 180ms ease-out; }
-  .card-curtain-reveal:is(:hover,:focus-within) .curtain-summary { opacity: 0; }
-  .card-curtain-reveal:is(:hover,:focus-within) .concept-image { clip-path: inset(0); opacity: 1; }
+@media (min-width: 761px) and (max-width: 1000px) {
+  .need-paths { grid-template-columns: 1fr; }
+  .need-paths article.card-curtain-reveal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, .85fr);
+    column-gap: 24px;
+  }
+  .need-paths h3 { grid-column: 1; min-height: 0; }
+  .curtain-content { display: contents; }
+  .curtain-summary { grid-column: 1; grid-row: 2; }
+  .curtain-body { grid-column: 1; grid-row: 3; }
+  .curtain-media { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
 }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .curtain-media .concept-image { clip-path: inset(4% 4% round 8px); transition: clip-path 350ms var(--ease-out); }
+  .card-curtain-reveal:is(:hover,:focus-within) .concept-image { clip-path: inset(0 round 8px); }
+}
+
 .related { gap: 18px; }
 .related h2 { grid-column: 1 / -1; max-width: none; }
 .related > a {

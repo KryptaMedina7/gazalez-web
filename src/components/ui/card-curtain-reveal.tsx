@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
-/** Stable reveal area: title, audience and action stay visible; desktop swaps
- * the summary for its image. Touch/reduced motion show both without a gesture. */
+/** Images and essential copy stay visible; hover only enriches the framing. */
 export function CardCurtainReveal({
   children,
   title,

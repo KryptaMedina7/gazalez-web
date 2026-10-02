@@ -10,7 +10,7 @@ export const site = {
 export const sourceUdec =
   "https://es.linkedin.com/posts/facultad-de-agronom%C3%ADa-udec_felicitamos-con-orgullo-a-nuestros-acad%C3%A9micos-activity-7422318170062954496-X-u-";
 export const socialImage = {
-  url: "/assets/forest/social.jpg",
+  url: "/assets/campo/social-praderas.jpg",
   width: 1200,
   height: 630,
   alt: "GAZAL: nutrición animal y valorización industrial. Paisaje conceptual.",
