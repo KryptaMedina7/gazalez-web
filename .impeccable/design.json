@@ -44,7 +44,7 @@
       {
         "name": "hero-particle-exit",
         "value": "One normalized timeline; copy holds to 25%, inert at 49%; framing opens 49-69% after the copy is hidden; release 70% desktop / 48% compact and continues under Soluciones",
-        "purpose": "Fine-pointer local impulses use twelve samples and an 850ms decay. Resumes 180ms after scroll settles until all particles exit; no touch interception. The complete double helix is readable from the opening. Copy protection, native sticky framing, gathering, falling and six percent surface drift remain reversible."
+        "purpose": "Fine-pointer local impulses use twelve samples and an 850ms decay. Resumes 180ms after scroll settles until all particles exit; no touch interception. The complete double helix is readable from the opening. Copy protection, native sticky framing, gathering, falling and six percent surface drift remain reversible. Scroll also drives a bounded turn before release: roll/yaw 0.38/0.48 radians desktop and 0.24/0.30 compact. Pointer displacement is applied after the turn and fall; no additional render loop."
       },
       {
         "name": "dropdown",

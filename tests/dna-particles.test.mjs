@@ -40,6 +40,30 @@ test("local pointer trail expires completely, allowing the renderer to sleep", (
   assert.equal(trailEnvelope(60), 0);
 });
 
+test("scroll turn preserves copy clearance and mobile caption space before release", () => {
+  for (const [w, h, compact] of [[320, 480, true], [390, 560, true], [768, 560, true], [1440, 813, false]]) {
+    let previous = 0;
+    for (let step = 0; step <= 100; step++) {
+      const p = step / 100;
+      const pose = dnaLayout(w, h, p, compact);
+      assert.ok(pose.roll >= previous);
+      previous = pose.roll;
+      assert.ok(pose.yaw < Math.PI / 4, "image must never turn edge-on");
+      const halfX = pose.width * (0.5 * Math.cos(pose.yaw) + 0.04 * Math.sin(pose.yaw));
+      const extentX = halfX * Math.cos(pose.roll) + pose.height / 2 * Math.sin(pose.roll);
+      const extentY = halfX * Math.sin(pose.roll) + pose.height / 2 * Math.cos(pose.roll);
+      if (compact) {
+        assert.ok(pose.x - extentX >= 0 && pose.x + extentX <= w);
+        assert.ok(pose.y + extentY < h * 0.73, "keep the caption area clear");
+      } else if (p <= 0.49) {
+        assert.ok(pose.x - extentX >= w * 0.47, "turn must stay away from visible copy");
+      }
+    }
+    assert.equal(dnaLayout(w, h, 0, compact).roll, 0);
+    assert.equal(dnaLayout(w, h, compact ? 0.48 : 0.7, compact).roll, previous);
+  }
+});
+
 test("matching static DNA alternatives are transparent and stay within transfer budgets", async () => {
   for (const name of ["portrait", "landscape"]) {
     const file = await readFile(`public/assets/dna/${name}.webp`);

@@ -26,14 +26,18 @@ export function decodeDnaSamples(buffer, compact) {
 export function dnaLayout(width, height, progress, compact) {
   const p = clamp(progress);
   const expansion = compact ? 0 : smooth((p - 0.49) / 0.2);
+  // Finish the turn before release; reversing scroll restores the same pose.
+  const turn = smooth((p - 0.025) / (compact ? 0.455 : 0.675));
   const h = compact
     ? Math.min(height * 0.68, width * 1.45)
     : Math.min(height * (1.06 + expansion * 0.08), width * 0.7);
   return {
     x: width * (compact ? 0.5 : 0.76 - expansion * 0.2),
     y: height * (compact ? 0.35 : 0.48),
-    width: (h * 2) / 3,
-    height: h,
+    width: (h * (1 - turn * (compact ? 0.08 : 0.04)) * 2) / 3,
+    height: h * (1 - turn * (compact ? 0.08 : 0.04)),
+    roll: turn * (compact ? 0.24 : 0.38),
+    yaw: turn * (compact ? 0.3 : 0.48),
     release: clamp((p - (compact ? 0.48 : 0.7)) / (compact ? 0.52 : 0.3)),
   };
 }

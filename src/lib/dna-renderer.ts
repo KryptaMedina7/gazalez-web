@@ -20,6 +20,7 @@ const vertexShader = `
 attribute float aSeed;
 uniform vec2 uResolution;
 uniform vec4 uImage;
+uniform vec4 uTurn;
 uniform float uRelease;
 uniform float uRatio;
 uniform float uTime;
@@ -27,7 +28,14 @@ uniform vec4 uTrail[12];
 varying float vShade;
 varying float vLift;
 void main() {
-  vec2 point = uImage.xy + (position.xy - 0.5) * uImage.zw;
+  vec2 local = (position.xy - 0.5) * uImage.zw;
+  // Shallow relief preserves the approved image silhouette during the turn.
+  float depth = (position.z - 0.5) * uImage.z * 0.08;
+  local.x = local.x * uTurn.z + depth * uTurn.w;
+  vec2 point = uImage.xy + vec2(
+    local.x * uTurn.x - local.y * uTurn.y,
+    local.x * uTurn.y + local.y * uTurn.x
+  );
   float gather = smoothstep(0.0, 0.55, uRelease);
   point.x = mix(point.x, uResolution.x * 0.84, gather * 0.82);
   float delay = 0.15 + position.y * 0.24 + aSeed * 0.08;
@@ -101,6 +109,7 @@ export async function createDnaRenderer(
   const uniforms = {
     uResolution: { value: new Vector2(1, 1) },
     uImage: { value: new Vector4() },
+    uTurn: { value: new Vector4(1, 0, 1, 0) },
     uRelease: { value: 0 },
     uRatio: { value: 1 },
     uTime: { value: 0 },
@@ -157,6 +166,10 @@ export async function createDnaRenderer(
       if (renderer.getContext().isContextLost()) return false;
       const pose = dnaLayout(width, height, progress, compact);
       uniforms.uImage.value.set(pose.x, pose.y, pose.width, pose.height);
+      uniforms.uTurn.value.set(
+        Math.cos(pose.roll), Math.sin(pose.roll),
+        Math.cos(pose.yaw), Math.sin(pose.yaw),
+      );
       uniforms.uRelease.value = pose.release;
       uniforms.uTime.value = now / 1000;
       renderer.render(scene, camera);
