@@ -44,7 +44,7 @@
       {
         "name": "hero-particle-exit",
         "value": "One normalized timeline; copy holds to 25%, inert at 49%; framing opens 49-69% after the copy is hidden; release 70% desktop / 48% compact and continues under Soluciones",
-        "purpose": "Scroll rotates the particle cloud a full 360 degrees about its longitudinal axis from 2.5% to 70% desktop / 48% compact, then gathers and releases it. This replaces the earlier shallow yaw/roll of a flat image. The local pointer response uses twelve samples with 850ms decay, resumes 180ms after scroll settles until all particles exit, and acts on projected positions. No touch interception or extra render loop."
+        "purpose": "Scroll rotates the particle cloud a full 360 degrees about its longitudinal axis from 2.5% to 70% desktop / 48% compact, then gathers and releases it. This replaces the earlier shallow yaw/roll of a flat image. The local pointer response uses twelve samples with 850ms decay, resumes 180ms after scroll settles until all particles exit, and acts on projected positions. No touch interception or extra render loop. The volumetric axial revolution is combined with progressive lateral inclination (0.38 radians desktop / 0.24 compact), applied after projection and before release and pointer input. Both reverse with scroll."
       },
       {
         "name": "dropdown",

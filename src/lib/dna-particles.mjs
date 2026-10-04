@@ -61,6 +61,7 @@ export function dnaLayout(width, height, progress, compact) {
     width: (h * 2) / 3,
     height: h,
     yaw: turn * Math.PI * 2,
+    roll: turn * (compact ? 0.24 : 0.38),
     release: clamp((p - (compact ? 0.48 : 0.7)) / (compact ? 0.52 : 0.3)),
   };
 }

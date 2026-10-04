@@ -33,9 +33,14 @@ void main() {
   float turnX = local.x * uTurn.x + local.z * uTurn.y;
   float turnZ = -local.x * uTurn.y + local.z * uTurn.x;
   float perspective = 1.0 + turnZ * 0.12;
-  vec2 point = uImage.xy + vec2(
+  vec2 projected = vec2(
     (turnX * perspective + local.y * 0.16) * uImage.z,
     local.y * uImage.w + turnZ * uImage.z * 0.3
+  );
+  // Incline the whole helix after axial rotation, before release and pointer input.
+  vec2 point = uImage.xy + vec2(
+    projected.x * uTurn.z - projected.y * uTurn.w,
+    projected.x * uTurn.w + projected.y * uTurn.z
   );
   float gather = smoothstep(0.0, 0.55, uRelease);
   point.x = mix(point.x, uResolution.x * 0.84, gather * 0.82);
@@ -169,7 +174,8 @@ export async function createDnaRenderer(
       const pose = dnaLayout(width, height, progress, compact);
       uniforms.uImage.value.set(pose.x, pose.y, pose.width, pose.height);
       uniforms.uTurn.value.set(
-        Math.cos(pose.yaw), Math.sin(pose.yaw), 0, 0,
+        Math.cos(pose.yaw), Math.sin(pose.yaw),
+        Math.cos(pose.roll), Math.sin(pose.roll),
       );
       uniforms.uRelease.value = pose.release;
       uniforms.uTime.value = now / 1000;

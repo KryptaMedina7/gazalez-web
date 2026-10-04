@@ -40,7 +40,7 @@ test("local pointer trail expires completely, allowing the renderer to sleep", (
   assert.equal(trailEnvelope(60), 0);
 });
 
-test("axial rotation retains volume, returns after a full revolution and clears text", () => {
+test("combined axial rotation and lateral inclination preserve volume and text clearance", () => {
   const { positions } = decodeDnaSamples(buffer, true);
   for (const [w, h, compact] of [[320, 480, true], [390, 560, true], [768, 560, true], [1440, 813, false]]) {
     for (let step = 0; step <= 40; step++) {
@@ -51,8 +51,10 @@ test("axial rotation retains volume, returns after a full revolution and clears 
         const x = positions[i] - 0.5, y = positions[i + 1] - 0.5, z = positions[i + 2] - 0.5;
         const rx = x * c + z * s, rz = -x * s + z * c;
         assert.ok(Math.abs(rx * rx + rz * rz - x * x - z * z) < 1e-8, "rotation must preserve real radial depth");
-        const px = pose.x + (rx * (1 + rz * 0.12) + y * 0.16) * pose.width;
-        const py = pose.y + y * pose.height + rz * pose.width * 0.3;
+        const dx = (rx * (1 + rz * 0.12) + y * 0.16) * pose.width;
+        const dy = y * pose.height + rz * pose.width * 0.3;
+        const px = pose.x + dx * Math.cos(pose.roll) - dy * Math.sin(pose.roll);
+        const py = pose.y + dx * Math.sin(pose.roll) + dy * Math.cos(pose.roll);
         if (compact) {
           assert.ok(px >= 0 && px <= w);
           assert.ok(py < h * 0.73, "keep caption clear");
@@ -60,6 +62,8 @@ test("axial rotation retains volume, returns after a full revolution and clears 
       }
     }
     assert.equal(dnaLayout(w, h, 0, compact).yaw, 0);
+    assert.equal(dnaLayout(w, h, 0, compact).roll, 0);
+    assert.equal(dnaLayout(w, h, 1, compact).roll, compact ? 0.24 : 0.38);
     assert.equal(dnaLayout(w, h, compact ? 0.48 : 0.7, compact).yaw, Math.PI * 2);
   }
   let rear = 0, front = 0;
