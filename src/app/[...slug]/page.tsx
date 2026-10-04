@@ -131,6 +131,8 @@ export default async function ContentPage({
         empresa: "Empresa",
         "calidad-trazabilidad": "Calidad y trazabilidad",
         sostenibilidad: "Sostenibilidad",
+        "innovacion/transferencia-tecnologica": "Transferencia tecnológica",
+        "innovacion/proyectos": "Proyectos y colaboración",
       } as Record<string, string>
     )[key] ||
     titles[key] ||
@@ -173,6 +175,7 @@ export default async function ContentPage({
               visual={pageVisual}
               title={solution.title}
               description={solution.description}
+              film={solution.slug === "nutricion-animal" ? "avicola" : solution.slug === "nucleos-proteicos" ? "nucleos" : undefined}
             >
               <ButtonLink href={`/contacto/?interes=${solution.intent}`}>
                 {solution.cta}
@@ -395,6 +398,7 @@ export default async function ContentPage({
             <PageIntro
               visual={pageVisual}
               title="Innovación y biotecnología."
+              film="innovacion"
               description="Líneas de desarrollo y colaboración que conectan biomasa, conocimiento universitario y necesidades productivas. Cada iniciativa tiene un alcance y un estado propios."
             />
             <div className="editorial-sections">

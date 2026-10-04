@@ -31,3 +31,12 @@ export const navigationGroups = [
     ],
   },
 ] as const;
+
+/** Destination shortcuts may appear twice; route ownership never does. */
+export function activeNavigationGroup(path: string): string | undefined {
+  const route = `/${path.split(/[?#]/)[0].split("/").filter(Boolean).join("/")}/`;
+  if (route.startsWith("/innovacion/") || route === "/soluciones/bioprocesos/") return "Innovación";
+  if (route.startsWith("/soluciones/")) return "Soluciones";
+  if (navigationGroups[2].links.some(([, href]) => route === href)) return "Empresa";
+  return undefined;
+}

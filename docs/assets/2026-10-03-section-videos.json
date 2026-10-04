@@ -1,0 +1,139 @@
+{
+  "provenance": "Three brand films supplied by the user on 2026-10-03. Not evidence of company facilities or specifications.",
+  "placement": "Chicken and granules follow Nassira’s avian nutrition/nuclei request. Innovation DNA placement is an editorial inference.",
+  "audio": "Removed; original sources retained outside the repository.",
+  "films": [
+    {
+      "id": "avicola",
+      "source": "Chicken_approaching_wooden_trough_20261003220658.mp4",
+      "route": "/soluciones/nutricion-animal/",
+      "sha256": "594f4a02380a4ab42e0ce481748fbf2c07822dc08743ef0ab7642f558365ae47",
+      "sourceProbe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720
+          },
+          {
+            "codec_name": "aac"
+          }
+        ],
+        "format": {
+          "duration": "4.010000",
+          "size": "1450585"
+        }
+      },
+      "outputs": [
+        {
+          "filename": "avicola-desktop.webm",
+          "bytes": 510593
+        },
+        {
+          "filename": "avicola-desktop.mp4",
+          "bytes": 511155
+        },
+        {
+          "filename": "avicola-mobile.webm",
+          "bytes": 163274
+        },
+        {
+          "filename": "avicola-mobile.mp4",
+          "bytes": 141363
+        }
+      ],
+      "poster": "avicola-poster.webp",
+      "posterTime": 2
+    },
+    {
+      "id": "nucleos",
+      "source": "Granules_falling_into_tray_20261003215253.mp4",
+      "route": "/soluciones/nucleos-proteicos/",
+      "sha256": "af0ce5341439aff95e0ee465b19b3851c1155830a1055445d4ceef6de2d29d31",
+      "sourceProbe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720
+          },
+          {
+            "codec_name": "aac"
+          }
+        ],
+        "format": {
+          "duration": "4.010000",
+          "size": "827395"
+        }
+      },
+      "outputs": [
+        {
+          "filename": "nucleos-desktop.webm",
+          "bytes": 245518
+        },
+        {
+          "filename": "nucleos-desktop.mp4",
+          "bytes": 280704
+        },
+        {
+          "filename": "nucleos-mobile.webm",
+          "bytes": 107221
+        },
+        {
+          "filename": "nucleos-mobile.mp4",
+          "bytes": 92462
+        }
+      ],
+      "poster": "nucleos-poster.webp",
+      "posterTime": 2
+    },
+    {
+      "id": "innovacion",
+      "source": "DNA_rotating_behind_logo_20261003214726.mp4",
+      "route": "/innovacion/",
+      "sha256": "2f9a7c2263109cfb533530b3a0b8915cc3829ad2721534fadf27d804328b8cc2",
+      "sourceProbe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720
+          },
+          {
+            "codec_name": "aac"
+          }
+        ],
+        "format": {
+          "duration": "4.010000",
+          "size": "1278804"
+        }
+      },
+      "outputs": [
+        {
+          "filename": "innovacion-desktop.webm",
+          "bytes": 426596
+        },
+        {
+          "filename": "innovacion-desktop.mp4",
+          "bytes": 463266
+        },
+        {
+          "filename": "innovacion-mobile.webm",
+          "bytes": 191848
+        },
+        {
+          "filename": "innovacion-mobile.mp4",
+          "bytes": 163370
+        }
+      ],
+      "poster": "innovacion-poster.webp",
+      "posterTime": 1
+    }
+  ]
+}

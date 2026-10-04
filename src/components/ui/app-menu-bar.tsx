@@ -26,7 +26,7 @@ import {
   Wheat,
   type LucideIcon,
 } from "lucide-react";
-import { navigationGroups } from "@/lib/navigation";
+import { activeNavigationGroup, navigationGroups } from "@/lib/navigation";
 import {
   Menubar,
   MenubarContent,
@@ -61,6 +61,7 @@ const destinationIcons: Record<string, LucideIcon> = {
 export default function AppMenuBar({ path }: { path: string }) {
   const [value, setValue] = useState("");
   const [keyboard, setKeyboard] = useState(false);
+  const activeGroup = activeNavigationGroup(path);
   return (
     <Menubar
       className={`desktop-nav topbar-navigation ${keyboard ? "keyboard-navigation" : ""}`}
@@ -83,7 +84,7 @@ export default function AppMenuBar({ path }: { path: string }) {
                 if (event.detail > 0) setValue(group.label);
               }}
               data-current={
-                group.links.some(([, href]) => path === href) || undefined
+                activeGroup === group.label || undefined
               }
             >
               <GroupIcon aria-hidden="true" strokeWidth={1.6} />
