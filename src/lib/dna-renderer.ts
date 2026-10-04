@@ -9,11 +9,7 @@ import {
   Vector4,
   WebGLRenderer,
 } from "three";
-import {
-  decodeDnaSamples,
-  dnaLayout,
-  DNA_TRAIL_SECONDS,
-} from "./dna-particles.mjs";
+import { decodeDnaSamples, dnaLayout, packDnaTrail } from "./dna-particles.mjs";
 import { matterPixelRatio } from "./matter-field.mjs";
 
 const vertexShader = `
@@ -23,7 +19,7 @@ uniform vec4 uImage;
 uniform vec4 uTurn;
 uniform float uRelease;
 uniform float uRatio;
-uniform float uTime;
+uniform int uTrailCount;
 uniform vec4 uTrail[12];
 varying float vShade;
 varying float vLift;
@@ -48,23 +44,27 @@ void main() {
   float fall = max(0.0, (uRelease - delay) / (1.0 - delay));
   point.x += (aSeed - 0.5) * uResolution.x * 0.14 * fall;
   point.y += uResolution.y * 2.5 * fall * fall;
-  vec2 displacement = vec2(0.0);
   float lift = 0.0;
-  float radius = min(145.0, uResolution.x * 0.14);
-  for (int i = 0; i < 12; i++) {
-    float age = uTime - uTrail[i].z;
-    float life = clamp(age / ${DNA_TRAIL_SECONDS}, 0.0, 1.0);
-    float envelope = sin(life * 3.14159265) * (1.0 - life) * uTrail[i].w;
-    vec2 delta = point - uTrail[i].xy;
-    float distance = length(delta);
-    float influence = pow(max(0.0, 1.0 - distance / radius), 2.0) * envelope;
-    vec2 direction = distance > 0.01 ? delta / distance : vec2(cos(aSeed * 6.28), sin(aSeed * 6.28));
+  if (uTrailCount > 0) {
+    vec2 displacement = vec2(0.0);
+    float radius = min(145.0, uResolution.x * 0.14);
+    float radiusSquared = radius * radius;
     vec2 scatter = vec2(cos(aSeed * 31.4), sin(aSeed * 23.7));
-    displacement += (direction * 110.0 + scatter * 22.0) * influence;
-    lift += influence;
+    for (int i = 0; i < 12; i++) {
+      if (i >= uTrailCount) break;
+      vec2 delta = point - uTrail[i].xy;
+      float distanceSquared = dot(delta, delta);
+      if (distanceSquared >= radiusSquared) continue;
+      float distance = sqrt(distanceSquared);
+      float falloff = 1.0 - distance / radius;
+      float influence = falloff * falloff * uTrail[i].z;
+      vec2 direction = distance > 0.01 ? delta / distance : vec2(cos(aSeed * 6.28), sin(aSeed * 6.28));
+      displacement += (direction * 110.0 + scatter * 22.0) * influence;
+      lift += influence;
+    }
+    // Bound the local impulse without changing a particle's scroll destination.
+    point += displacement / (1.0 + length(displacement) / 100.0);
   }
-  // Bound the local impulse without changing a particle's scroll destination.
-  point += displacement / (1.0 + length(displacement) / 100.0);
   gl_Position = vec4(point.x / uResolution.x * 2.0 - 1.0, 1.0 - point.y / uResolution.y * 2.0, -turnZ * 1.7, 1.0);
   float depthTone = clamp(0.5 + turnZ * 1.55, 0.0, 1.0);
   float size = 2.0 + depthTone * 1.3 + aSeed * 0.5;
@@ -109,17 +109,18 @@ export async function createDnaRenderer(
   const geometry = new BufferGeometry();
   geometry.setAttribute("position", new BufferAttribute(samples.positions, 3));
   geometry.setAttribute("aSeed", new BufferAttribute(samples.seeds, 1));
-  const trails = Array.from(
+  const samplesTrail = Array.from(
     { length: 12 },
     () => new Vector4(-10000, -10000, -1000, 0),
   );
+  const trails = Array.from({ length: 12 }, () => new Vector4());
   const uniforms = {
     uResolution: { value: new Vector2(1, 1) },
     uImage: { value: new Vector4() },
     uTurn: { value: new Vector4(1, 0, 1, 0) },
     uRelease: { value: 0 },
     uRatio: { value: 1 },
-    uTime: { value: 0 },
+    uTrailCount: { value: 0 },
     uTrail: { value: trails },
   };
   const material = new ShaderMaterial({
@@ -160,8 +161,8 @@ export async function createDnaRenderer(
               1,
               Math.hypot(x - lastX, y - lastY) / Math.max(1, now - lastTime),
             );
-      trails[index].set(x, y, now / 1000, 0.3 + speed * 0.7);
-      index = (index + 1) % trails.length;
+      samplesTrail[index].set(x, y, now / 1000, 0.3 + speed * 0.7);
+      index = (index + 1) % samplesTrail.length;
       lastX = x;
       lastY = y;
       lastTime = now;
@@ -174,16 +175,23 @@ export async function createDnaRenderer(
       const pose = dnaLayout(width, height, progress, compact);
       uniforms.uImage.value.set(pose.x, pose.y, pose.width, pose.height);
       uniforms.uTurn.value.set(
-        Math.cos(pose.yaw), Math.sin(pose.yaw),
-        Math.cos(pose.roll), Math.sin(pose.roll),
+        Math.cos(pose.yaw),
+        Math.sin(pose.yaw),
+        Math.cos(pose.roll),
+        Math.sin(pose.roll),
       );
       uniforms.uRelease.value = pose.release;
-      uniforms.uTime.value = now / 1000;
+      const activeTrails = compact
+        ? 0
+        : packDnaTrail(samplesTrail, trails, now / 1000);
+      uniforms.uTrailCount.value = activeTrails;
       renderer.render(scene, camera);
-      canvas.dataset.ready = "true";
-      canvas.dataset.renderer = "three";
-      canvas.dataset.particles = String(samples.count);
-      return trails.some((t) => now / 1000 - t.z < DNA_TRAIL_SECONDS);
+      if (canvas.dataset.ready !== "true") {
+        canvas.dataset.ready = "true";
+        canvas.dataset.renderer = "three";
+        canvas.dataset.particles = String(samples.count);
+      }
+      return activeTrails > 0;
     },
     dispose() {
       geometry.dispose();

@@ -51,22 +51,41 @@ export function HeroExperience({
               section.querySelector<HTMLAnchorElement>(".ribbon-skip")!;
             let width = 0,
               height = 0,
-              frame = 0,
               visible = true,
               dead = false;
+            let dirty = false,
+              trailActive = false,
+              ticking = false;
+            const stopPainting = () => {
+              gsap.ticker.remove(paint);
+              ticking = false;
+            };
             const paint = () => {
-              frame = 0;
-              if (dead || !visible || document.hidden || !width || !height)
+              if (
+                dead ||
+                !visible ||
+                document.hidden ||
+                !width ||
+                !height ||
+                (!dirty && !trailActive)
+              ) {
+                stopPainting();
                 return;
-              const active = renderer?.render(
+              }
+              dirty = false;
+              trailActive = !!renderer?.render(
                 state.progress,
                 performance.now(),
               );
-              if (active) request();
             };
             const request = () => {
-              if (!frame && !dead && visible && !document.hidden)
-                frame = requestAnimationFrame(paint);
+              if (dead || !visible || document.hidden) return;
+              dirty = true;
+              if (!ticking) {
+                ticking = true;
+                // Append after GSAP's root update: uniforms and DOM share this frame.
+                gsap.ticker.add(paint);
+              }
             };
             let pointerAllowed = false;
             let scrolling = false;
@@ -165,7 +184,7 @@ export function HeroExperience({
                     desktop
                       ? `+=${section.offsetHeight - section.querySelector<HTMLElement>(".ribbon-sticky")!.offsetHeight + visual.offsetHeight * 0.45}`
                       : `bottom top+=${parseFloat(getComputedStyle(section).getPropertyValue("--site-header-height"))}`,
-                  scrub: desktop ? 0.22 : true,
+                  scrub: desktop ? 0.32 : 0.18,
                   invalidateOnRefresh: true,
                 },
               });
@@ -177,7 +196,9 @@ export function HeroExperience({
                   onUpdate: () => {
                     const p = state.progress;
                     suspendPointer();
-                    section.dataset.progress = p.toFixed(3);
+                    const progressLabel = p.toFixed(3);
+                    if (section.dataset.progress !== progressLabel)
+                      section.dataset.progress = progressLabel;
                     const hidden = desktop && p >= 0.49;
                     if (copy.inert !== hidden) {
                       if (hidden && copy.contains(document.activeElement))
@@ -234,8 +255,7 @@ export function HeroExperience({
             const contextLost = (event: Event) => {
               event.preventDefault();
               delete surface.dataset.ready;
-              cancelAnimationFrame(frame);
-              frame = 0;
+              stopPainting();
             };
             surface.addEventListener("webglcontextlost", contextLost);
             surface.addEventListener("webglcontextrestored", request);
@@ -271,7 +291,7 @@ export function HeroExperience({
             resize();
             return () => {
               dead = true;
-              cancelAnimationFrame(frame);
+              stopPainting();
               resizeObserver.disconnect();
               visibilityObserver.disconnect();
               document.removeEventListener(

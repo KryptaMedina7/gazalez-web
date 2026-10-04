@@ -73,3 +73,16 @@ export function trailEnvelope(age) {
     (1 - age / DNA_TRAIL_SECONDS)
   );
 }
+
+/** Evaluate each pointer sample once per frame, not once per GPU vertex.
+ * Output slots are reused; expired samples never reach the shader loop.
+ */
+export function packDnaTrail(samples, output, now) {
+  let count = 0;
+  for (const sample of samples) {
+    const age = now - sample.z;
+    if (age < 0 || age >= DNA_TRAIL_SECONDS || sample.w <= 0) continue;
+    output[count++].set(sample.x, sample.y, trailEnvelope(age) * sample.w, 0);
+  }
+  return count;
+}
