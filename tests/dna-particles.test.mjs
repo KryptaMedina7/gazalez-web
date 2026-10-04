@@ -4,10 +4,10 @@ import { readFile } from "node:fs/promises";
 import sharp from "sharp";
 import { decodeDnaSamples, dnaLayout, trailEnvelope, DNA_TRAIL_SECONDS } from "../src/lib/dna-particles.mjs";
 
-const data = await readFile("public/assets/dna/particles.bin");
+const data = await readFile("public/assets/dna/helix.bin");
 const buffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
 
-test("DNA samples cover the original silhouette at both particle budgets", () => {
+test("DNA samples cover the double helix at both particle budgets", () => {
   for (const compact of [false, true]) {
     const samples = decodeDnaSamples(buffer, compact);
     assert.equal(samples.count, compact ? 6000 : 18000);
@@ -40,33 +40,39 @@ test("local pointer trail expires completely, allowing the renderer to sleep", (
   assert.equal(trailEnvelope(60), 0);
 });
 
-test("scroll turn preserves copy clearance and mobile caption space before release", () => {
+test("axial rotation retains volume, returns after a full revolution and clears text", () => {
+  const { positions } = decodeDnaSamples(buffer, true);
   for (const [w, h, compact] of [[320, 480, true], [390, 560, true], [768, 560, true], [1440, 813, false]]) {
-    let previous = 0;
-    for (let step = 0; step <= 100; step++) {
-      const p = step / 100;
+    for (let step = 0; step <= 40; step++) {
+      const p = step / 40;
       const pose = dnaLayout(w, h, p, compact);
-      assert.ok(pose.roll >= previous);
-      previous = pose.roll;
-      assert.ok(pose.yaw < Math.PI / 4, "image must never turn edge-on");
-      const halfX = pose.width * (0.5 * Math.cos(pose.yaw) + 0.04 * Math.sin(pose.yaw));
-      const extentX = halfX * Math.cos(pose.roll) + pose.height / 2 * Math.sin(pose.roll);
-      const extentY = halfX * Math.sin(pose.roll) + pose.height / 2 * Math.cos(pose.roll);
-      if (compact) {
-        assert.ok(pose.x - extentX >= 0 && pose.x + extentX <= w);
-        assert.ok(pose.y + extentY < h * 0.73, "keep the caption area clear");
-      } else if (p <= 0.49) {
-        assert.ok(pose.x - extentX >= w * 0.47, "turn must stay away from visible copy");
+      const c = Math.cos(pose.yaw), s = Math.sin(pose.yaw);
+      for (let i = 0; i < positions.length; i += 3) {
+        const x = positions[i] - 0.5, y = positions[i + 1] - 0.5, z = positions[i + 2] - 0.5;
+        const rx = x * c + z * s, rz = -x * s + z * c;
+        assert.ok(Math.abs(rx * rx + rz * rz - x * x - z * z) < 1e-8, "rotation must preserve real radial depth");
+        const px = pose.x + (rx * (1 + rz * 0.12) + y * 0.16) * pose.width;
+        const py = pose.y + y * pose.height + rz * pose.width * 0.3;
+        if (compact) {
+          assert.ok(px >= 0 && px <= w);
+          assert.ok(py < h * 0.73, "keep caption clear");
+        } else if (p <= 0.49) assert.ok(px >= w * 0.47, "protect visible copy");
       }
     }
-    assert.equal(dnaLayout(w, h, 0, compact).roll, 0);
-    assert.equal(dnaLayout(w, h, compact ? 0.48 : 0.7, compact).roll, previous);
+    assert.equal(dnaLayout(w, h, 0, compact).yaw, 0);
+    assert.equal(dnaLayout(w, h, compact ? 0.48 : 0.7, compact).yaw, Math.PI * 2);
   }
+  let rear = 0, front = 0;
+  for (let i = 2; i < positions.length; i += 3) {
+    if (positions[i] < 0.3) rear++;
+    if (positions[i] > 0.7) front++;
+  }
+  assert.ok(rear > 500 && front > 500, "both sides need volume, not a flat plate");
 });
 
 test("matching static DNA alternatives are transparent and stay within transfer budgets", async () => {
   for (const name of ["portrait", "landscape"]) {
-    const file = await readFile(`public/assets/dna/${name}.webp`);
+    const file = await readFile(`public/assets/dna/${name}-axial.webp`);
     assert.ok(file.byteLength < 100_000);
     const image = await sharp(file).metadata();
     assert.ok(image.hasAlpha);

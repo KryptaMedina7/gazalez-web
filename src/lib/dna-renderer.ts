@@ -28,13 +28,14 @@ uniform vec4 uTrail[12];
 varying float vShade;
 varying float vLift;
 void main() {
-  vec2 local = (position.xy - 0.5) * uImage.zw;
-  // Shallow relief preserves the approved image silhouette during the turn.
-  float depth = (position.z - 0.5) * uImage.z * 0.08;
-  local.x = local.x * uTurn.z + depth * uTurn.w;
+  // Rotate actual XYZ around the longitudinal axis, not a flat image plate.
+  vec3 local = position - 0.5;
+  float turnX = local.x * uTurn.x + local.z * uTurn.y;
+  float turnZ = -local.x * uTurn.y + local.z * uTurn.x;
+  float perspective = 1.0 + turnZ * 0.12;
   vec2 point = uImage.xy + vec2(
-    local.x * uTurn.x - local.y * uTurn.y,
-    local.x * uTurn.y + local.y * uTurn.x
+    (turnX * perspective + local.y * 0.16) * uImage.z,
+    local.y * uImage.w + turnZ * uImage.z * 0.3
   );
   float gather = smoothstep(0.0, 0.55, uRelease);
   point.x = mix(point.x, uResolution.x * 0.84, gather * 0.82);
@@ -59,10 +60,11 @@ void main() {
   }
   // Bound the local impulse without changing a particle's scroll destination.
   point += displacement / (1.0 + length(displacement) / 100.0);
-  gl_Position = vec4(point.x / uResolution.x * 2.0 - 1.0, 1.0 - point.y / uResolution.y * 2.0, 0.0, 1.0);
-  float size = 2.1 + position.z * 1.3 + aSeed * 0.5;
+  gl_Position = vec4(point.x / uResolution.x * 2.0 - 1.0, 1.0 - point.y / uResolution.y * 2.0, -turnZ * 1.7, 1.0);
+  float depthTone = clamp(0.5 + turnZ * 1.55, 0.0, 1.0);
+  float size = 2.0 + depthTone * 1.3 + aSeed * 0.5;
   gl_PointSize = size * uRatio * (1.0 + min(lift, 1.0) * 0.6);
-  vShade = clamp((position.z - 0.16) / 0.72, 0.0, 1.0);
+  vShade = clamp(depthTone * 0.85 + aSeed * 0.15, 0.0, 1.0);
   vLift = min(lift, 1.0);
 }`;
 const fragmentShader = `
@@ -84,7 +86,7 @@ export async function createDnaRenderer(
   assetBase: string,
   signal: AbortSignal,
 ) {
-  const response = await fetch(`${assetBase}/assets/dna/particles.bin`, {
+  const response = await fetch(`${assetBase}/assets/dna/helix.bin`, {
     signal,
   });
   if (!response.ok) throw new Error("DNA samples unavailable");
@@ -95,7 +97,7 @@ export async function createDnaRenderer(
     alpha: true,
     antialias: false,
     powerPreference: "low-power",
-    depth: false,
+    depth: true,
     stencil: false,
   });
   renderer.setClearColor(0x000000, 0);
@@ -120,8 +122,8 @@ export async function createDnaRenderer(
     vertexShader,
     fragmentShader,
     transparent: true,
-    depthTest: false,
-    depthWrite: false,
+    depthTest: true,
+    depthWrite: true,
   });
   const points = new Points(geometry, material);
   points.frustumCulled = false;
@@ -167,8 +169,7 @@ export async function createDnaRenderer(
       const pose = dnaLayout(width, height, progress, compact);
       uniforms.uImage.value.set(pose.x, pose.y, pose.width, pose.height);
       uniforms.uTurn.value.set(
-        Math.cos(pose.roll), Math.sin(pose.roll),
-        Math.cos(pose.yaw), Math.sin(pose.yaw),
+        Math.cos(pose.yaw), Math.sin(pose.yaw), 0, 0,
       );
       uniforms.uRelease.value = pose.release;
       uniforms.uTime.value = now / 1000;

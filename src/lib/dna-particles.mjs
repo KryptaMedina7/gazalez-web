@@ -7,7 +7,31 @@ const smooth = (n) => {
   return t * t * (3 - 2 * t);
 };
 
-/** Packed image samples, shuffled offline so every prefix covers both strands. */
+/** Deterministic volumetric double helix; every prefix covers both strands/rungs. */
+export function createDnaVolume(count = DNA_DESKTOP_COUNT) {
+  let seed = 271828;
+  const random = () =>
+    (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296;
+  return Array.from({ length: count }, (_, i) => {
+    const strand = i % 10 < 7;
+    const t = strand ? 0.035 + random() * 0.93 : 0.055 + (i % 29) * (0.89 / 28);
+    const phase = t * Math.PI * 3.4 + 0.45;
+    const phi = random() * Math.PI * 2;
+    const thickness = (strand ? 0.042 : 0.016) * (0.75 + random() * 0.25);
+    const radial = strand
+      ? (i % 2 ? -0.265 : 0.265) + Math.cos(phi) * thickness
+      : (random() * 2 - 1) * 0.265;
+    const tangent = strand ? 0 : Math.cos(phi) * thickness;
+    return [
+      0.5 + Math.cos(phase) * radial - Math.sin(phase) * tangent,
+      t + Math.sin(phi) * thickness * (2 / 3),
+      0.5 + Math.sin(phase) * radial + Math.cos(phase) * tangent,
+      random(),
+    ];
+  });
+}
+
+/** Packed XYZ samples; the third coordinate is actual depth, not image tone. */
 export function decodeDnaSamples(buffer, compact) {
   if (buffer.byteLength !== DNA_DESKTOP_COUNT * 8)
     throw new Error("Invalid DNA sample data");
@@ -34,10 +58,9 @@ export function dnaLayout(width, height, progress, compact) {
   return {
     x: width * (compact ? 0.5 : 0.76 - expansion * 0.2),
     y: height * (compact ? 0.35 : 0.48),
-    width: (h * (1 - turn * (compact ? 0.08 : 0.04)) * 2) / 3,
-    height: h * (1 - turn * (compact ? 0.08 : 0.04)),
-    roll: turn * (compact ? 0.24 : 0.38),
-    yaw: turn * (compact ? 0.3 : 0.48),
+    width: (h * 2) / 3,
+    height: h,
+    yaw: turn * Math.PI * 2,
     release: clamp((p - (compact ? 0.48 : 0.7)) / (compact ? 0.52 : 0.3)),
   };
 }

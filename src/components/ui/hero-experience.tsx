@@ -4,7 +4,7 @@ import { ArrowDown } from "lucide-react";
 import gsap from "gsap";
 import type { createDnaRenderer } from "@/lib/dna-renderer";
 
-/** Image-shaped DNA particles with local pointer impulses and reversible scroll. */
+/** Volumetric DNA particles with local pointer impulses and reversible scroll. */
 export function HeroExperience({
   children,
   assetBase = "",
@@ -324,10 +324,10 @@ export function HeroExperience({
               <picture className="ribbon-fallback">
                 <source
                   media="(max-width:1000px), (max-height:719px)"
-                  srcSet={`${assetBase}/assets/dna/portrait.webp`}
+                  srcSet={`${assetBase}/assets/dna/portrait-axial.webp`}
                 />
                 <img
-                  src={`${assetBase}/assets/dna/landscape.webp`}
+                  src={`${assetBase}/assets/dna/landscape-axial.webp`}
                   alt=""
                   width="1200"
                   height="720"
