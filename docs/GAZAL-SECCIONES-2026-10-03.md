@@ -11,7 +11,7 @@
 - Innovación tiene una sola sección primaria activa aunque su enlace también figure en Soluciones. Bioprocesos pertenece a Innovación; las fichas avícolas a Soluciones. Abrir un grupo secundario usa un verde más suave. Rutas, atajos y menús conservados.
 - Breadcrumbs de Transferencia y Proyectos usan nombres de destino en vez de titulares editoriales.
 
-## Revisión independiente de identidad interior — propuesta, no rediseño aplicado
+## Diagnóstico previo a la implementación
 
 Dos evaluaciones independientes de Impeccable: diseño y evidencia mecánica/navegador. Ambas coinciden: la identidad de marca es coherente; lo repetitivo es la composición, no la cantidad de colores. Las soluciones repiten apertura, franja de audiencia, tres filas técnicas, nota y FAQ. Empresa, Sostenibilidad, Transferencia y Proyectos repiten tres bandas editoriales. Los videos diferencian las aperturas, pero no resuelven por sí solos la estructura del cuerpo.
 
@@ -26,24 +26,37 @@ Dos evaluaciones independientes de Impeccable: diseño y evidencia mecánica/nav
 
 Fortalezas: acciones específicas, continuidad verde/tipográfica y límites comerciales claros. El valle de atención está entre apertura y contacto, por la sucesión de filas de igual peso. Heurísticas de la revisión A: 22/32 en ocho criterios aplicables (eficiencia avanzada y recuperación de formularios fuera de alcance); es juicio de revisión, no certificación. No se necesita otra librería ni animar cada bloque.
 
-## Interacciones didácticas propuestas tras la aclaración
+## Interacciones didácticas implementadas tras la aprobación
 
-No implementadas todavía. Mantener una pieza principal por página, compacta, disponible por clic/toque/teclado; el texto esencial permanece visible y movimiento reducido muestra los mismos estados sin transición. Usar SVG, CSS y GSAP existentes, sin WebGL adicional ni reproducción continua.
+Implementadas en nueve rutas. Cada página tiene una pieza principal disponible por clic/toque/teclado; el alcance comercial permanece en HTML y movimiento reducido muestra los mismos estados sin transición. Se utilizan SVG, CSS y GSAP existentes, sin nuevas dependencias ni reproducción continua.
 
-| Subpágina | Pieza e interacción propuesta | Qué permite comprender |
+| Subpágina | Pieza e interacción implementada | Qué permite comprender |
 | --- | --- | --- |
-| Nutrición animal | Escena avícola con tres puntos seleccionables: aplicación, etapa y dieta; un trazo breve conecta el punto con su explicación | Qué considera la consulta nutricional, sin sugerir dietas ni resultados automáticos |
+| Nutrición animal | La ilustración avícola se integra en una escena con tres controles: aplicación, etapa y dieta; selección y explicación asociadas | Qué considera la consulta nutricional, sin sugerir dietas ni resultados automáticos |
 | Núcleos proteicos | Diagrama de incorporación a una dieta completa; al seleccionar materia prima, requerimiento o documentación se destaca su relación | El aporte se evalúa dentro de una dieta, no se publica una proporción universal |
-| Formulación | Mesa de antecedentes: especie, etapa, objetivo, materias primas y análisis; cada selección muestra por qué se solicita | Preparar la conversación; no calcula fórmulas ni guarda datos |
+| Formulación | Mesa de antecedentes: especie/etapa, objetivo, materias primas, análisis y volumen; cada selección muestra por qué se solicita | Preparar la conversación; no calcula fórmulas ni guarda datos |
 | Valorización | Recorrido SVG controlado por pasos: origen, caracterización, evaluación de alternativa; la muestra se reorganiza al cambiar etapa | Evaluación de posibilidades, no promesa de aceptación o proceso único |
 | Bioprocesos | Mapa de relaciones entre biomasa, pregunta de desarrollo y colaboración; selección ilumina solo las conexiones relevantes | La línea está en desarrollo y necesita definir alcance |
 | Sostenibilidad | Diagrama de recuperación/aplicación condicional, más panel de antecedentes para medir | Diferencia entre oportunidad y resultado medido, sin contadores inventados |
-| Transferencia/proyectos | Recorrido de investigación, licencia y evaluación; el vínculo HIDROBAC/UdeC abre su evidencia | Una licencia no demuestra validación comercial; no marcar etapas no confirmadas como completadas |
+| Transferencia | Evidencia HIDROBAC/UdeC y selector de investigación, licencia y aplicación; párrafos alternativos accesibles también sin JavaScript | Una licencia no demuestra validación comercial; no marcar etapas no confirmadas como completadas |
+| Proyectos | Iniciativa HIDROBAC junto a una mesa de colaboración con biomasa, nutrición y aplicaciones agrícolas; consulta preseleccionada | Separar el vínculo existente de una invitación a conversar sobre nuevos desafíos |
 | Empresa | Composición editorial de personas y actividad; revelar capacidades relacionadas al seleccionar cada ámbito | Quiénes son y qué conectan; citas y cargos sin reescritura |
 
-Priorizar Formulación, Valorización y Transferencia: tienen tareas y diferencias claras que la interacción puede explicar. HIDROBAC, calidad y directorio de soluciones conservan los módulos aprobados. Las FAQs mantienen sus acordeones y la información de contacto sigue directa.
+Las cinco fichas de soluciones conservan literalmente sus antecedentes, abordaje y resultado en un bloque compacto de alcance, debajo de la interacción. Empresa acerca las declaraciones de directores a la apertura sin modificar citas ni cargos. Las imágenes de Nutrición y Proyectos pasan al módulo principal para evitar duplicarlas. HIDROBAC, calidad, directorio, ADN, cortina de navegación, menú y videos conservan los módulos aprobados. Las FAQs mantienen sus acordeones y Contacto su funcionamiento.
 
-## Comprobaciones y límites
+Fuentes: `src/lib/content.ts` para públicos, antecedentes, alcances y párrafos corporativos; preguntas frecuentes existentes para volumen aproximado; vínculo y año de licencia ya publicados en la portada y ficha HIDROBAC, con la referencia `sourceUdec` de `src/lib/site.ts`. No se añaden proporciones, disponibilidad, capacidades, resultados ni hitos completados.
+
+Implementación: `src/components/ui/solution-explorers.tsx`, `src/components/ui/company-explorers.tsx`, `src/app/section-explorers.css`, montaje en `src/app/[...slug]/page.tsx` e importación de estilos en `src/app/layout.tsx`. Los controles usan botones con estado, foco visible y regiones de lectura anunciadas. Respuestas de 240 ms; muestras SVG de 450 ms únicamente tras selección. Teclado y movimiento reducido resuelven el cambio inmediatamente. Las animaciones GSAP cancelan sus recursos al desmontar; no hay bucles activos en reposo.
+
+## Validación de los nuevos layouts
+
+- `npm run build`, `npm run typecheck` y `npm run lint`: correctos. `npm test`: 28 aprobadas, 3 PHP omitidas. `npm run qa`: 22 páginas, 1098 referencias internas, cero incidencias.
+- Chromium del navegador integrado: nueve rutas inspeccionadas a 320, 390, 768 y 1440 px; un H1 por ruta, sin desbordamiento horizontal observado. Los nuevos controles tienen al menos 48 px de alto.
+- Selecciones de los nueve módulos verificadas; el SVG cambia coordenadas entre origen, muestras y alternativa. Teclado activa selección y foco visible sin transición. Movimiento reducido conserva los estados. El enlace de Proyectos abre Contacto con Colaboración e investigación seleccionado. Sin errores de consola observados en la revisión.
+- Capturas locales en `qa/section-explorers-20261003/`. La revisión comprueba composiciones y uso en Chromium emulado; no equivale a pruebas en Safari ni teléfonos físicos. Sin mediciones de rendimiento de campo ni afirmación de conformidad integral.
+- Esta entrega corresponde a Next.js/Vercel. No regenera ni publica el paquete PHP de BenzaHosting. Cambios ajenos de dependencias y paquetes de entrega excluidos.
+
+## Comprobaciones anteriores de videos y límites generales
 
 - Build, tipos y lint correctos. 28 pruebas pasan; 3 pruebas PHP omitidas. Pruebas de pertenencia de rutas al menú y asignación de las tres introducciones.
 - QA estático: 22 páginas, 1077 referencias internas, cero incidencias.

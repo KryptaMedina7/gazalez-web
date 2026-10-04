@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { HydrobacLab } from "@/components/ui/hydrobac-lab";
 import { DotGrid } from "@/components/ui/dot-grid";
+import { SolutionExplorer } from "@/components/ui/solution-explorers";
+import {
+  CompanyCapabilities,
+  ProjectsExplorer,
+  SustainabilityExplorer,
+  TransferExplorer,
+} from "@/components/ui/company-explorers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -172,7 +179,7 @@ export default async function ContentPage({
         {solution ? (
           <>
             <PageIntro
-              visual={pageVisual}
+              visual={solution.slug === "nutricion-animal" ? undefined : pageVisual}
               title={solution.title}
               description={solution.description}
             >
@@ -184,27 +191,7 @@ export default async function ContentPage({
               <span>Orientado a</span>
               <p>{solution.audience}</p>
             </div>
-            <section className="solution-detail">
-              <div className="detail-lead">
-                <h2>Qué puedes consultar</h2>
-                <p>{solution.need}</p>
-              </div>
-              <dl className="technical-list">
-                {[
-                  ["Qué antecedentes aportar", solution.input],
-                  ["Cómo lo abordamos", solution.process],
-                  ["Qué se define", solution.result],
-                ].map(([t, b], i) => (
-                  <div key={t}>
-                    <dt>
-                      <span>0{i + 1}</span>
-                      {t}
-                    </dt>
-                    <dd>{b}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
+            <SolutionExplorer solution={solution} />
             <p className="evaluation-note">
               La primera consulta no exige una ficha completa. La viabilidad,
               las especificaciones, la disponibilidad y las condiciones
@@ -332,10 +319,11 @@ export default async function ContentPage({
         {corporate && (
           <>
             <PageIntro
-              visual={pageVisual}
+              visual={key === "innovacion/proyectos" ? undefined : pageVisual}
               title={corporate.title}
               description={corporate.description}
             />
+            {key === "empresa" && <LeadershipVoices />}
             {key === "calidad-trazabilidad" && (
               <ol
                 className="trace-path quality-trace"
@@ -362,25 +350,24 @@ export default async function ContentPage({
                 ))}
               </ol>
             )}
-            <div className="editorial-sections">
-              {corporate.sections.map(([h, p]) => (
-                <section key={h}>
-                  <h2>{h}</h2>
-                  <p>{p}</p>
-                </section>
-              ))}
-            </div>
-            {key.startsWith("innovacion/") && (
-              <div className="source-callout">
-                <Link href="/innovacion/hidrobac/">
-                  Conoce la tecnología HIDROBAC <Icon name="diagonal" />
-                </Link>
-                <a href={sourceUdec} target="_blank" rel="noreferrer">
-                  Ver publicación de Agronomía UdeC <Icon name="diagonal" />
-                </a>
+            {key === "empresa" ? (
+              <CompanyCapabilities />
+            ) : key === "sostenibilidad" ? (
+              <SustainabilityExplorer />
+            ) : key === "innovacion/transferencia-tecnologica" ? (
+              <TransferExplorer />
+            ) : key === "innovacion/proyectos" ? (
+              <ProjectsExplorer />
+            ) : (
+              <div className="editorial-sections">
+                {corporate.sections.map(([h, p]) => (
+                  <section key={h}>
+                    <h2>{h}</h2>
+                    <p>{p}</p>
+                  </section>
+                ))}
               </div>
             )}
-            {key === "empresa" && <LeadershipVoices />}
             {key === "empresa" && (
               <div className="legal-identity">
                 <span>Identidad societaria</span>

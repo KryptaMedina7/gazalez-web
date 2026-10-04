@@ -316,6 +316,12 @@ Internal page openings retain their one-to-one map of 14 routes to 14 distinct i
 
 Topbar state has one primary route owner, even when shortcuts are shared: Innovation owns its subtree and Bioprocesses; Solutions owns the other solution routes; Company owns its corporate destinations. An open secondary menu uses the lighter mint surface so it does not compete with the current section.
 
+### Didactic internal layouts
+
+Nine internal routes use purpose-specific bodies: Nutrition places the avian illustration inside a selectable context scene; protein nuclei connect ingredients, requirements and documentation to a complete diet without proportions; Formulation uses a reference desk; Valuation reorganizes SVG samples through an evaluation; Bioprocesses maps material, challenge and collaboration. Sustainability separates possible recovery from measured evidence, Transfer distinguishes research/license/application, Projects pairs the documented HIDROBAC initiative with a collaboration desk, and Company leads with directors before connected capabilities. The approved homepage, HIDROBAC lab, quality trace, solution directory and route introductions retain their behavior.
+
+Interactions are deliberate selections, not idle loops or mandatory reading gates. Response text enters over 240ms; the bounded sample SVG moves over 450ms. Keyboard selection and reduced motion are immediate. Essential commercial scope remains visible and transfer includes a no-JavaScript fallback. Use the existing forest, sage and canvas tokens; pale working surfaces and one dark protein diagram give rhythm without gradients on every element. On mobile the diagrams precede explanations, controls remain at least 48px tall, and no horizontal drag is required. Styles are scoped in `section-explorers.css`; no new visual dependency is added.
+
 Informational pages (FAQ, news, contact, privacy, terms) reuse the light DotGrid: forest-green points at 16% base alpha, 1.1px radius and 38px minimum spacing, with a softer reading-area mask. Local pointer repulsion is limited to 9px; no idle motion, no touch reaction, reduced-motion static, capped at two million raster pixels. Existing dark contact surfaces retain their appearance.
 
 ### Scroll-driven axial DNA rotation

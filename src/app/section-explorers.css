@@ -1,0 +1,1017 @@
+/* Route-specific explainers. Motion follows a deliberate selection, never an idle loop. */
+.explorer {
+  margin-block: 40px 48px;
+}
+.explorer-heading {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 56px;
+  margin-bottom: 28px;
+  align-items: start;
+}
+.explorer-heading h2,
+.measurement-note h2,
+.license-evidence h2,
+.projects-layout h2 {
+  font-size: clamp(25px, 2.7vw, 36px);
+  line-height: 1.2;
+  max-width: 23ch;
+  margin: 0;
+}
+.explorer-heading p {
+  max-width: 56ch;
+  margin: 0;
+}
+.explorer :is(button, a):focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 4px;
+}
+.explorer button {
+  font: inherit;
+  cursor: pointer;
+  min-height: 48px;
+}
+.explorer p,
+.solution-scope p,
+.solution-scope dd {
+  font-size: 16px;
+  line-height: 1.75;
+}
+.explorer-response {
+  animation: explorer-response 240ms var(--ease-out) both;
+}
+.explorer-response h3 {
+  font-size: clamp(23px, 2.2vw, 30px);
+  line-height: 1.25;
+  margin: 0 0 16px;
+}
+.explorer-response p {
+  margin: 0;
+}
+@keyframes explorer-response {
+  from {
+    opacity: 0.6;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.explorer[data-keyboard="true"] *,
+.explorer[data-keyboard="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Formulation: a working desk with selectable reference sheets. */
+.desk-workspace {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.5fr);
+  gap: 32px;
+  background: var(--gazal-primary);
+  border-radius: 16px;
+  padding: clamp(20px, 3vw, 40px);
+}
+.desk-files {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.desk-files button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  border-radius: 8px;
+  transition:
+    background-color 160ms ease,
+    transform 160ms var(--ease-out);
+}
+.desk-files button svg {
+  width: 21px;
+  height: 21px;
+  flex-shrink: 0;
+}
+.desk-files button svg:last-child {
+  margin-left: auto;
+  width: 17px;
+}
+.desk-files button[aria-pressed="true"] {
+  background: var(--forest);
+  color: var(--canvas);
+}
+.desk-sheet {
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--canvas);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-height: 345px;
+}
+.desk-sheet-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--body);
+}
+.desk-sheet .explorer-response {
+  max-width: 54ch;
+}
+.desk-footnote {
+  padding-top: 24px;
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+/* Recovery: diagram and complete, selectable stage explanations. */
+.recovery-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+.recovery-scene {
+  padding: 24px 16px;
+  background: #e6efdf;
+  border-radius: 16px;
+}
+.material-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.material-guide {
+  fill: none;
+  stroke: #90a784;
+  stroke-width: 1;
+}
+.sample-zone {
+  transition: opacity 240ms ease;
+}
+.sample-zone rect {
+  fill: #f7f8f3;
+  stroke: #8aa17e;
+}
+.sample-zone path {
+  stroke: #8aa17e;
+}
+.sample-zone text {
+  fill: var(--ink);
+  font: 13px var(--font-body);
+}
+.application-ring {
+  fill: none;
+  stroke: #708d66;
+  stroke-dasharray: 5 7;
+  transition: opacity 240ms ease;
+}
+.recovery-scene p {
+  text-align: center;
+  font-size: 13px;
+  color: var(--body);
+  margin: 12px 0 0;
+}
+.recovery-steps {
+  display: grid;
+}
+.recovery-steps button {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 22px 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  color: var(--ink);
+}
+.journey-marker {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #8ba383;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+.recovery-steps button[aria-pressed="true"] .journey-marker {
+  background: var(--forest);
+  border-color: var(--forest);
+  color: var(--canvas);
+}
+.recovery-steps button > span:last-child {
+  display: grid;
+  gap: 7px;
+}
+.journey-label {
+  font-size: 12px;
+  color: var(--body);
+}
+.recovery-steps strong {
+  font-size: 20px;
+  font-weight: 500;
+}
+.recovery-steps button > span > span:last-child {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--body);
+  max-width: 56ch;
+}
+
+/* Avian context: the original illustration becomes the exploration surface. */
+.poultry-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+  gap: 40px;
+  align-items: center;
+}
+.poultry-landscape {
+  position: relative;
+  min-width: 0;
+}
+.poultry-landscape .concept-image-frame {
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.poultry-landscape .concept-image img {
+  mask-image: none;
+}
+.poultry-points {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  position: relative;
+  margin-top: -30px;
+  padding-inline: 12px;
+}
+.poultry-points button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 24px;
+  background: var(--canvas);
+  color: var(--ink);
+  border: 1px solid #8ca485;
+}
+.poultry-points button > span {
+  width: 8px;
+  height: 8px;
+  background: #9db795;
+  border-radius: 50%;
+}
+.poultry-points button[aria-pressed="true"] {
+  background: var(--forest);
+  color: var(--canvas);
+}
+.poultry-explanation {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+}
+.poultry-explanation svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 20px;
+  color: var(--body);
+}
+
+/* Diet and bioprocess relationships share semantics, but have distinct surfaces. */
+.relationship-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+.relationship-board {
+  position: relative;
+  min-height: 330px;
+}
+.relationship-board > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: #b3c6a9;
+  stroke-width: 2;
+}
+.relationship-board path {
+  stroke-dasharray: 5 6;
+  transition: stroke 220ms ease;
+}
+.relationship-board path[data-active="true"] {
+  stroke: var(--forest);
+  stroke-width: 3;
+  stroke-dasharray: none;
+}
+.relationship-center {
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  transform: translate(-50%, -50%);
+  width: 152px;
+  height: 118px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--canvas);
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  padding: 16px;
+}
+.relationship-center svg {
+  width: 28px;
+  height: 28px;
+}
+.relationship-center strong {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+.relationship-node {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid #8ca485;
+  border-radius: 8px;
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 14px !important;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.relationship-node svg {
+  width: 17px;
+  height: 17px;
+}
+.relationship-node-0 {
+  top: 25px;
+  left: 0;
+}
+.relationship-node-1 {
+  top: 25px;
+  right: 0;
+}
+.relationship-node-2 {
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.relationship-node[aria-pressed="true"] {
+  background: var(--forest);
+  color: var(--canvas);
+  border-color: var(--forest);
+}
+.relationship-detail {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.relationship-note {
+  margin: 28px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 13px !important;
+  color: var(--body);
+}
+.protein-explorer {
+  background: var(--forest);
+  color: var(--canvas);
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: 16px;
+}
+.protein-explorer :is(h2, h3, p) {
+  color: var(--canvas);
+}
+.protein-explorer .relationship-board path[data-active="true"] {
+  stroke: #e4eedc;
+}
+.protein-explorer .relationship-center {
+  background: #274837;
+  color: var(--canvas);
+  border-color: #64866a;
+}
+.protein-explorer .relationship-node {
+  background: #274837;
+  color: var(--canvas);
+  border-color: #64866a;
+}
+.protein-explorer .relationship-node[aria-pressed="true"] {
+  background: #e4eedc;
+  color: var(--forest);
+}
+.protein-explorer :is(button, a):focus-visible {
+  outline-color: #e4eedc;
+}
+.protein-explorer .relationship-note {
+  border-color: #64866a;
+}
+.bioprocess-explorer .relationship-board {
+  background: radial-gradient(ellipse, #e4eedc, transparent 70%);
+}
+
+/* Confirmed commercial information stays in HTML below the interaction. */
+.solution-scope {
+  padding-block: 32px;
+  border-top: 1px solid var(--line);
+}
+.scope-lead {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: 24px 48px;
+  margin-bottom: 28px;
+}
+.scope-lead h2 {
+  font-size: 24px;
+  margin: 0;
+}
+.scope-lead p {
+  margin: 0;
+  max-width: 65ch;
+}
+.solution-scope dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  margin: 0;
+}
+.solution-scope dl > div {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.solution-scope dt {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+.solution-scope dd {
+  margin: 0;
+  color: var(--body);
+}
+
+/* Sustainability: an open loop, with measurement separated from aspirations. */
+.sustainability-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 48px;
+  align-items: center;
+}
+.resource-loop {
+  position: relative;
+  aspect-ratio: 340 / 300;
+  max-width: 420px;
+  width: 100%;
+  margin: auto;
+  background: radial-gradient(ellipse, #e4eedc, transparent 68%);
+}
+.resource-loop > svg:first-child {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: #b8ceae;
+  stroke-width: 3;
+}
+.resource-loop path {
+  transition:
+    stroke 240ms ease,
+    stroke-width 240ms ease;
+}
+.resource-loop path.is-active {
+  stroke: var(--forest);
+  stroke-width: 5;
+}
+.resource-loop > svg:nth-child(2) {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  left: calc(50% - 23px);
+  top: calc(50% - 23px);
+  color: #486b45;
+}
+.resource-loop > span {
+  position: absolute;
+  padding: 8px 12px;
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 14px;
+}
+.loop-origin {
+  left: 6%;
+  bottom: 15%;
+}
+.loop-destination {
+  right: 0;
+  top: 9%;
+}
+.sustainability-choices button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+.sustainability-choices button[aria-pressed="true"] {
+  background: var(--gazal-primary);
+  border-color: #8ba383;
+}
+.sustainability-choices strong {
+  font-weight: 500;
+  font-size: 20px;
+  grid-column: 1;
+}
+.sustainability-choices span {
+  grid-column: 1;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.sustainability-choices svg {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  width: 20px;
+  align-self: center;
+}
+.measurement-note {
+  padding-block: 32px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 28px 56px;
+  align-items: start;
+}
+.measurement-note h2 {
+  margin-bottom: 18px;
+}
+.measurement-note p {
+  max-width: 64ch;
+}
+.measurement-note ul {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+.measurement-note li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.measurement-note li svg {
+  width: 18px;
+  height: 18px;
+  color: var(--body);
+}
+
+/* Transfer: the licensed relationship is evidence; the explanatory path is not a checklist. */
+.license-evidence {
+  display: flex;
+  gap: 24px;
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--gazal-primary);
+  border-radius: 12px;
+  margin-block: 32px 48px;
+}
+.license-evidence > svg {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+.license-evidence h2 {
+  max-width: none;
+  margin-bottom: 16px;
+}
+.license-evidence p {
+  max-width: 68ch;
+}
+.evidence-links {
+  display: flex;
+  gap: 16px 32px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.evidence-links a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.evidence-links svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.transfer-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.transfer-track button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px 0 22px;
+  border: 0;
+  border-bottom: 2px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-size: 22px;
+  text-align: left;
+}
+.transfer-track button[aria-pressed="true"] {
+  border-bottom-color: var(--forest);
+}
+.transfer-track button > span:last-child {
+  font-size: 13px;
+  color: var(--body);
+}
+.transfer-dot {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #6b8b64;
+  border-radius: 50%;
+}
+.transfer-track button[aria-pressed="true"] .transfer-dot {
+  background: var(--forest);
+}
+.transfer-readout {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 48px;
+  padding: 32px 0;
+  align-items: center;
+  min-height: 250px;
+}
+.transfer-word {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.6vw, 48px);
+  color: #47663f;
+  letter-spacing: -0.03em;
+}
+.transfer-limit {
+  margin: 0;
+  padding: 18px 24px;
+  background: var(--mint-light);
+  border-radius: 6px;
+  font-size: 14px !important;
+}
+
+/* Projects: a documented initiative next to the invitation to collaborate. */
+.projects-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+.project-evidence {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.project-evidence .concept-image-frame {
+  aspect-ratio: 16 / 9;
+}
+.project-evidence > div {
+  padding: 28px;
+}
+.project-evidence h2 {
+  margin-bottom: 16px;
+}
+.project-evidence .text-link {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.project-status {
+  color: var(--body);
+  font-size: 13px !important;
+  margin-block: 20px;
+}
+.collaboration-desk {
+  padding-block: 12px;
+}
+.collaboration-desk h2 {
+  margin-bottom: 18px;
+}
+.collaboration-desk h3 {
+  font-size: 21px;
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+.collaboration-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block: 24px 16px;
+}
+.collaboration-topics button {
+  padding: 10px 14px;
+  border: 1px solid #8ba383;
+  border-radius: 24px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+}
+.collaboration-topics button[aria-pressed="true"] {
+  background: var(--forest);
+  color: var(--canvas);
+}
+.collaboration-prompt {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  background: var(--gazal-primary);
+  padding: 24px;
+  min-height: 150px;
+  border-radius: 10px;
+  margin-bottom: 28px;
+}
+.collaboration-prompt > svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.collaboration-prompt p {
+  margin: 0;
+}
+.collaboration-desk .button {
+  margin-top: 20px;
+}
+
+/* Company: people first, then the connected capabilities. */
+.capabilities-path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.capabilities-path button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px;
+  border: 1px solid #91a988;
+  color: var(--ink);
+  background: var(--mint-light);
+  border-radius: 8px;
+  font-size: 20px;
+}
+.capabilities-path button[aria-pressed="true"] {
+  background: var(--forest);
+  color: var(--canvas);
+}
+.capabilities-path svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.capability-explanation {
+  padding-block: 24px;
+  min-height: 105px;
+  border-bottom: 1px solid var(--line);
+}
+.capability-explanation p {
+  max-width: 80ch;
+  margin: 0;
+}
+.company-practice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-top: 32px;
+}
+.company-practice h3 {
+  font-size: 23px;
+  margin-bottom: 16px;
+}
+.company-practice p {
+  margin: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .desk-files button:hover:not([aria-pressed="true"]) {
+    background: #cedfc5;
+  }
+  .explorer button:active {
+    translate: 0 1px;
+  }
+  .relationship-node:hover:not([aria-pressed="true"]),
+  .collaboration-topics button:hover:not([aria-pressed="true"]) {
+    background: var(--mint);
+    color: var(--ink);
+  }
+}
+@media (max-width: 1000px) {
+  .relationship-layout,
+  .poultry-layout {
+    gap: 24px;
+  }
+  .relationship-node {
+    padding: 10px;
+    font-size: 12px !important;
+    gap: 6px;
+  }
+  .relationship-node svg {
+    display: none;
+  }
+  .protein-explorer {
+    padding: 24px;
+  }
+  .projects-layout {
+    gap: 28px;
+  }
+  .desk-workspace {
+    gap: 20px;
+  }
+}
+@media (max-width: 760px) {
+  .explorer {
+    margin-block: 28px 36px;
+  }
+  .explorer-heading,
+  .desk-workspace,
+  .recovery-body,
+  .poultry-layout,
+  .relationship-layout,
+  .sustainability-layout,
+  .measurement-note,
+  .transfer-readout,
+  .projects-layout,
+  .company-practice,
+  .scope-lead {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .explorer-heading {
+    margin-bottom: 24px;
+  }
+  .explorer-heading h2 {
+    max-width: none;
+  }
+  .desk-files {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .desk-files button {
+    padding: 12px;
+    font-size: 13px;
+    gap: 8px;
+  }
+  .desk-files button svg:last-child {
+    display: none;
+  }
+  .desk-sheet {
+    min-height: 325px;
+    padding: 24px;
+  }
+  .desk-workspace {
+    padding: 16px;
+  }
+  .recovery-body {
+    gap: 12px;
+  }
+  .recovery-steps button {
+    padding-block: 18px;
+  }
+  .poultry-explanation {
+    min-height: 230px;
+  }
+  .poultry-points {
+    gap: 6px;
+    padding-inline: 0;
+    margin-top: -20px;
+  }
+  .poultry-points button {
+    font-size: 12px;
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  .relationship-board {
+    min-height: 300px;
+  }
+  .relationship-detail {
+    min-height: 250px;
+  }
+  .relationship-node {
+    font-size: 13px !important;
+  }
+  .relationship-center {
+    width: 136px;
+    height: 108px;
+  }
+  .protein-explorer {
+    padding: 24px 18px;
+  }
+  .solution-scope dl {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .solution-scope {
+    padding-block: 24px;
+  }
+  .sustainability-layout {
+    gap: 16px;
+  }
+  .resource-loop {
+    max-width: 300px;
+  }
+  .sustainability-choices button {
+    padding: 20px;
+  }
+  .measurement-note {
+    padding-block: 24px;
+  }
+  .license-evidence {
+    padding: 24px;
+    gap: 16px;
+    flex-direction: column;
+  }
+  .transfer-track {
+    gap: 12px;
+  }
+  .transfer-track button {
+    font-size: 16px;
+  }
+  .transfer-track button > span:last-child {
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .transfer-readout {
+    min-height: 300px;
+    gap: 20px;
+    padding-block: 24px;
+    align-content: start;
+  }
+  .project-evidence > div {
+    padding: 24px;
+  }
+  .capabilities-path {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .capabilities-path button {
+    padding: 16px 20px;
+    font-size: 18px;
+  }
+  .capability-explanation {
+    min-height: 160px;
+  }
+}
+@media (max-width: 480px) {
+  .transfer-track {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .transfer-track button {
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr);
+    gap: 4px 12px;
+    padding-block: 14px;
+    font-size: 18px;
+  }
+  .transfer-dot {
+    grid-row: 1 / 3;
+    margin-top: 7px;
+  }
+  .transfer-track button > span:last-child {
+    grid-column: 2;
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .explorer *,
+  .explorer *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
