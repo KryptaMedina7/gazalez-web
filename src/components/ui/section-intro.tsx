@@ -52,6 +52,12 @@ export function SectionIntro({ film, title }: { film: string; title: string }) {
       }
     };
     finishRef.current = finish;
+    const portrait = matchMedia("(orientation: portrait)").matches;
+    const variant = portrait ? "mobile" : "desktop";
+    const poster = `${base}-${portrait ? "mobile-poster" : "poster"}.webp`;
+    video.poster = poster;
+    dialog.dataset.format = portrait ? "portrait" : "landscape";
+    dialog.style.setProperty("--intro-backdrop", `url("${poster}")`);
     dialog.showModal();
     document.documentElement.style.overflow = "hidden";
     try {
@@ -59,7 +65,6 @@ export function SectionIntro({ film, title }: { film: string; title: string }) {
       // Direct arrivals should not receive a second generic welcome afterwards.
       sessionStorage.setItem("gazal-intro-seen", "1");
     } catch { /* The skip control works without storage. */ }
-    const variant = matchMedia("(max-width: 760px)").matches ? "mobile" : "desktop";
     const format = video.canPlayType('video/webm; codecs="vp9"') ? "webm" : "mp4";
     const onPlaying = () => clearTimeout(startup);
     const onEnd = () => finish();
@@ -102,7 +107,7 @@ export function SectionIntro({ film, title }: { film: string; title: string }) {
       onCancel={(event) => { event.preventDefault(); finishRef.current(true); }}
     >
       <div className="section-intro-atmosphere" aria-hidden="true" />
-      <video ref={videoRef} poster={`${base}-poster.webp`} width={1280} height={720} muted playsInline preload="none" aria-hidden="true" />
+      <video ref={videoRef} width={1280} height={720} muted playsInline preload="none" aria-hidden="true" />
       <div className="section-intro-footer">
         <p>{title}</p>
         <button type="button" autoFocus className="video-intro-skip" onClick={() => finishRef.current(true)}>Omitir y entrar</button>

@@ -20,6 +20,9 @@
   inset: 0;
   background: radial-gradient(ellipse at 50% 45%, #82957d, #2e4c3b 65%, var(--forest));
 }
+.section-intro[data-format="portrait"] .section-intro-atmosphere {
+  background: var(--intro-backdrop) center / cover no-repeat;
+}
 .section-intro video {
   position: absolute;
   inset: 0;

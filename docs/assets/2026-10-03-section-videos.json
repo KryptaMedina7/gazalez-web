@@ -29,22 +29,35 @@
       "outputs": [
         {
           "filename": "avicola-desktop.webm",
+          "width": 1280,
+          "height": 720,
           "bytes": 510593
         },
         {
           "filename": "avicola-desktop.mp4",
+          "width": 1280,
+          "height": 720,
           "bytes": 511155
         },
         {
           "filename": "avicola-mobile.webm",
-          "bytes": 163274
+          "width": 720,
+          "height": 1280,
+          "bytes": 276233
         },
         {
           "filename": "avicola-mobile.mp4",
-          "bytes": 141363
+          "width": 720,
+          "height": 1280,
+          "bytes": 280132
         }
       ],
       "poster": "avicola-poster.webp",
+      "mobilePoster": "avicola-mobile-poster.webp",
+      "portraitCrop": [
+        960,
+        0
+      ],
       "posterTime": 2
     },
     {
@@ -73,22 +86,35 @@
       "outputs": [
         {
           "filename": "nucleos-desktop.webm",
+          "width": 1280,
+          "height": 720,
           "bytes": 245518
         },
         {
           "filename": "nucleos-desktop.mp4",
+          "width": 1280,
+          "height": 720,
           "bytes": 280704
         },
         {
           "filename": "nucleos-mobile.webm",
-          "bytes": 107221
+          "width": 720,
+          "height": 1280,
+          "bytes": 170814
         },
         {
           "filename": "nucleos-mobile.mp4",
-          "bytes": 92462
+          "width": 720,
+          "height": 1280,
+          "bytes": 188985
         }
       ],
       "poster": "nucleos-poster.webp",
+      "mobilePoster": "nucleos-mobile-poster.webp",
+      "portraitCrop": [
+        940,
+        340
+      ],
       "posterTime": 2
     },
     {
@@ -117,23 +143,37 @@
       "outputs": [
         {
           "filename": "innovacion-desktop.webm",
+          "width": 1280,
+          "height": 720,
           "bytes": 426596
         },
         {
           "filename": "innovacion-desktop.mp4",
+          "width": 1280,
+          "height": 720,
           "bytes": 463266
         },
         {
           "filename": "innovacion-mobile.webm",
-          "bytes": 191848
+          "width": 720,
+          "height": 1280,
+          "bytes": 260937
         },
         {
           "filename": "innovacion-mobile.mp4",
-          "bytes": 163370
+          "width": 720,
+          "height": 1280,
+          "bytes": 307038
         }
       ],
       "poster": "innovacion-poster.webp",
+      "mobilePoster": "innovacion-mobile-poster.webp",
+      "portraitCrop": [
+        600,
+        340
+      ],
       "posterTime": 1
     }
-  ]
+  ],
+  "portrait": "720x1280 adaptation: scene-specific foreground crop preserves brand and action, over a blurred moving extension baked into the video. No stretching or newly generated footage. Desktop remains 16:9."
 }
