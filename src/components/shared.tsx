@@ -2,7 +2,6 @@ import Link from "next/link";
 import { DotGrid } from "./ui/dot-grid";
 import { Icon } from "./icon";
 import { ConceptImage, type VisualKey } from "./concept-image";
-import { SectionFilm, type SectionFilmId } from "./ui/section-film";
 export function ButtonLink({
   href,
   children,
@@ -73,15 +72,13 @@ export function PageIntro({
   description,
   children,
   visual,
-  film,
 }: {
   title: string;
   description: string;
   children?: React.ReactNode;
   visual?: VisualKey;
-  film?: SectionFilmId;
 }) {
-  if (visual || film)
+  if (visual)
     return (
       <div className="page-intro page-intro--visual">
         <div className="page-intro-copy">
@@ -89,7 +86,7 @@ export function PageIntro({
           <p>{description}</p>
           {children}
         </div>
-        {film ? <SectionFilm key={film} film={film} /> : visual && <ConceptImage visual={visual} />}
+        <ConceptImage visual={visual} />
       </div>
     );
   return (

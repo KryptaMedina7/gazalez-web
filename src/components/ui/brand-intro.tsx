@@ -1,9 +1,18 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { getSectionIntro } from "@/lib/section-intros";
+import { SectionIntro } from "./section-intro";
+
+export function BrandIntro() {
+  const path = usePathname();
+  const section = getSectionIntro(path);
+  return section ? <SectionIntro key={path} {...section} /> : <RuralIntro />;
+}
 
 /** Rural opening with immediate skip; never waits for a media download. */
-export function BrandIntro() {
+function RuralIntro() {
   const [visible, setVisible] = useState(true);
   const [leaving, setLeaving] = useState(false);
   const finishTimer = useRef<ReturnType<typeof setTimeout> | null>(null);

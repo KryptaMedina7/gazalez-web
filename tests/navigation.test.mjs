@@ -16,3 +16,14 @@ test('cross-listed destinations have one primary group; nutrition children retai
     ['/contacto/', undefined], ['/', undefined], ['/innovacion-futura/', undefined],
   ]) assert.equal(activeNavigationGroup(route), group, route);
 });
+
+test('section welcomes belong only to the three approved destinations', async () => {
+  const source = await readFile('src/lib/section-intros.ts', 'utf8');
+  const { outputText } = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext } });
+  const { getSectionIntro } = await import(`data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`);
+  assert.equal(getSectionIntro('/soluciones/nutricion-animal').film, 'avicola');
+  assert.equal(getSectionIntro('/soluciones/nucleos-proteicos/').film, 'nucleos');
+  assert.equal(getSectionIntro('/innovacion/').film, 'innovacion');
+  for (const path of ['/', '/innovacion/hidrobac/', '/soluciones/', '/soluciones/bioprocesos/'])
+    assert.equal(getSectionIntro(path), undefined, path);
+});
