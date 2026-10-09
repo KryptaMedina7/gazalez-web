@@ -3,6 +3,8 @@ import { Suspense } from "react";
 import { HydrobacLab } from "@/components/ui/hydrobac-lab";
 import { DotGrid } from "@/components/ui/dot-grid";
 import { SolutionExplorer } from "@/components/ui/solution-explorers";
+import { ProductFamilies } from "@/components/product-families";
+import { QualityDocuments } from "@/components/ui/quality-documents";
 import {
   CompanyCapabilities,
   ProjectsExplorer,
@@ -179,7 +181,9 @@ export default async function ContentPage({
         {solution ? (
           <>
             <PageIntro
-              visual={solution.slug === "nutricion-animal" ? undefined : pageVisual}
+              visual={
+                solution.slug === "nutricion-animal" ? undefined : pageVisual
+              }
               title={solution.title}
               description={solution.description}
             >
@@ -314,6 +318,7 @@ export default async function ContentPage({
                 </section>
               ))}
             </div>
+            <ProductFamilies />
           </>
         )}
         {corporate && (
@@ -324,6 +329,7 @@ export default async function ContentPage({
               description={corporate.description}
             />
             {key === "empresa" && <LeadershipVoices />}
+            {key === "calidad-trazabilidad" && <QualityDocuments />}
             {key === "calidad-trazabilidad" && (
               <ol
                 className="trace-path quality-trace"

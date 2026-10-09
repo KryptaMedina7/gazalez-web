@@ -1,0 +1,17 @@
+{
+  "method": "Built-in image_gen",
+  "requestedBy": "Usuario: crear imágenes provisionales, sin rótulos visibles",
+  "purpose": "Imágenes genéricas de familias; no documentación de productos específicos ni operación real.",
+  "assets": [
+    {
+      "image": "public/assets/familias/ingredientes-1200.webp",
+      "mobile": "public/assets/familias/ingredientes-640.webp",
+      "prompt": "Create a premium editorial still life for GAZAL's animal nutrition ingredient family. Landscape 3:2. Three shallow matte sage ceramic sample trays on a warm ivory surface, each containing a different finely milled agricultural ingredient, fine pale tan powder, coarser neutral beige meal, earthy brown granules. A restrained unbranded stainless sample scoop. Natural soft side light, crisp tactile material, gentle realistic shadows, quiet sophisticated agricultural science aesthetic, sage and forest green accents, no text, no labels, no logos, no packaging, no people, no facilities, no lab certificates. Entire trays visible with generous breathing space, clean seamless pale green ivory background. This is illustrative brand artwork, not a specific commercial recipe or actual company product."
+    },
+    {
+      "image": "public/assets/familias/nucleos-1200.webp",
+      "mobile": "public/assets/familias/nucleos-640.webp",
+      "prompt": "Create a premium editorial still life for GAZAL's poultry protein nutrition family. Landscape 3:2. A single wide shallow ceramic sage green dish with a carefully arranged mound of finely ground warm brown and beige feed meal, a small loose scatter of granules on a warm ivory surface. Soft out-of-focus pastoral green in upper background, close material focus, natural daylight, rich tactile detail and soft shadows, editorial agricultural science elegance. Full dish entirely within frame, spacious composition. No text, no logos, no labels, no fake packaging, no farm buildings, no certificates, no animals, no claims. Illustration of material texture, not an actual proprietary feed formula."
+    }
+  ]
+}

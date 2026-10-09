@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import gsap from "gsap";
+import { useId, useState } from "react";
+import { MaterialLab } from "./material-lab";
+import { ProductFamilies } from "@/components/product-families";
 import {
   ArrowRight,
   Bird,
@@ -110,154 +111,6 @@ function FormulationDesk() {
           <span className="desk-footnote">
             Una guía para consultar, sin completar ni guardar datos aquí.
           </span>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/** A bounded, event-driven SVG diagram. No renderer or frame loop while idle. */
-function MaterialDiagram({
-  stage,
-  immediate,
-}: {
-  stage: number;
-  immediate: boolean;
-}) {
-  const root = useRef<SVGSVGElement>(null);
-  useEffect(() => {
-    const svg = root.current;
-    if (!svg) return;
-    const reduce = matchMedia("(prefers-reduced-motion: reduce)");
-    const nodes = svg.querySelectorAll("[data-sample]");
-    const target = (i: number) => {
-      if (stage === 0) return [150 + ((i * 47) % 260), 80 + ((i * 31) % 135)];
-      if (stage === 1)
-        return [
-          110 + (i % 3) * 170 + ((Math.floor(i / 3) % 4) - 1.5) * 13,
-          108 + Math.floor(i / 12) * 26,
-        ];
-      const angle = (i / 48) * Math.PI * 2;
-      return [
-        280 + Math.cos(angle) * (i % 2 ? 96 : 58),
-        146 + Math.sin(angle) * (i % 2 ? 72 : 42),
-      ];
-    };
-    const tween = gsap.to(nodes, {
-      attr: { x: (i: number) => target(i)[0], y: (i: number) => target(i)[1] },
-      duration: immediate || reduce.matches ? 0 : 0.45,
-      ease: "power2.out",
-      overwrite: true,
-    });
-    const finish = () => {
-      if (reduce.matches) tween.progress(1);
-    };
-    reduce.addEventListener("change", finish);
-    return () => {
-      tween.kill();
-      reduce.removeEventListener("change", finish);
-    };
-  }, [stage, immediate]);
-  return (
-    <svg
-      ref={root}
-      viewBox="0 0 560 290"
-      className="material-map"
-      aria-hidden="true"
-    >
-      <path className="material-guide" d="M60 242 H500" />
-      {[110, 280, 450].map((x, i) => (
-        <g key={x} className="sample-zone" opacity={stage === 1 ? 1 : 0.12}>
-          <rect x={x - 61} y="65" width="122" height="160" rx="12" />
-          <path d={`M${x - 46} 205h92`} />
-          <text x={x} y="269" textAnchor="middle">
-            Muestra {i + 1}
-          </text>
-        </g>
-      ))}
-      <ellipse
-        className="application-ring"
-        cx="280"
-        cy="146"
-        rx="132"
-        ry="98"
-        opacity={stage === 2 ? 1 : 0}
-      />
-      {Array.from({ length: 48 }, (_, i) => (
-        <rect
-          data-sample
-          key={i}
-          x={150 + ((i * 47) % 260)}
-          y={80 + ((i * 31) % 135)}
-          width={i % 3 === 0 ? 15 : 8}
-          height={i % 3 === 0 ? 5 : 8}
-          rx="3"
-          fill={["#28533d", "#708d66", "#a8c297"][i % 3]}
-        />
-      ))}
-    </svg>
-  );
-}
-
-const recoverySteps = [
-  [
-    "Origen",
-    "Conocer el material",
-    "Origen, ubicación, volumen y frecuencia permiten situar la corriente que se quiere evaluar.",
-  ],
-  [
-    "Caracterización",
-    "Revisar sus propiedades",
-    "La condición y la composición conocida ayudan a comparar alternativas. Los análisis disponibles aportan antecedentes para la revisión.",
-  ],
-  [
-    "Alternativas",
-    "Evaluar una aplicación",
-    "La ruta depende de las características del material y de los requisitos de su posible aplicación. No implica aceptación automática.",
-  ],
-] as const;
-
-function RecoveryJourney() {
-  const { selected, keyboard, select } = useSelection();
-  const id = useId();
-  return (
-    <section
-      className="recovery-journey explorer"
-      data-keyboard={keyboard}
-      aria-labelledby={`${id}-title`}
-    >
-      <header className="explorer-heading">
-        <h2 id={`${id}-title`}>Del material a una posibilidad.</h2>
-        <p>
-          Recorre los antecedentes de una evaluación. Cada corriente puede
-          requerir una alternativa distinta.
-        </p>
-      </header>
-      <div className="recovery-body">
-        <div className="recovery-scene">
-          <MaterialDiagram stage={selected} immediate={keyboard} />
-          <p>Selecciona una etapa para explorar la evaluación.</p>
-        </div>
-        <div
-          className="recovery-steps"
-          role="group"
-          aria-label="Etapas de evaluación"
-        >
-          {recoverySteps.map(([label, title, description], index) => (
-            <button
-              key={label}
-              type="button"
-              aria-pressed={selected === index}
-              onClick={(e) => select(index, e.detail)}
-            >
-              <span className="journey-marker">{index + 1}</span>
-              <span>
-                <span className="journey-label">{label}</span>
-                <strong>{title}</strong>
-                <span>{description}</span>
-              </span>
-            </button>
-          ))}
         </div>
       </div>
     </section>
@@ -453,11 +306,16 @@ export function SolutionExplorer({ solution }: { solution: Solution }) {
       {solution.slug === "formulacion-tecnica" ? (
         <FormulationDesk />
       ) : solution.slug === "valorizacion-industrial" ? (
-        <RecoveryJourney />
+        <MaterialLab variant="recovery" />
       ) : solution.slug === "nutricion-animal" ? (
-        <PoultryScene />
+        <>
+          <ProductFamilies />
+          <PoultryScene />
+        </>
+      ) : solution.slug === "nucleos-proteicos" ? (
+        <MaterialLab variant="protein" />
       ) : (
-        <RelationshipMap protein={solution.slug === "nucleos-proteicos"} />
+        <RelationshipMap />
       )}
       <section
         className={`solution-scope solution-scope--${solution.slug}`}

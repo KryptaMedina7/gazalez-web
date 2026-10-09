@@ -87,6 +87,12 @@ export default function Home() {
             </CardCurtainReveal>
           ))}
         </div>
+        <div className="family-home-link">
+          <p>Ingredientes y núcleos proteicos para nutrición animal.</p>
+          <Link className="text-link" href="/soluciones/nutricion-animal/">
+            Explorar familias de productos <Icon name="arrow" />
+          </Link>
+        </div>
       </section>
       <Process />
       <section

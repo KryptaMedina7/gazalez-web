@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Icon } from "./icon";
 import { site } from "@/lib/site";
+import { findProductFamily, productFamilies } from "@/lib/product-families.mjs";
 import {
   buildMailto,
   formatEnquiry,
@@ -16,6 +17,8 @@ export function EnquiryForm() {
   const [selection, setIntent] = useState<Intent | null>(null);
   const intent =
     selection ?? (normalizeIntent(search.get("interes")) as Intent);
+  const [familySelection, setFamilySelection] = useState<string | null>(null);
+  const family = findProductFamily(familySelection ?? search.get("familia"));
   const [summary, setSummary] = useState("");
   const [error, setError] = useState("");
   const [copyStatus, setCopyStatus] = useState("");
@@ -31,6 +34,8 @@ export function EnquiryForm() {
     const vals: Record<string, string> = {};
     for (const [key, value] of data.entries())
       if (typeof value === "string") vals[key] = value;
+    if (intent === "formulacion" && family)
+      vals["Familia de interés"] = family.name;
     if (
       !vals.Nombre?.trim() ||
       !vals.Empresa?.trim() ||
@@ -77,6 +82,28 @@ export function EnquiryForm() {
           hidden={ready}
         >
           <h2>{intentLabels[intent]}</h2>
+          {intent === "formulacion" && (
+            <div className="family-context">
+              <label>
+                Familia de interés
+                <select
+                  value={family?.id ?? ""}
+                  onChange={(e) => setFamilySelection(e.target.value)}
+                >
+                  <option value="">Orientación general / formulación</option>
+                  {productFamilies.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <p className="form-help">
+                Indica si buscas antecedentes, una ficha técnica o condiciones
+                para tu requerimiento.
+              </p>
+            </div>
+          )}
           <p className="form-help">
             Los campos con * son obligatorios. El resumen se prepara en tu
             dispositivo y lo envías desde tu aplicación de correo.
@@ -245,6 +272,7 @@ export function EnquiryForm() {
               onClick={() => {
                 form.current?.reset();
                 setIntent("general");
+                setFamilySelection("");
                 setCopyStatus("");
                 setSummary("");
                 setError("");

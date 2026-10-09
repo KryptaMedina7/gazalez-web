@@ -204,6 +204,8 @@ The homepage HIDROBAC explorer retains its original layered illustration, follow
 
 The surrounding site retains its own responsive breakpoints; do not propagate the hero thresholds globally. Action controls generally provide at least 44px interactive height; the hero skip action uses 46px on desktop and 44px in compact layouts.
 
+The approved 2026-10-09 material extension retains the existing header and page opening. Its workspace places the explorable SVG scene on the left and the contextual reading on the right (`1.4fr / 1fr`), with controls below both. At 900px it stacks scene then reading; at 760px the four chapter controls become a two-column grid and the transport wraps. Family articles and the document workspace also stack at 760px. These local breakpoints preserve the material → requirement → enquiry sequence without horizontal dragging.
+
 ## Elevation & Depth
 
 The general editorial interface conveys depth through tonal fields, static kit gradients, fine dividers, conceptual texture and the forest process panel. The ADN hero layers Canvas 2D particle tones with contour lines and botanical edges. Countryside imagery also sits behind the hero under a static dark veil; it is not evidence of company property. The restored transformation diagram retains the same particles across four conceptual operations. The mobile dialog uses a translucent forest overlay (`#16302466`) and stacking order. The recovered internal HIDROBAC lab adds a local evidence-card shadow (`0 18px 40px -24px rgba(22, 48, 36, 0.45)`) and an active-control ring (`0 0 0 5px rgba(201, 226, 166, 0.6)`); these are component exceptions, not a general card-elevation system.
@@ -215,6 +217,8 @@ The general editorial interface conveys depth through tonal fields, static kit g
 Controls and content regions are predominantly square. Fields explicitly use zero radius; buttons, tags and open rows retain the same rectangular character. Circular geometry is reserved for small status markers, arrow containers and scientific diagrams. The internal HIDROBAC lab has an 18px stage radius, 14px evidence-card corners and pill/circular controls. These restored local shapes are not general card tokens.
 
 Light surfaces use thin green borders. Rows usually carry a bottom rule rather than an enclosing card outline. Images crop within their section region; visible captions sit over a light tonal strip.
+
+The 2026-10-09 family extension deliberately uses local corners: 12px on family images, 16px around material/document workspaces, 6px on their controls and 8px on document sheets and family context. Its larger scene headings and reading text are scoped in `material-lab.css`. These are component exceptions, not new global radius or typography tokens; the frontmatter defaults remain unchanged.
 
 ## Components
 
@@ -260,7 +264,19 @@ Particle movement lasts 720ms on desktop and 500ms in compact layouts, with a 13
 
 The internal HIDROBAC lab preserves the official six chapters and SVG geometry in `hydrobac-lab.jsx`, using the existing React runtime. A manually started sequence spans 14 seconds; chapter selection seeks directly and stops playback. Playback suspends offscreen and skips progression while the document is hidden. With reduced motion, the play control seeks directly to the next chapter; informational hotspots and evidence remain accessible without playing. Its diagram is conceptual and carries no measured-performance claim.
 
-**The Concept Label Rule.** Keep conceptual artwork and diagrams visibly labeled; do not present them as plant photography, measured process evidence or product proof.
+**The Concept Label Rule.** Keep conceptual artwork and diagrams visibly labeled; do not present them as plant photography, measured process evidence or product proof. The user-approved exception of 2026-10-09 is limited to the two new generated family images used as provisional photographic artwork (`public/assets/familias/ingredientes-*` and `nucleos-*`): they appear without visible conceptual labels, with descriptive alternatives and provenance in `docs/assets/2026-10-09-familias.json`. This exception does not authorize evidence claims or removing labels elsewhere.
+
+### Product families and explorable materials (2026-10-09)
+
+The approved extension connects explorable samples to a requirement and a contact action within the existing sage, ivory and deep-green world, using Manrope and Lexend. It introduces no new composition system. Family articles show two supported starting points: animal-nutrition ingredients and poultry protein nuclei. The images are provisional generated material still lifes, not photographs of specific commercial products. No specific catalogue, stock, composition, supply guarantee or additional downloadable technical sheet is established by these articles.
+
+`MaterialLab` replaces the former internal protein relationship diagram with a light SVG workspace and adapts the same sample language to industrial valorization. Protein proceeds through Materia prima, Requerimiento, Dieta completa and Documentación; valorization proceeds through Origen, Caracterización, Alternativas and Evaluación. Eighty-four persistent sample shapes and their trays share one progress value; GSAP updates the scene only during requested motion. The scene illustrates relationships without calculating a formula, an incorporation ratio or a universal recovery route.
+
+Chapter buttons, previous/next, a native range and optional play share the same state. Pointer chapter transitions take 600ms; a complete requested pass takes 12 seconds and stops at the last stage. Keyboard chapter changes and reduced-motion selection are immediate; reduced-motion play advances one stage immediately. Manual input stops playback, and playback stops offscreen or when the document is hidden. Focusable sample hotspots expose contextual questions, with a return to the selected stage and a contextual enquiry link. Essential explanations remain readable without playing.
+
+The quality workspace selects Origen e identificación, Ficha técnica or Análisis and explains what to request; it is not a certificate or a substitute for an actual document. Family actions open the existing enquiry with `interes=formulacion` and a validated `familia` value. The existing form adds a family selector and includes that family in the locally prepared summary. It continues to use `contacto@empresagazalez.cl`; no sending provider or WhatsApp channel is confirmed. Keep the preparation state explicit.
+
+This extension leaves the ADN hero, HIDROBAC, route-introduction videos and their attribution intact. Implementation scope, sources, QA evidence and publication pending are recorded in `docs/GAZAL-FAMILIAS-2026-10-09.md`.
 
 ### Static surface depth
 
@@ -291,7 +307,7 @@ Buttons use 140ms press feedback; arrows move 3px over 180ms only on fine-pointe
 - **Do** preserve the supplied GAZAL symbol and exact raster lettering unchanged.
 - **Do** build with the existing green tokens, local fonts and open editorial hierarchy.
 - **Do** retain visible keyboard focus, semantic labels and reduced-motion behavior.
-- **Do** keep conceptual image captions visible and critical form guidance legible.
+- **Do** keep conceptual image captions visible except for the explicitly approved provisional family imagery above, and keep critical form guidance legible.
 - **Do** inspect stylesheet overrides before extending a responsive component.
 - **Do** keep the particle scroll native, its local type overrides scoped and its static image fallback complete.
 - **Do** use the supplied gradients as static surfaces within their five-color kit.
@@ -320,7 +336,7 @@ Topbar state has one primary route owner, even when shortcuts are shared: Innova
 
 Nine internal routes use purpose-specific bodies: Nutrition places the avian illustration inside a selectable context scene; protein nuclei connect ingredients, requirements and documentation to a complete diet without proportions; Formulation uses a reference desk; Valuation reorganizes SVG samples through an evaluation; Bioprocesses maps material, challenge and collaboration. Sustainability separates possible recovery from measured evidence, Transfer distinguishes research/license/application, Projects pairs the documented HIDROBAC initiative with a collaboration desk, and Company leads with directors before connected capabilities. The approved homepage, HIDROBAC lab, quality trace, solution directory and route introductions retain their behavior.
 
-Interactions are deliberate selections, not idle loops or mandatory reading gates. Response text enters over 240ms; the bounded sample SVG moves over 450ms. Keyboard selection and reduced motion are immediate. Essential commercial scope remains visible and transfer includes a no-JavaScript fallback. Use the existing forest, sage and canvas tokens; pale working surfaces and one dark protein diagram give rhythm without gradients on every element. On mobile the diagrams precede explanations, controls remain at least 48px tall, and no horizontal drag is required. Styles are scoped in `section-explorers.css`; no new visual dependency is added.
+Interactions are deliberate selections, not idle loops or mandatory reading gates. Response text enters over 240ms; the bounded sample SVG moves over 450ms. Keyboard selection and reduced motion are immediate. Essential commercial scope remains visible and transfer includes a no-JavaScript fallback. Use the existing forest, sage and canvas tokens; the earlier dark protein diagram was replaced on 2026-10-09 by the light SVG/GSAP material workspace documented above. The other incumbent explorer surfaces retain their rhythm without gradients on every element. On mobile the diagrams precede explanations, controls remain at least 48px tall, and no horizontal drag is required. These incumbent styles are scoped in `section-explorers.css`; the material replacement uses its own local styles and timings in `material-lab.css`. No new visual dependency is added.
 
 Informational pages (FAQ, news, contact, privacy, terms) reuse the light DotGrid: forest-green points at 16% base alpha, 1.1px radius and 38px minimum spacing, with a softer reading-area mask. Local pointer repulsion is limited to 9px; no idle motion, no touch reaction, reduced-motion static, capped at two million raster pixels. Existing dark contact surfaces retain their appearance.
 

@@ -5,6 +5,8 @@ export const navigationGroups = [
     links: [
       ["Soluciones por necesidad", "/soluciones/"],
       ["Nutrición animal", "/soluciones/nutricion-animal/"],
+      ["Núcleos proteicos avícolas", "/soluciones/nucleos-proteicos/"],
+      ["Formulación técnica", "/soluciones/formulacion-tecnica/"],
       ["Valorización industrial", "/soluciones/valorizacion-industrial/"],
       ["Innovación y biotecnología", "/innovacion/"],
     ],
@@ -35,8 +37,10 @@ export const navigationGroups = [
 /** Destination shortcuts may appear twice; route ownership never does. */
 export function activeNavigationGroup(path: string): string | undefined {
   const route = `/${path.split(/[?#]/)[0].split("/").filter(Boolean).join("/")}/`;
-  if (route.startsWith("/innovacion/") || route === "/soluciones/bioprocesos/") return "Innovación";
+  if (route.startsWith("/innovacion/") || route === "/soluciones/bioprocesos/")
+    return "Innovación";
   if (route.startsWith("/soluciones/")) return "Soluciones";
-  if (navigationGroups[2].links.some(([, href]) => route === href)) return "Empresa";
+  if (navigationGroups[2].links.some(([, href]) => route === href))
+    return "Empresa";
   return undefined;
 }
