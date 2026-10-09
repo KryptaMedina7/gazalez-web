@@ -6,6 +6,9 @@ out/
 !.env.example
 qa/
 tmp/
+src/generated-locales/
+src/app/(en)/
+src/app/(pt)/
 .vercel/
 *.log
 .DS_Store

@@ -4,5 +4,5 @@ import nextTs from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores(["out/**", ".next/**", "qa/**", "tmp/**", "php-site/public/**", "tools/php/**"]),
+  globalIgnores(["out/**", ".next/**", "qa/**", "tmp/**", "src/generated-locales/**", "src/app/(en)/**", "src/app/(pt)/**", "php-site/public/**", "tools/php/**"]),
 ]);

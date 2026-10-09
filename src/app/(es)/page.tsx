@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { languageAlternates } from "@/i18n/routing.mjs";
 import Link from "next/link";
 import { ButtonLink } from "@/components/shared";
 import { Icon } from "@/components/icon";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   title: "GAZAL · Nutrición animal y valorización industrial",
   description:
     "Soluciones para plantas de alimento, integraciones avícolas e industrias generadoras de subproductos. Conoce GAZAL y consulta al equipo técnico.",
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", languages: languageAlternates("/") },
 };
 export default function Home() {
   return (

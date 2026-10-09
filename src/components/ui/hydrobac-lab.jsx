@@ -3,6 +3,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
 var clamp = (A, U = 0, G = 1) => Math.min(G, Math.max(U, A)),
   smoothstep = (A) => A * A * (3 - 2 * A),
   range = (A, U, G) => smoothstep(clamp((A - U) / (G - U))),
@@ -146,6 +147,8 @@ var clamp = (A, U = 0, G = 1) => Math.min(G, Math.max(U, A)),
   ],
   duration = 14000;
 export function HydrobacLab() {
+  const seekTween = useRef(null);
+  useEffect(() => () => seekTween.current?.kill(), []);
   let [progress, setProgress] = useState(0),
     [time, setTime] = useState(0),
     [playing, setPlaying] = useState(false),
@@ -195,9 +198,20 @@ export function HydrobacLab() {
       () => window.removeEventListener("keydown", I)
     );
   }, []);
-  let seek = (I) => {
+  let seek = (I, immediate = false) => {
       setPlaying(false);
-      setProgress(clamp(I));
+      seekTween.current?.kill();
+      if (immediate || matchMedia("(prefers-reduced-motion: reduce)").matches)
+        setProgress(clamp(I));
+      else {
+        const cursor = { value: progressRef.current };
+        seekTween.current = gsap.to(cursor, {
+          value: clamp(I),
+          duration: 0.65,
+          ease: "power2.inOut",
+          onUpdate: () => setProgress(cursor.value),
+        });
+      }
     },
     Q = range(progress, 0, 0.25),
     j = range(progress, 0.7, 0.86),
@@ -656,6 +670,7 @@ export function HydrobacLab() {
           type="button"
           className="hb-lab-play"
           onClick={() => {
+            seekTween.current?.kill();
             if (playing) return setPlaying(false);
             if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
               seek(chapters[(activeChapter + 1) % chapters.length].at);
@@ -677,7 +692,7 @@ export function HydrobacLab() {
             aria-label="Progreso de exploración HIDROBAC"
             aria-valuetext={`${percent}% · ${chapters[activeChapter].label}`}
             onPointerDown={() => setPlaying(false)}
-            onChange={(I) => seek(Number(I.target.value) / 1000)}
+            onChange={(I) => seek(Number(I.target.value) / 1000, true)}
             style={{
               ["--hb-p"]: `${progress * 100}%`,
             }}

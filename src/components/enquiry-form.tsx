@@ -37,8 +37,8 @@ export function EnquiryForm() {
     if (intent === "formulacion" && family)
       vals["Familia de interés"] = family.name;
     if (
-      !vals.Nombre?.trim() ||
-      !vals.Empresa?.trim() ||
+      !vals["Nombre"]?.trim() ||
+      !vals["Empresa"]?.trim() ||
       !vals["Correo electrónico"]?.trim() ||
       !vals["Tu requerimiento"]?.trim()
     ) {

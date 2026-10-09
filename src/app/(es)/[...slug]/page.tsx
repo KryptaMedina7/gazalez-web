@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { languageAlternates } from "@/i18n/routing.mjs";
 import { Suspense } from "react";
 import { HydrobacLab } from "@/components/ui/hydrobac-lab";
 import { DotGrid } from "@/components/ui/dot-grid";
@@ -104,7 +105,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: `/${key}/` },
+    alternates: { canonical: `/${key}/`, languages: languageAlternates(`/${key}/`) },
     openGraph: {
       url: `/${key}/`,
       title,

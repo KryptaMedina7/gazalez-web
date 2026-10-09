@@ -342,7 +342,7 @@ export function HydrobacExplorer() {
           </button>
         ))}
       </div>
-      <div className="hb-detail" aria-live="polite" aria-atomic="true">
+      <div key={active} className="hb-detail" aria-live="polite" aria-atomic="true">
         <h4>{stages[active].title}</h4>
         <p>{stages[active].text}</p>
       </div>

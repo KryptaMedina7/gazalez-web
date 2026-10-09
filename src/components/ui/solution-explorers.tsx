@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { MaterialLab } from "./material-lab";
+import { RecoveryPathways } from "./recovery-pathways";
 import { ProductFamilies } from "@/components/product-families";
 import {
   ArrowRight,
@@ -306,7 +307,7 @@ export function SolutionExplorer({ solution }: { solution: Solution }) {
       {solution.slug === "formulacion-tecnica" ? (
         <FormulationDesk />
       ) : solution.slug === "valorizacion-industrial" ? (
-        <MaterialLab variant="recovery" />
+        <RecoveryPathways />
       ) : solution.slug === "nutricion-animal" ? (
         <>
           <ProductFamilies />

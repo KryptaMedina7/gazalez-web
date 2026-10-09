@@ -1,4 +1,6 @@
 import type { NextConfig } from "next";
+import { generateLocales } from "./scripts/locales.mjs";
+generateLocales();
 const config: NextConfig = {
   output: "export",
   trailingSlash: true,

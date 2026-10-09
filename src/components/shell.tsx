@@ -8,6 +8,7 @@ import { Icon } from "./icon";
 import { TopbarNavigation } from "./ui/topbar-navigation";
 import { site } from "@/lib/site";
 import { SterlingGateNavigation } from "./ui/sterling-gate-kinetic-navigation";
+import { LanguageSwitcher } from "./language-switcher";
 export function Brand() {
   return (
     <Link href="/" className="brand" aria-label="GAZAL, inicio">
@@ -32,6 +33,7 @@ export function Header() {
     <header className="header">
       <Brand />
       <TopbarNavigation key={path} path={path} />
+      <LanguageSwitcher />
       <Link className="header-cta" href="/contacto/">
         Contacto <Icon name="diagonal" />
       </Link>

@@ -1,8 +1,8 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import Home from "../src/app/page";
-import ContentPage, { generateMetadata } from "../src/app/[...slug]/page";
-import NotFound from "../src/app/not-found";
+import Home from "../src/app/(es)/page";
+import ContentPage, { generateMetadata } from "../src/app/(es)/[...slug]/page";
+import NotFound from "../src/app/(es)/not-found";
 import { Header, Footer } from "../src/components/shell";
 import { BrandIntro } from "../src/components/ui/brand-intro";
 import { SocialLinks } from "../src/components/ui/social-links";
