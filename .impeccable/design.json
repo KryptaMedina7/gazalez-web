@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T14:48:47.165320+00:00",
+  "generatedAt": "2026-10-09T00:00:00-03:00",
   "title": "Design System: GAZAL",
   "extensions": {
     "shadows": [
@@ -73,16 +73,26 @@
       },
       {
         "name": "hydrobac-lab",
-        "value": "14-second manually started sequence; direct chapter seeking",
-        "purpose": "Official internal six-stage SVG lab: Sistema, Matriz, Agua, Bacterias, Raíz, Evidencia. Existing React runtime. Offscreen suspends playback; hidden document skips advancement. With reduced motion, the play control seeks directly to the next chapter."
+        "value": "14-second manually started sequence; chapter seek 650ms power2.inOut; detail feedback 240ms",
+        "purpose": "Official internal six-stage SVG lab: Sistema, Matriz, Agua, Bacterias, Raíz, Evidencia. Existing React runtime. Offscreen suspends playback; hidden document skips advancement. With reduced motion, the play control seeks directly to the next chapter. Geometry remains unchanged. Interrupted chapter seeks begin at the current cursor; range scrubbing and reduced-motion seeking remain immediate."
+      },
+      {
+        "name": "recovery-pathways",
+        "value": "650ms power2.out line reveal / 55ms stagger; 300ms nodes; 240ms reading feedback",
+        "purpose": "Distinct branching evaluation map for industrial valorization. GSAP interruption retains the current line position. Reduced-motion selection is immediate; branches represent alternatives requiring evaluation."
+      },
+      {
+        "name": "nutrition-material-feedback",
+        "value": "240ms opacity and 5px reading response",
+        "purpose": "Subtle context feedback inside the retained nutrition MaterialLab; geometry and exploration transport remain intact."
       }
     ],
     "revision": {
-      "date": "2026-10-01",
-      "status": "local unpublished",
-      "scope": "Restore official ADN hero, particle process, original homepage HIDROBAC controls and three-panel route curtain; recover official internal HIDROBAC lab; retain editorial architecture and brand identity.",
-      "verification": "Main-task QA: lint and build pass; 17 tests pass, 3 PHP-dependent skips; DOM checks at 390px and 1440px show no horizontal overflow. No production deployment or physical-device certification.",
-      "detector": "qa/restoration/detector.json contains 31 advisory font/color/radius findings; local source intent does not establish new global tokens."
+      "date": "2026-10-09",
+      "status": "pushed for authorized Vercel deployment; final reviewer ship; 320px header verified",
+      "scope": "Static ES/EN/PT-BR content routes; distinct RecoveryPathways decision map; retained nutrition MaterialLab; eased HIDROBAC chapter seeking with unchanged geometry.",
+      "verification": "Build repeated successfully after the final header adjustment: 64 generated pages / 60 content pages. Lint and types pass; 35 tests pass, 3 PHP skips; static QA 62 HTML / 3148 references / 0 issues; locale QA 40 pages / 0 issues. Local EN/PT enquiry preparation and mobile menu checked. At 320px, client/scroll/body widths are 305px and menu right edge is 286.8px. Portuguese HIDROBAC at 768px has client/scroll widths of 753px; Agua settles at 450/1000 and reduced-motion Matriz seeks immediately to 200/1000. No email sent, official PHP deployment or physical-device FPS proof.",
+      "reference": "docs/GAZAL-IDIOMAS-RECORRIDOS-2026-10-09.md"
     },
     "layouts": [
       {
@@ -94,6 +104,11 @@
         "name": "hydrobac-internal-lab",
         "value": "3:2 stage; width min(100%, 1020px, calc(74vh * 3 / 2)); local 720px breakpoint",
         "purpose": "Recovered official six-stage SVG explorer on the internal HIDROBAC page. Source qa/restoration/hidrobac-lab.official.js; active component src/components/ui/hydrobac-lab.jsx."
+      },
+      {
+        "name": "localized-routes",
+        "value": "Spanish source routes; /en/ English; /pt/ Brazilian Portuguese (pt-BR)",
+        "purpose": "Compact ES / EN / PT selector preserves content route and query parameters. Keep logo, focus and menu access; specialist translation approval by Nassira remains pending."
       }
     ],
     "breakpoints": [
@@ -197,7 +212,16 @@
         "displayName": "Particle hero heading",
         "purpose": "Only main .ribbon-copy h1 in gazal-campo.css. Compact: clamp(30px, 7vw, 46px). Do not propagate to interior-page typography."
       }
-    }
+    },
+    "revisionHistory": [
+      {
+        "date": "2026-10-01",
+        "status": "local unpublished",
+        "scope": "Restore official ADN hero, particle process, original homepage HIDROBAC controls and three-panel route curtain; recover official internal HIDROBAC lab; retain editorial architecture and brand identity.",
+        "verification": "Main-task QA: lint and build pass; 17 tests pass, 3 PHP-dependent skips; DOM checks at 390px and 1440px show no horizontal overflow. No production deployment or physical-device certification.",
+        "detector": "qa/restoration/detector.json contains 31 advisory font/color/radius findings; local source intent does not establish new global tokens."
+      }
+    ]
   },
   "components": [
     {

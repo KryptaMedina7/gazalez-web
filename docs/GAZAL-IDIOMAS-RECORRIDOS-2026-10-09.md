@@ -47,4 +47,6 @@ HIDROBAC en portugués se comprobó con viewport de 768px: `clientWidth` y `scro
 
 Capturas en `qa/idiomas-20261009/`: `recovery-es-1440.png`, `recovery-es-390.png`, `contact-en-320-fixed.png` y `hidrobac-pt-768.png`. Se conserva `contact-en-320.png` como evidencia anterior a la corrección. Las capturas acreditan solamente el estado local representado.
 
-Pendientes: aprobación lingüística especializada por Nassira, lista confirmada de ingredientes y publicación si se autoriza. No hay medición física de FPS en Galaxy A51 o iPhone ni verificación de esta revisión en el host PHP oficial. Las comprobaciones locales no sustituyen esas verificaciones.
+Revisión final: **ship**. Correcciones materiales de cabecera a 320px y documentación resueltas. Cambios enviados a `main` para el despliegue autorizado en Vercel; el estado del proveedor se comprueba por separado.
+
+Pendientes: aprobación lingüística especializada por Nassira y lista confirmada de ingredientes. No hay medición física de FPS en Galaxy A51 o iPhone ni verificación de esta revisión en el host PHP oficial. Las comprobaciones locales no sustituyen esas verificaciones.
