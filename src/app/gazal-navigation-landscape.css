@@ -241,10 +241,10 @@ body { padding-top: var(--site-header-height); }
   font-variant-numeric: tabular-nums;
 }
 
-/* A quiet, geometric horizon leads into the contact landscape. */
+/* Illustrated rural planes lead into the solid, legible contact surface. */
 .footer--landscape {
   position: relative;
-  padding-top: clamp(220px, 24vw, 360px);
+  padding-top: clamp(260px, 28vw, 440px);
   background: var(--forest);
   border-top: 0;
   overflow: clip;
@@ -252,15 +252,36 @@ body { padding-top: var(--site-header-height); }
 .footer-landscape {
   position: absolute;
   inset: 0 0 auto;
-  height: clamp(200px, 24vw, 340px);
+  height: clamp(260px, 28vw, 440px);
   background: var(--canvas);
   overflow: hidden;
   pointer-events: none;
 }
-.footer-landscape svg {
+.footer-landscape picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.footer-landscape img {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+}
+.footer-landscape__cordillera {
+  opacity: 0.82;
+}
+.footer-landscape::after {
+  content: "";
+  position: absolute;
+  inset: 55% 0 0;
+  background: linear-gradient(to bottom, #16302400, #163024a3 58%, var(--forest) 98%);
+}
+@media (max-width: 700px) {
+  .footer-landscape__cordillera img {
+    object-position: 24% bottom;
+  }
 }
 .footer--landscape .footer-main {
   position: relative;

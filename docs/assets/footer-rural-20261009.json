@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-09",
+  "purpose": "Decorative footer landscape, not company operational photography",
+  "generation": "OpenAI built-in image_gen, two transparent assets",
+  "layers": [
+    {
+      "name": "cordillera",
+      "prompt": "Create a premium editorial landscape illustration asset for GAZAL, Chilean animal nutrition and circular industry company website footer. Very wide panoramic composition, 3:1 aspect ratio. BACKGROUND LAYER only: atmospheric southern Chile rural foothills and distant Cordillera, softly rounded yet irregular natural mountain silhouettes with fine elegant contour shading, layered misty valleys. Colors exclusively pale sage #DCEBD8, muted sage #B8CEAE and olive gray green #789774. Calm sophisticated naturalistic matte painted detail, restrained paper grain, not cartoon, not low poly, not geometric triangles, no symmetrical waves. Mountain horizon sits around upper third, some peaks taller on left and right, broad open valley in middle. Mountain land continues all the way to bottom edge and both side edges; no floating island or vignette cutout. The sky ABOVE mountain silhouette must be fully transparent alpha, with clean soft natural edges. No white sky, no sun, no clouds, no buildings, no words, no logos, no frame. Will composite above a deep green website footer and behind a foreground pasture layer. High quality professional landscape, readable at 300px tall.",
+      "source": "exec-6219c01c-b2be-4af7-aaf0-3f560e628423.png"
+    },
+    {
+      "name": "praderas",
+      "prompt": "Generate a premium naturalistic matte-painted panoramic foreground landscape layer for an agricultural Chilean company GAZAL website footer. Very wide 3:1 format. Only near gently sloping pastoral hills, fine grasses and a few restrained hedgerows, no mountains, no jungle, no buildings. Organic asymmetric terrain, high ground at lower left, small knoll lower right, generous open valley across center. Rural cultivated meadows with subtle field boundaries tracing the land; sophisticated intricate fine texture, realistic illustration, not flat geometric clip-art or sine-wave stripes. Use muted deep forest green #163024 and #36583e with very restrained sage green #789774 rim highlights. Lower edge is very dark #163024 to merge with website background. Land occupies bottom half, hilltops reach around 40 percent image height on left, 55 percent right. Everything ABOVE the irregular hill silhouette is fully transparent alpha. Foreground fills all bottom and both lower side edges, no floating island, no vignette, no border. No text, no logo, no people. Will layer over a pale distant Cordillera panorama for a tasteful scrolling website footer.",
+      "source": "exec-53c81643-baf4-4dbd-85a1-bc495e23ebee.png"
+    }
+  ],
+  "outputs": "public/assets/footer/{cordillera,praderas}-{960,1920}.webp",
+  "encoding": {
+    "quality": 84,
+    "alphaQuality": 95
+  },
+  "motion": "Transform only, background -18px and foreground +28px to 0; GSAP scroll scrub 0.6; static with reduced motion."
+}

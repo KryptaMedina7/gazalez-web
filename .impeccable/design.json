@@ -108,8 +108,8 @@
       },
       {
         "name": "footer-landscape",
-        "value": "55px / 85px / 120px vertical offsets to zero; scrub 0.6; ease none",
-        "purpose": "Four decorative green ridges, of which three move with GSAP ScrollTrigger from top bottom to bottom 65%. The darkest foreground stays fixed; reduced motion is fully static. No layout animation or closing DotGrid; informational-page light DotGrid remains."
+        "value": "-18px / 28px vertical offsets to zero; scrub 0.6; ease none",
+        "purpose": "Two decorative illustrated rural planes move with GSAP ScrollTrigger from top bottom to bottom center. Text remains fixed; reduced motion is static. No layout animation or closing DotGrid; informational-page light DotGrid remains."
       },
       {
         "name": "section-introduction",
@@ -120,7 +120,7 @@
     "revision": {
       "date": "2026-10-09",
       "status": "current source documentation; publication and browser QA belong to the main task",
-      "scope": "Fixed flat desktop navigation and themed language disclosure; preserved mobile Radix dialog; continuous MaterialLab and homepage HIDROBAC controls; six supplied original section films; four-layer footer landscape.",
+      "scope": "Fixed flat desktop navigation and themed language disclosure; preserved mobile Radix dialog; continuous MaterialLab and homepage HIDROBAC controls; six supplied original section films; two-plane rural footer landscape.",
       "verification": "Source and six-entry media manifest inspected for this documentation refresh. Manifest records matching decoded-video SHA-256 for every lossless VP9 output. This pass ran no browser, deployment or physical-device checks; older revision evidence remains historical.",
       "detector": "11 advisory findings reported by the main task reflect the existing ramp mismatch; non-blocking and not a reason to redefine global tokens.",
       "reference": "docs/assets/section-videos-20261009.json"
@@ -153,8 +153,8 @@
       },
       {
         "name": "footer-landscape",
-        "value": "clamp(200px, 24vw, 340px) landscape; clamp(220px, 24vw, 360px) footer top padding",
-        "purpose": "Four SVG green mountain silhouettes above the forest footer. Decorative and aria-hidden; three transform-only scroll layers and a fixed foreground."
+        "value": "clamp(260px, 28vw, 440px) landscape and footer top padding",
+        "purpose": "Generated Cordillera and pasture illustrations above the forest footer. Transparent responsive WebP, lazy-loaded, decorative and aria-hidden. Two transform-only scroll planes, with a fixed fade into the solid reading surface. Provenance: docs/assets/footer-rural-20261009.json."
       }
     ],
     "breakpoints": [
