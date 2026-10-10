@@ -22,7 +22,7 @@
   --brass: var(--body);
   --brass-ink: var(--ink);
   --surface-process: linear-gradient(180deg, var(--canvas), var(--gazal-primary) 28%, var(--gazal-accent) 64%, var(--canvas));
-  --surface-contact: radial-gradient(ellipse at 85% 0%, #2b503b, transparent 72%);
+  --surface-contact: linear-gradient(120deg, var(--canvas), var(--gazal-primary));
 }
 .solutions-home,
 .intro-section,
@@ -453,7 +453,7 @@ html[data-intro-seen="true"] .video-intro {
     transition: none;
   }
 }
-/* Surface rhythm: ivory for choices, sage for process, forest for the next step. */
+/* Light consultation surfaces give the forest footer a distinct closing rhythm. */
 .working-home .section-heading { align-items: start; }
 .working-steps li { border-top: 1px solid #9eb89a; padding-top: 22px; }
 .working-steps li::marker { color: var(--forest); font-weight: 600; }
@@ -462,22 +462,29 @@ html[data-intro-seen="true"] .video-intro {
 .innovation-home { background: var(--gazal-primary); }
 .innovation-copy { background: transparent; }
 .innovation-visual { background: linear-gradient(180deg, var(--gazal-primary), var(--gazal-accent) 50%, var(--gazal-primary)); }
-.consultation-home, .contact-band, .footer {
+.footer {
   background: var(--forest);
   color: var(--canvas);
   --line: #527260;
 }
-.consultation-home, .contact-band { background-image: var(--surface-contact); }
-.consultation-home :is(h2,h3,p,a), .contact-band :is(h2,p), .footer :is(h2,p,a,.location) { color: var(--canvas); }
-.consultation-home .button, .contact-band .button {
-  background: var(--gazal-primary); color: var(--forest); border-color: var(--gazal-primary);
+.consultation-home, .contact-band {
+  background: var(--gazal-primary) var(--surface-contact);
+  color: var(--forest);
+  --line: #bacdb5;
 }
-.consultation-home .button:hover, .contact-band .button:hover { background: white; color: var(--forest); }
-.consultation-home :focus-visible, .contact-band :focus-visible, .footer :focus-visible { outline-color: var(--gazal-primary); }
+.consultation-home :is(h2,h3,a), .contact-band h2 { color: var(--forest); }
+.consultation-home p, .contact-band p { color: var(--body); }
+.footer :is(h2,p,a,.location) { color: var(--canvas); }
+.consultation-home .button, .contact-band .button {
+  background: var(--forest); color: var(--canvas); border-color: var(--forest);
+}
+.consultation-home .button:hover, .contact-band .button:hover { background: #2b503b; color: var(--canvas); border-color: #2b503b; }
+.consultation-home :focus-visible, .contact-band :focus-visible { outline-color: var(--forest); }
+.footer :focus-visible { outline-color: var(--gazal-primary); }
 .footer .brand { background: transparent; padding: 0; width: fit-content; }
 .footer .brand-lockup { filter: brightness(0) invert(1); }
 .footer a:hover { color: var(--gazal-primary); }
-.contact-band { margin-bottom: 0; padding: clamp(32px, 5vw, 70px); }
+.contact-band { margin-bottom: clamp(28px, 4vw, 56px); padding: clamp(32px, 5vw, 70px); }
 .contact-band h2 { max-width: 20ch; }
 .contact-band p { max-width: 62ch; font-size: 16px; line-height: 1.75; }
 .solution-detail { background: var(--gazal-primary); padding: clamp(24px, 4vw, 56px); margin-block: 32px; }

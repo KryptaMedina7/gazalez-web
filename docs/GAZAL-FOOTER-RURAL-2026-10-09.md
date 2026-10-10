@@ -27,3 +27,9 @@ El paisaje pasa después de los enlaces y antes de los datos legales, para perma
 `StageHighlight` se reutiliza en Process, MaterialLab, RecoveryPathways e HydrobacExplorer de portada. El teclado y movimiento reducido posicionan la superficie inmediatamente; ResizeObserver adapta las filas móviles. No se alteran figuras ni contenido de HIDROBAC. Las escenas y barras mantienen sus controladores previos.
 
 Build, lint, typecheck y QA de 62 páginas correctos. Suite: 35 pruebas aprobadas, 3 de PHP omitidas. Revisión visual local de las selecciones y footer a 390/1440px, navegación por teclado, recolocación al cambiar ancho y modo de movimiento reducido. Capturas en `qa/footer-stage-motion/`. La comprobación usa navegador, no teléfonos físicos.
+
+## Separación del bloque de consulta — 10 octubre 2026
+
+La consulta de portada y las bandas de contacto internas pasan de verde oscuro a una superficie clara marfil/salvia, con texto forest y botón oscuro. Las bandas internas recuperan un margen inferior para no fundirse con el footer. Se conservan el paisaje, el rebote y los enlaces.
+
+Cambio acotado a `gazal-surfaces.css`, compartido por los tres idiomas. Build (incluye TypeScript), lint y QA de 62 páginas/4.228 enlaces correctos. Portada e Innovación revisadas en navegador a 390 y 1440px, sin desbordamiento móvil. Capturas: `qa/contact-footer-separation/`. No se añaden pruebas unitarias para este ajuste de color y espaciado.
