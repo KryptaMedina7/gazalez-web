@@ -244,6 +244,8 @@ Metadata tags are compact, transparent, rectangular labels with a fine tag-borde
 
 ### Navigation
 
+The logo and desktop navigation form one left-aligned group, following the local InsertIT header reference. The navigation resets inherited auto margins and gaps; full-height triggers share adjacent separators. Only the language control has an auto left margin, placing language and contact together at the opposite edge. Mobile retains its existing language and menu controls.
+
 The fixed header is 76px tall, changing to 70px at 700px; matching body padding reserves its space. Desktop uses a flat, Mistral-inspired horizontal rail with vertical separators, pale-green open states and an underline for the current primary group. The contact action is forest-filled. At 1100px and below, the rail gives way to the existing full-screen Radix Dialog adapted from 21st.dev Sterling Gate: three sage/mint layers, large clipped link labels and the supplied GAZAL logo on wide screens. Entrance is 420ms plus a short stagger; exit is 240ms. Keyboard opening and Escape dismissal are immediate. Keep its accessible title, description, close action, focus trap, focus return and scrollable content. Dismissal returns focus with `preventScroll`; following a destination link leaves the route transition in control of the destination's top position.
 
 ### Dropdowns and drilldown navigation

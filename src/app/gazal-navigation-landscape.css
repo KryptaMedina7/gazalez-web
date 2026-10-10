@@ -14,7 +14,9 @@ body { padding-top: var(--site-header-height); }
 .header .gazal-navigation {
   display: flex;
   align-self: stretch;
-  margin-right: auto;
+  align-items: stretch;
+  gap: 0;
+  margin: 0;
   background: transparent;
   border: 0;
   padding: 0;
