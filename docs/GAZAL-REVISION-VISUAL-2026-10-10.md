@@ -69,3 +69,9 @@ Evidencia local en `qa/route-audit-20261010/` (carpeta de QA ignorada por Git): 
 Las capturas completas pueden mostrar la cabecera fija en mitad de la imagen al tomarse después de desplazar la página; se guardaron capturas de viewport para las correcciones. Los recursos diferidos del footer pueden no aparecer hasta entrar en su zona.
 
 No se midieron FPS, Lighthouse ni rendimiento en A51/iPhone físicos. No se hizo una revisión visual completa independiente de las traducciones inglesa y portuguesa; sus páginas entraron en build y comprobación de referencias. No se regeneró ni desplegó el paquete PHP. No se alteraron los cambios previos de dependencias ni los archivos de releases existentes.
+
+## Ajuste posterior: destinos principales de la topbar
+
+Los nombres Soluciones, Innovación y Empresa ahora son enlaces nativos a su página principal. La flecha contigua conserva un botón independiente para desplegar; el hover sobre el grupo sigue abriendo el panel. Flecha abajo desde el nombre abre el submenú y enfoca su primer enlace; Escape devuelve el foco al botón sin desplazar la página. No cambia el menú móvil.
+
+Comprobación local: clic en los tres nombres confirmó `/soluciones/`, `/empresa/` e `/innovacion/`; botón de despliegue, Escape y flecha abajo operativos. Build y lint del componente correctos. QA actualizado: 62 páginas, 4.408 referencias internas y cero incidencias.

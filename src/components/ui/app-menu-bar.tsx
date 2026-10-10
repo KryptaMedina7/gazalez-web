@@ -98,20 +98,14 @@ export default function AppMenuBar({ path }: { path: string }) {
         const panelId = `gazal-nav-${groupIndex}`;
         return (
           <div className="gazal-nav-group" key={group.label}>
-            <button
-              type="button"
+            <div
               className="gazal-nav-trigger"
-              aria-expanded={expanded}
-              aria-controls={panelId}
+              data-expanded={expanded || undefined}
               data-current={activeGroup === group.label || undefined}
               onPointerEnter={(event) => {
                 if (event.pointerType !== "mouse") return;
                 cancel();
                 timer.current = setTimeout(() => setValue(group.label), 90);
-              }}
-              onClick={() => {
-                cancel();
-                setValue(expanded ? "" : group.label);
               }}
               onKeyDown={(event) => {
                 if (event.key === "ArrowDown") {
@@ -126,9 +120,31 @@ export default function AppMenuBar({ path }: { path: string }) {
                 }
               }}
             >
-              <span>{group.label}</span>
-              <ChevronDown aria-hidden="true" />
-            </button>
+              <Link
+                className="gazal-nav-destination"
+                href={group.links[0][1]}
+                aria-current={path === group.links[0][1] ? "page" : undefined}
+                onClick={() => {
+                  cancel();
+                  setValue("");
+                }}
+              >
+                {group.label}
+              </Link>
+              <button
+                type="button"
+                className="gazal-nav-toggle"
+                aria-label={group.label}
+                aria-expanded={expanded}
+                aria-controls={panelId}
+                onClick={() => {
+                  cancel();
+                  setValue(expanded ? "" : group.label);
+                }}
+              >
+                <ChevronDown aria-hidden="true" />
+              </button>
+            </div>
             <div id={panelId} className="gazal-nav-panel" hidden={!expanded}>
               <div className="gazal-nav-overview">
                 <span>{group.label}</span>

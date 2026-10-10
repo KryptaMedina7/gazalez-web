@@ -27,30 +27,46 @@ body { padding-top: var(--site-header-height); }
 }
 .gazal-nav-trigger {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 24px;
+  align-items: stretch;
   color: var(--ink);
   background: transparent;
   border: 0;
   border-inline-start: 1px solid var(--line);
   font: inherit;
   font-size: 14px;
-  cursor: pointer;
   transition: background-color 180ms ease-out;
 }
-.gazal-nav-group:last-child > button {
+.gazal-nav-group:last-child > .gazal-nav-trigger {
   border-inline-end: 1px solid var(--line);
+}
+.gazal-nav-destination,
+.gazal-nav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  font: inherit;
+}
+.gazal-nav-destination {
+  padding: 0 0 0 24px;
+  text-decoration: none;
+}
+.gazal-nav-toggle {
+  min-width: 44px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 .gazal-nav-trigger svg {
   width: 14px;
   height: 14px;
   transition: transform 180ms ease-out;
 }
-.gazal-nav-trigger[aria-expanded="true"] svg {
+.gazal-nav-trigger[data-expanded="true"] svg {
   transform: rotate(180deg);
 }
-.gazal-nav-trigger:is(:hover, [aria-expanded="true"]) {
+.gazal-nav-trigger:is(:hover, [data-expanded="true"]) {
   background: var(--gazal-primary);
 }
 .gazal-nav-trigger[data-current="true"] {
