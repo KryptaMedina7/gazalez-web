@@ -7,17 +7,23 @@ export function SectionIntro({ film, title }: { film: string; title: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const finishRef = useRef<(immediate?: boolean) => void>(() => {});
-  const base = `/assets/section-videos/${film}`;
+  const base = `/assets/section-videos/20261009/${film}`;
 
   useEffect(() => {
     const dialog = dialogRef.current;
     const video = videoRef.current;
     if (!dialog || !video) return;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-    const key = `gazal-section-intro-seen:${film}`;
+    const connection = (
+      navigator as Navigator & { connection?: { saveData?: boolean } }
+    ).connection;
+    const key = `gazal-section-intro-seen:20261009:${film}`;
     let seen = false;
-    try { seen = sessionStorage.getItem(key) === "1"; } catch { /* Storage is optional. */ }
+    try {
+      seen = sessionStorage.getItem(key) === "1";
+    } catch {
+      /* Storage is optional. */
+    }
     if (seen || reduce.matches || connection?.saveData) return;
 
     const previousOverflow = document.documentElement.style.overflow;
@@ -41,13 +47,22 @@ export function SectionIntro({ film, title }: { film: string; title: string }) {
           const previous = main.getAttribute("tabindex");
           main.setAttribute("tabindex", "-1");
           main.focus({ preventScroll: true });
-          if (previous === null) main.addEventListener("blur", () => main.removeAttribute("tabindex"), { once: true });
+          if (previous === null)
+            main.addEventListener(
+              "blur",
+              () => main.removeAttribute("tabindex"),
+              { once: true },
+            );
           else main.setAttribute("tabindex", previous);
         }
       };
       if (immediate || reduce.matches) focusContent();
       else {
-        exit = dialog.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, easing: "ease-out", fill: "forwards" });
+        exit = dialog.animate([{ opacity: 1 }, { opacity: 0 }], {
+          duration: 220,
+          easing: "ease-out",
+          fill: "forwards",
+        });
         exit.onfinish = focusContent;
       }
     };
@@ -64,13 +79,21 @@ export function SectionIntro({ film, title }: { film: string; title: string }) {
       sessionStorage.setItem(key, "1");
       // Direct arrivals should not receive a second generic welcome afterwards.
       sessionStorage.setItem("gazal-intro-seen", "1");
-    } catch { /* The skip control works without storage. */ }
-    const format = video.canPlayType('video/webm; codecs="vp9"') ? "webm" : "mp4";
+    } catch {
+      /* The skip control works without storage. */
+    }
+    const format = video.canPlayType('video/webm; codecs="vp9"')
+      ? "webm"
+      : "mp4";
     const onPlaying = () => clearTimeout(startup);
     const onEnd = () => finish();
     const onError = () => finish(true);
-    const onPreference = () => { if (reduce.matches) finish(true); };
-    const onVisibility = () => { if (document.hidden) finish(true); };
+    const onPreference = () => {
+      if (reduce.matches) finish(true);
+    };
+    const onVisibility = () => {
+      if (document.hidden) finish(true);
+    };
     video.addEventListener("playing", onPlaying);
     video.addEventListener("ended", onEnd);
     video.addEventListener("error", onError);
@@ -104,13 +127,31 @@ export function SectionIntro({ film, title }: { film: string; title: string }) {
       ref={dialogRef}
       className="section-intro"
       aria-label={`Introducción a ${title}`}
-      onCancel={(event) => { event.preventDefault(); finishRef.current(true); }}
+      onCancel={(event) => {
+        event.preventDefault();
+        finishRef.current(true);
+      }}
     >
       <div className="section-intro-atmosphere" aria-hidden="true" />
-      <video ref={videoRef} width={1280} height={720} muted playsInline preload="none" aria-hidden="true" />
+      <video
+        ref={videoRef}
+        width={1280}
+        height={720}
+        muted
+        playsInline
+        preload="none"
+        aria-hidden="true"
+      />
       <div className="section-intro-footer">
         <p>{title}</p>
-        <button type="button" autoFocus className="video-intro-skip" onClick={() => finishRef.current(true)}>Omitir y entrar</button>
+        <button
+          type="button"
+          autoFocus
+          className="video-intro-skip"
+          onClick={() => finishRef.current(true)}
+        >
+          Omitir y entrar
+        </button>
       </div>
     </dialog>
   );

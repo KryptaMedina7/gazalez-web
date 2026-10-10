@@ -6,7 +6,6 @@ import { Icon } from "@/components/icon";
 import { solutionPaths } from "@/lib/content";
 import { sourceUdec } from "@/lib/site";
 import { Process } from "@/components/process";
-import { DotGrid } from "@/components/ui/dot-grid";
 import { HeroExperience } from "@/components/ui/hero-experience";
 import { HydrobacExplorer } from "@/components/ui/hydrobac-explorer";
 import { CardCurtainReveal } from "@/components/ui/card-curtain-reveal";
@@ -165,7 +164,6 @@ export default function Home() {
         className="section consultation-home"
         aria-labelledby="consult-heading"
       >
-        <DotGrid />
         <div>
           <h2 id="consult-heading">Cuéntanos qué necesitas evaluar.</h2>
           <p>

@@ -1,5 +1,6 @@
 "use client";
-import { useId, useState, type CSSProperties } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import gsap from "gsap";
 import { hydrobacPlanePositions } from "@/lib/hydrobac-layout.mjs";
 import { Dna, Droplets, Network, Layers3, RotateCcw } from "lucide-react";
 
@@ -83,6 +84,30 @@ export function HydrobacExplorer() {
   const [active, setActive] = useState(0);
   const [opening, setOpening] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const cursor = useRef({ value: 0 });
+  const destination = useRef(0);
+  const tween = useRef<gsap.core.Tween | null>(null);
+  useEffect(
+    () => () => {
+      tween.current?.kill();
+    },
+    [],
+  );
+  function seek(value: number, immediate = false) {
+    destination.current = value;
+    tween.current?.kill();
+    if (immediate || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      cursor.current.value = value;
+      setOpening(value);
+      return;
+    }
+    tween.current = gsap.to(cursor.current, {
+      value,
+      duration: 0.85,
+      ease: "power2.inOut",
+      onUpdate: () => setOpening(cursor.current.value),
+    });
+  }
   const amount = opening / 100;
   const positions = hydrobacPlanePositions(opening);
   const select = (index: number) => setActive(index);
@@ -104,7 +129,7 @@ export function HydrobacExplorer() {
           aria-label="Restablecer exploración"
           onClick={() => {
             setActive(0);
-            setOpening(0);
+            seek(0);
           }}
         >
           <RotateCcw size={17} aria-hidden="true" />
@@ -292,7 +317,7 @@ export function HydrobacExplorer() {
           className="hydrobac-depth-toggle"
           type="button"
           aria-pressed={opening > 0}
-          onClick={() => setOpening(opening > 0 ? 0 : 100)}
+          onClick={() => seek(destination.current > 0 ? 0 : 100)}
         >
           <Layers3 size={18} aria-hidden="true" />
           {opening > 0 ? "Reunir capas" : "Separar capas"}
@@ -303,21 +328,22 @@ export function HydrobacExplorer() {
         >
           <span>Separación de las capas</span>
           <span className="hb-range-value" aria-hidden="true">
-            {opening}%
+            {opening.toFixed(1)}%
           </span>
           <input
             type="range"
             min="0"
             max="100"
+            step="0.1"
             value={opening}
             aria-valuetext={
               opening === 0
                 ? "Sistema unido"
                 : opening === 100
                   ? "Capas separadas"
-                  : `Separación ${opening}%`
+                  : `Separación ${opening.toFixed(1)}%`
             }
-            onChange={(event) => setOpening(Number(event.target.value))}
+            onChange={(event) => seek(Number(event.target.value), true)}
             onPointerDown={() => setDragging(true)}
             onPointerUp={() => setDragging(false)}
             onPointerCancel={() => setDragging(false)}
@@ -342,7 +368,12 @@ export function HydrobacExplorer() {
           </button>
         ))}
       </div>
-      <div key={active} className="hb-detail" aria-live="polite" aria-atomic="true">
+      <div
+        key={active}
+        className="hb-detail"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         <h4>{stages[active].title}</h4>
         <p>{stages[active].text}</p>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeftRight,
   Building2,
@@ -27,15 +27,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { activeNavigationGroup, navigationGroups } from "@/lib/navigation";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
-
 const destinationIcons: Record<string, LucideIcon> = {
   "/soluciones/": Layers3,
   "/soluciones/nutricion-animal/": Wheat,
@@ -60,82 +51,113 @@ const destinationIcons: Record<string, LucideIcon> = {
 
 export default function AppMenuBar({ path }: { path: string }) {
   const [value, setValue] = useState("");
-  const [keyboard, setKeyboard] = useState(false);
+  const root = useRef<HTMLElement>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const activeGroup = activeNavigationGroup(path);
+  function cancel() {
+    if (timer.current) clearTimeout(timer.current);
+  }
+  function closeSoon() {
+    cancel();
+    timer.current = setTimeout(() => {
+      if (!root.current?.contains(document.activeElement)) setValue("");
+    }, 180);
+  }
+  useEffect(() => {
+    const outside = (event: PointerEvent) => {
+      if (!root.current?.contains(event.target as Node)) setValue("");
+    };
+    document.addEventListener("pointerdown", outside);
+    return () => {
+      document.removeEventListener("pointerdown", outside);
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, []);
   return (
-    <Menubar
-      className={`desktop-nav topbar-navigation ${keyboard ? "keyboard-navigation" : ""}`}
+    <nav
+      ref={root}
+      className="desktop-nav gazal-navigation"
       aria-label="Navegación principal"
-      value={value}
-      onValueChange={setValue}
-      onKeyDownCapture={() => setKeyboard(true)}
-      onPointerDownCapture={() => setKeyboard(false)}
-      onPointerMove={() => setKeyboard(false)}
+      onPointerLeave={closeSoon}
+      onPointerEnter={cancel}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setValue("");
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          const trigger = root.current?.querySelector<HTMLButtonElement>(
+            '[aria-expanded="true"]',
+          );
+          setValue("");
+          trigger?.focus({ preventScroll: true });
+        }
+      }}
     >
       {navigationGroups.map((group, groupIndex) => {
-        const GroupIcon = destinationIcons[group.links[0][1]];
+        const expanded = value === group.label;
+        const panelId = `gazal-nav-${groupIndex}`;
         return (
-          <MenubarMenu key={group.label} value={group.label}>
-            <MenubarTrigger
-              className="topbar-trigger"
-              onPointerEnter={(event) => event.preventDefault()}
-              onClick={(event) => {
-                // The clicked group wins over dismissal from an exiting panel.
-                if (event.detail > 0) setValue(group.label);
+          <div className="gazal-nav-group" key={group.label}>
+            <button
+              type="button"
+              className="gazal-nav-trigger"
+              aria-expanded={expanded}
+              aria-controls={panelId}
+              data-current={activeGroup === group.label || undefined}
+              onPointerEnter={(event) => {
+                if (event.pointerType !== "mouse") return;
+                cancel();
+                timer.current = setTimeout(() => setValue(group.label), 90);
               }}
-              data-current={
-                activeGroup === group.label || undefined
-              }
-            >
-              <GroupIcon aria-hidden="true" strokeWidth={1.6} />
-              <span>{group.label}</span>
-              <ChevronDown className="topbar-chevron" aria-hidden="true" />
-            </MenubarTrigger>
-            <MenubarContent
-              onPointerDownOutside={(event) => {
-                // Switching triggers belongs to the menubar, not outside dismissal.
-                if (
-                  event.target instanceof Element &&
-                  event.target.closest(".topbar-trigger")
-                )
+              onClick={() => {
+                cancel();
+                setValue(expanded ? "" : group.label);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "ArrowDown") {
                   event.preventDefault();
+                  setValue(group.label);
+                  requestAnimationFrame(() =>
+                    document
+                      .getElementById(panelId)
+                      ?.querySelector<HTMLElement>("a")
+                      ?.focus({ preventScroll: true }),
+                  );
+                }
               }}
-              align={
-                groupIndex === navigationGroups.length - 1 ? "end" : "start"
-              }
-              className={keyboard ? "keyboard-navigation" : undefined}
             >
-              {group.links.map(([label, href], index) => {
-                const DestinationIcon = destinationIcons[href];
-                const separator = index === 1;
-                return (
-                  <Fragment key={href}>
-                    {separator && (
-                      <MenubarSeparator className="topbar-separator" />
-                    )}
-                    <MenubarItem asChild onSelect={() => setValue("")}>
+              <span>{group.label}</span>
+              <ChevronDown aria-hidden="true" />
+            </button>
+            <div id={panelId} className="gazal-nav-panel" hidden={!expanded}>
+              <div className="gazal-nav-overview">
+                <span>{group.label}</span>
+                <Link href={group.links[0][1]} onClick={() => setValue("")}>
+                  {group.links[0][0]} <ArrowLeftRight aria-hidden="true" />
+                </Link>
+              </div>
+              <ul>
+                {group.links.slice(1).map(([label, href]) => {
+                  const DestinationIcon = destinationIcons[href];
+                  return (
+                    <li key={href}>
                       <Link
                         href={href}
-                        className="topbar-destination"
                         aria-current={path === href ? "page" : undefined}
+                        onClick={() => setValue("")}
                       >
                         <DestinationIcon aria-hidden="true" strokeWidth={1.6} />
                         <span>{label}</span>
-                        {path === href && (
-                          <Check
-                            className="topbar-current"
-                            aria-hidden="true"
-                          />
-                        )}
+                        {path === href && <Check aria-hidden="true" />}
                       </Link>
-                    </MenubarItem>
-                  </Fragment>
-                );
-              })}
-            </MenubarContent>
-          </MenubarMenu>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
         );
       })}
-    </Menubar>
+    </nav>
   );
 }

@@ -9,6 +9,7 @@ import { TopbarNavigation } from "./ui/topbar-navigation";
 import { site } from "@/lib/site";
 import { SterlingGateNavigation } from "./ui/sterling-gate-kinetic-navigation";
 import { LanguageSwitcher } from "./language-switcher";
+import { FooterLandscape } from "./ui/footer-landscape";
 export function Brand() {
   return (
     <Link href="/" className="brand" aria-label="GAZAL, inicio">
@@ -77,7 +78,8 @@ export function Header() {
 }
 export function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer footer--landscape">
+      <FooterLandscape />
       <div className="footer-main">
         <div>
           <Brand />

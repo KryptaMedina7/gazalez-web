@@ -277,7 +277,7 @@ export function HydrobacLab() {
         at: T(centerX - 200, centerY - 40),
       },
     ],
-    percent = Math.round(progress * 100),
+    percent = (progress * 100).toFixed(1),
     activeChapter = chapters.reduce(
       (I, g, B0) => (progress >= g.at - 0.04 ? B0 : I),
       0,

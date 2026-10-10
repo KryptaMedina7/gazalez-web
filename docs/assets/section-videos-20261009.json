@@ -1,0 +1,128 @@
+[
+  {
+    "film": "innovacion",
+    "format": {
+      "duration": "4.000000"
+    },
+    "source": "Generating_brand_animation_video_1080p_20261009221033.mp4",
+    "webm": "/assets/section-videos/20261009/innovacion-mobile.webm",
+    "bytes": 27887088,
+    "decodedVideoSha256": "SHA256=5bde0c3347d2d78e871859f6eb741e60e86df935f26a901024170e332e2b576e",
+    "losslessVerified": true,
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1080,
+        "height": 1920,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "24/1"
+      }
+    ]
+  },
+  {
+    "film": "avicola",
+    "format": {
+      "duration": "4.000000"
+    },
+    "source": "Gallina_alimentándose_en_comedero_1080p_20261009221212.mp4",
+    "webm": "/assets/section-videos/20261009/avicola-desktop.webm",
+    "bytes": 33653360,
+    "decodedVideoSha256": "SHA256=93c7571947f10fc6c40979763bf75c8371082d4089ec7da8117193a18ca54abd",
+    "losslessVerified": true,
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "24/1"
+      }
+    ]
+  },
+  {
+    "film": "innovacion",
+    "format": {
+      "duration": "4.000000"
+    },
+    "source": "Animación_de_marca_con_ADN_20261009221203.mp4",
+    "webm": "/assets/section-videos/20261009/innovacion-desktop.webm",
+    "bytes": 22390813,
+    "decodedVideoSha256": "SHA256=4e874d1664c491b6f4cbfa7da7bb2f351bf0d16050ad4a9ea23bf8a4614298f5",
+    "losslessVerified": true,
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "24/1"
+      }
+    ]
+  },
+  {
+    "film": "nucleos",
+    "format": {
+      "duration": "4.000000"
+    },
+    "source": "Pellets_falling_into_tray_1080p_20261009221155.mp4",
+    "webm": "/assets/section-videos/20261009/nucleos-desktop.webm",
+    "bytes": 27662302,
+    "decodedVideoSha256": "SHA256=20f4a9c7dec8edc767a98d5bdf2ea5197cf0f9a8db96fb938663fd8c5de3dd98",
+    "losslessVerified": true,
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1920,
+        "height": 1080,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "24/1"
+      }
+    ]
+  },
+  {
+    "film": "avicola",
+    "format": {
+      "duration": "4.000000"
+    },
+    "source": "Crear_animación_gallina_comiendo_1080p_20261009221044.mp4",
+    "webm": "/assets/section-videos/20261009/avicola-mobile.webm",
+    "bytes": 26505314,
+    "decodedVideoSha256": "SHA256=9cc4056dfc6bae27be1e2032f6c73517e5d99df8d67841dbd4464b70a7f8ec64",
+    "losslessVerified": true,
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1080,
+        "height": 1920,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "24/1"
+      }
+    ]
+  },
+  {
+    "film": "nucleos",
+    "format": {
+      "duration": "4.000000"
+    },
+    "source": "Pellets_falling_into_tray_1080p_20261009221039.mp4",
+    "webm": "/assets/section-videos/20261009/nucleos-mobile.webm",
+    "bytes": 25634919,
+    "decodedVideoSha256": "SHA256=94dd82240bf20c8914fd6280df8b6894ce9ccbc4f6f789aa32ef7fe27b469af5",
+    "losslessVerified": true,
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 1080,
+        "height": 1920,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "24/1"
+      }
+    ]
+  }
+]

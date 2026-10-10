@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-09T00:00:00-03:00",
+  "generatedAt": "2026-10-10T01:48:08.869675+00:00",
   "title": "Design System: GAZAL",
   "extensions": {
     "shadows": [
@@ -13,6 +13,16 @@
         "name": "hydrobac-lab-active-ring",
         "value": "0 0 0 5px rgba(201, 226, 166, 0.6)",
         "purpose": "Local active control ring in the restored internal lab."
+      },
+      {
+        "name": "navigation-panel",
+        "value": "0 18px 24px #16302412",
+        "purpose": "Local separation of a full-width desktop disclosure panel from page content."
+      },
+      {
+        "name": "language-panel",
+        "value": "0 12px 28px #1630241a",
+        "purpose": "Local anchored language-disclosure elevation."
       }
     ],
     "motion": [
@@ -48,8 +58,8 @@
       },
       {
         "name": "dropdown",
-        "value": "160ms enter / immediate exit",
-        "purpose": "Desktop navigation feedback"
+        "value": "90ms hover open / 180ms hover close; 180ms panel arrival; 160ms language arrival",
+        "purpose": "Full-width desktop disclosure panels. Click toggles; ArrowDown opens and focuses the first link; Escape closes with focus return. Outside/blur dismissal does not lock or reposition scroll. Focus within preserves the panel during pointer exit. Reduced motion removes CSS arrival and trigger transitions."
       },
       {
         "name": "drilldown",
@@ -85,14 +95,35 @@
         "name": "nutrition-material-feedback",
         "value": "240ms opacity and 5px reading response",
         "purpose": "Subtle context feedback inside the retained nutrition MaterialLab; geometry and exploration transport remain intact."
+      },
+      {
+        "name": "material-lab-cursor",
+        "value": "600ms + 180ms per chapter distance, capped at 1400ms; power2.inOut",
+        "purpose": "One continuous cursor drives sample/tray geometry, blended chapter presence and a one-decimal percentage. Interrupted seeks retain current progress. Direct range input, keyboard chapter selection and reduced motion are immediate. Requested full playback spans 12 seconds and stops offscreen or when hidden."
+      },
+      {
+        "name": "hydrobac-home-separation",
+        "value": "850ms power2.inOut",
+        "purpose": "The original layered figure shares one continuous separation cursor with a one-decimal percentage. Toggle requests retain their destination for rapid reversal and interrupt from the current value. Direct slider and reduced-motion input update immediately; plane CSS transitions are disabled to avoid a second lag."
+      },
+      {
+        "name": "footer-landscape",
+        "value": "55px / 85px / 120px vertical offsets to zero; scrub 0.6; ease none",
+        "purpose": "Four decorative green ridges, of which three move with GSAP ScrollTrigger from top bottom to bottom 65%. The darkest foreground stays fixed; reduced motion is fully static. No layout animation or closing DotGrid; informational-page light DotGrid remains."
+      },
+      {
+        "name": "section-introduction",
+        "value": "4 seconds at 24fps; 220ms exit; 2500ms startup limit; 6500ms watchdog",
+        "purpose": "Orientation selects one supplied original 1080p film and poster at entry. Once per section/session; skip and Escape immediately enter content. Reduced motion, data saving, playback rejection/error, hidden document and slow startup bypass playback. A single eligible orientation/format receives a source; no preload of all six films."
       }
     ],
     "revision": {
       "date": "2026-10-09",
-      "status": "pushed for authorized Vercel deployment; final reviewer ship; 320px header verified",
-      "scope": "Static ES/EN/PT-BR content routes; distinct RecoveryPathways decision map; retained nutrition MaterialLab; eased HIDROBAC chapter seeking with unchanged geometry.",
-      "verification": "Build repeated successfully after the final header adjustment: 64 generated pages / 60 content pages. Lint and types pass; 35 tests pass, 3 PHP skips; static QA 62 HTML / 3148 references / 0 issues; locale QA 40 pages / 0 issues. Local EN/PT enquiry preparation and mobile menu checked. At 320px, client/scroll/body widths are 305px and menu right edge is 286.8px. Portuguese HIDROBAC at 768px has client/scroll widths of 753px; Agua settles at 450/1000 and reduced-motion Matriz seeks immediately to 200/1000. No email sent, official PHP deployment or physical-device FPS proof.",
-      "reference": "docs/GAZAL-IDIOMAS-RECORRIDOS-2026-10-09.md"
+      "status": "current source documentation; publication and browser QA belong to the main task",
+      "scope": "Fixed flat desktop navigation and themed language disclosure; preserved mobile Radix dialog; continuous MaterialLab and homepage HIDROBAC controls; six supplied original section films; four-layer footer landscape.",
+      "verification": "Source and six-entry media manifest inspected for this documentation refresh. Manifest records matching decoded-video SHA-256 for every lossless VP9 output. This pass ran no browser, deployment or physical-device checks; older revision evidence remains historical.",
+      "detector": "11 advisory findings reported by the main task reflect the existing ramp mismatch; non-blocking and not a reason to redefine global tokens.",
+      "reference": "docs/assets/section-videos-20261009.json"
     },
     "layouts": [
       {
@@ -108,7 +139,22 @@
       {
         "name": "localized-routes",
         "value": "Spanish source routes; /en/ English; /pt/ Brazilian Portuguese (pt-BR)",
-        "purpose": "Compact ES / EN / PT selector preserves content route and query parameters. Keep logo, focus and menu access; specialist translation approval by Nassira remains pending."
+        "purpose": "The themed ES / EN / PT disclosure preserves the content route, interes/familia parameters and URL fragment. It does not lock scroll; Escape and same-language selection return focus without scrolling. Specialist translation approval by Nassira remains pending."
+      },
+      {
+        "name": "fixed-header",
+        "value": "76px desktop; 70px at max-width 700px; matching body padding",
+        "purpose": "Flat Mistral-inspired rail above 1100px, with current-primary underline and full-width category panels. Existing mobile Radix dialog takes over at 1100px and below. Header contact action hides at 700px."
+      },
+      {
+        "name": "navigation-local-density",
+        "value": "14px primary triggers/language choices; 13px language trigger/header action; 11px language metadata; 28px overview; 15px destination links with 4px corners",
+        "purpose": "Intentional local values in gazal-navigation-landscape.css. These compact control and metadata treatments do not replace editorial typography or global radius defaults. Language panel width is 220px."
+      },
+      {
+        "name": "footer-landscape",
+        "value": "clamp(200px, 24vw, 340px) landscape; clamp(220px, 24vw, 360px) footer top padding",
+        "purpose": "Four SVG green mountain silhouettes above the forest footer. Decorative and aria-hidden; three transform-only scroll layers and a fixed foreground."
       }
     ],
     "breakpoints": [
@@ -126,7 +172,7 @@
       },
       {
         "name": "navigation",
-        "value": "1000px"
+        "value": "1100px"
       },
       {
         "name": "dock",
@@ -151,13 +197,17 @@
       {
         "name": "hydrobac-lab",
         "value": "720px"
+      },
+      {
+        "name": "header-mobile",
+        "value": "700px"
       }
     ],
     "gradients": [
       {
         "name": "bruma",
         "value": "var(--gz-gradient-bruma)",
-        "purpose": "Introduction and footer"
+        "purpose": "Introduction; the current footer uses a forest field beneath layered green ridges."
       },
       {
         "name": "biomasa",
@@ -205,6 +255,11 @@
         "name": "particle-fallback",
         "source": "public/assets/dna/landscape-axial.webp and portrait-axial.webp",
         "purpose": "Transparent static plates from the same volumetric geometry, generated by scripts/build-dna-particles.mjs. The historical generated image is archived but no longer the active geometry source."
+      },
+      {
+        "name": "section-films-20261009",
+        "source": "public/assets/section-videos/20261009/; docs/assets/section-videos-20261009.json",
+        "purpose": "Six supplied originals: three landscape 1920x1080 and three portrait 1080x1920, each 4 seconds at 24fps. Lossless VP9 decoded-video hashes match source frames; original MP4 is the capability fallback. Approximately 21-32 MiB per selected WebM. Earlier 720px portrait crop/blur adaptations are superseded. Only the orientation/format chosen at entry is loaded; these films are brand introductions, not facility evidence."
       }
     ],
     "typographyMeta": {
@@ -220,6 +275,13 @@
         "scope": "Restore official ADN hero, particle process, original homepage HIDROBAC controls and three-panel route curtain; recover official internal HIDROBAC lab; retain editorial architecture and brand identity.",
         "verification": "Main-task QA: lint and build pass; 17 tests pass, 3 PHP-dependent skips; DOM checks at 390px and 1440px show no horizontal overflow. No production deployment or physical-device certification.",
         "detector": "qa/restoration/detector.json contains 31 advisory font/color/radius findings; local source intent does not establish new global tokens."
+      },
+      {
+        "date": "2026-10-09",
+        "status": "pushed for authorized Vercel deployment; final reviewer ship; 320px header verified",
+        "scope": "Static ES/EN/PT-BR content routes; distinct RecoveryPathways decision map; retained nutrition MaterialLab; eased HIDROBAC chapter seeking with unchanged geometry.",
+        "verification": "Build repeated successfully after the final header adjustment: 64 generated pages / 60 content pages. Lint and types pass; 35 tests pass, 3 PHP skips; static QA 62 HTML / 3148 references / 0 issues; locale QA 40 pages / 0 issues. Local EN/PT enquiry preparation and mobile menu checked. At 320px, client/scroll/body widths are 305px and menu right edge is 286.8px. Portuguese HIDROBAC at 768px has client/scroll widths of 753px; Agua settles at 450/1000 and reduced-motion Matriz seeks immediately to 200/1000. No email sent, official PHP deployment or physical-device FPS proof.",
+        "reference": "docs/GAZAL-IDIOMAS-RECORRIDOS-2026-10-09.md"
       }
     ]
   },
@@ -236,9 +298,9 @@
       "name": "Navigation",
       "kind": "nav",
       "refersTo": "navigation",
-      "description": "Compact Radix Menubar with semantic Lucide icons and anchored green dropdowns",
-      "html": "<div role=\"menubar\" class=\"desktop-nav topbar-navigation\"><button role=\"menuitem\" class=\"topbar-trigger\" aria-haspopup=\"menu\">Soluciones</button></div>",
-      "css": ".topbar-navigation{display:flex;gap:4px;padding:3px;border:1px solid var(--line);border-radius:8px;background:var(--canvas)}"
+      "description": "Flat Mistral-inspired disclosure rail with primary-current underline, full-width overview/destination panel and no scroll lock; mobile Radix dialog remains separate.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Primary navigation\"><div class=\"ds-group\"><button class=\"ds-trigger\" type=\"button\" aria-expanded=\"true\" aria-controls=\"ds-solutions\" data-current=\"true\">Soluciones <svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg></button><div id=\"ds-solutions\" class=\"ds-panel\"><div class=\"ds-overview\"><span>Soluciones</span><a href=\"/soluciones/\">Ver soluciones</a></div><ul><li><a href=\"/soluciones/nutricion-animal/\">Nutrición animal</a></li><li><a href=\"/soluciones/nucleos-proteicos/\">Núcleos proteicos</a></li></ul></div></div></nav>",
+      "css": ".ds-nav{font-family:var(--font-body,\"Lexend Variable\",sans-serif);color:var(--ink,#183a2d);background:var(--canvas,#f7f8f3)}.ds-trigger{display:flex;align-items:center;gap:12px;min-height:76px;padding:0 24px;border:0;border-inline:1px solid var(--line,#cfd9ca);background:transparent;color:inherit;font:inherit;font-size:14px;cursor:pointer;box-shadow:inset 0 -2px var(--ink,#183a2d);transition:background-color 180ms ease-out}.ds-trigger:is(:hover,[aria-expanded=\"true\"]){background:var(--gazal-primary,#e4eedc)}.ds-panel{display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,2fr);gap:32px;padding:36px 32px;border-bottom:1px solid var(--line,#cfd9ca);box-shadow:0 18px 24px #16302412}.ds-overview{display:grid;align-content:start;gap:14px;padding-right:24px;border-right:1px solid var(--line,#cfd9ca)}.ds-overview>span{font-family:var(--font-display,\"Manrope Variable\",sans-serif);font-size:28px;letter-spacing:-.025em}.ds-nav a{color:inherit;text-decoration:none;display:flex;align-items:center;min-height:44px;font-size:14px}.ds-panel ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 32px;padding:0;margin:0}.ds-panel li a{min-height:54px;padding:10px 14px;border-radius:4px;font-size:15px;transition:background-color 160ms ease-out}.ds-panel li a:hover{background:var(--gazal-primary,#e4eedc)}.ds-nav :is(button,a):focus-visible{outline:2px solid var(--focus,#287452);outline-offset:3px}.ds-trigger:active{background:var(--mint,#dcebd8)}@media(prefers-reduced-motion:reduce){.ds-trigger,.ds-panel li a{transition:none}}"
     },
     {
       "name": "Action on forest",

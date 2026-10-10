@@ -167,11 +167,20 @@ export function MaterialLab({ variant }: { variant: keyof typeof stories }) {
     const phases = Array.from(
       host.querySelectorAll<SVGGElement>("[data-phase]"),
     );
+    const chapters = Array.from(
+      host.querySelectorAll<HTMLElement>(".material-chapters button"),
+    );
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
     reduced.current = preference.matches;
     paint.current = (value) => {
       const progress = clampProgress(value);
       motion.current.progress = progress;
+      chapters.forEach((node, index) =>
+        node.style.setProperty(
+          "--chapter-presence",
+          String(Math.max(0, 1 - Math.abs(progress - index))),
+        ),
+      );
       nodes.forEach((node, index) => {
         const [x, y, angle] = interpolateSample(index, progress, recovery);
         node.setAttribute(
@@ -210,8 +219,8 @@ export function MaterialLab({ variant }: { variant: keyof typeof stories }) {
       }
       const next = Math.round(progress);
       if (progressText.current)
-        progressText.current.textContent = `${Math.round((progress / 3) * 100)} %`;
-      if (!seeking.current && next !== current.current) {
+        progressText.current.textContent = `${((progress / 3) * 100).toFixed(1)} %`;
+      if (next !== current.current) {
         current.current = next;
         setStage(next);
         setInspected(null);
@@ -260,11 +269,12 @@ export function MaterialLab({ variant }: { variant: keyof typeof stories }) {
     if (immediate || reduced.current) paint.current(target);
     else {
       seeking.current = true;
-      current.current = Math.round(target);
-      setStage(current.current);
       tween.current = gsap.to(motion.current, {
         progress: target,
-        duration: 0.6,
+        duration: Math.min(
+          1.4,
+          0.6 + Math.abs(target - motion.current.progress) * 0.18,
+        ),
         ease: "power2.inOut",
         onUpdate: () => paint.current(motion.current.progress),
         onComplete: () => {
@@ -566,7 +576,7 @@ export function MaterialLab({ variant }: { variant: keyof typeof stories }) {
               type="range"
               min="0"
               max="300"
-              step="1"
+              step="0.1"
               defaultValue="0"
               aria-label="Progreso del recorrido"
               aria-valuetext={story.steps[stage][0]}
@@ -574,7 +584,7 @@ export function MaterialLab({ variant }: { variant: keyof typeof stories }) {
             />
           </label>
           <output ref={progressText} aria-hidden="true">
-            0 %
+            0.0 %
           </output>
           <button
             disabled={stage === 0}
