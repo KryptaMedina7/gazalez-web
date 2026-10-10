@@ -308,11 +308,12 @@
   stroke: #b3c6a9;
   stroke-width: 2;
 }
-.relationship-board path {
+/* Connector styling must never reach the Lucide icons inside the board. */
+.relationship-board > svg path {
   stroke-dasharray: 5 6;
   transition: stroke 220ms ease;
 }
-.relationship-board path[data-active="true"] {
+.relationship-board > svg path[data-active="true"] {
   stroke: var(--forest);
   stroke-width: 3;
   stroke-dasharray: none;
@@ -404,7 +405,7 @@
 .protein-explorer :is(h2, h3, p) {
   color: var(--canvas);
 }
-.protein-explorer .relationship-board path[data-active="true"] {
+.protein-explorer .relationship-board > svg path[data-active="true"] {
   stroke: #e4eedc;
 }
 .protein-explorer .relationship-center {
@@ -493,12 +494,12 @@
   stroke: #b8ceae;
   stroke-width: 3;
 }
-.resource-loop path {
+.resource-loop > svg:first-child path {
   transition:
     stroke 240ms ease,
     stroke-width 240ms ease;
 }
-.resource-loop path.is-active {
+.resource-loop > svg:first-child path.is-active {
   stroke: var(--forest);
   stroke-width: 5;
 }

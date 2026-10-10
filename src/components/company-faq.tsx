@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "./icon";
 
 export const companyQuestions = [
   [
@@ -52,7 +53,10 @@ export function CompanyFaq({ compact = false }: { compact?: boolean }) {
         {(compact ? companyQuestions.slice(0, 4) : companyQuestions).map(
           ([question, answer]) => (
             <details key={question}>
-              <summary>{question}</summary>
+              <summary>
+                <span>{question}</span>
+                <Icon name="plus" />
+              </summary>
               <p>{answer}</p>
             </details>
           ),

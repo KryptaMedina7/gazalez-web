@@ -139,9 +139,12 @@ export function MaterialLab({ variant }: { variant: keyof typeof stories }) {
   const [inspected, setInspected] = useState<number | null>(null);
 
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const detail = root.current?.querySelector(".material-reading");
     if (!detail) return;
+    if (keyboard || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(detail, { opacity: 1, clearProps: "transform" });
+      return;
+    }
     const arrival = gsap.fromTo(
       detail,
       { opacity: 0.55, y: 4 },
@@ -150,7 +153,7 @@ export function MaterialLab({ variant }: { variant: keyof typeof stories }) {
     return () => {
       arrival.kill();
     };
-  }, [stage, inspected]);
+  }, [stage, inspected, keyboard]);
 
   useEffect(() => {
     const host = root.current;

@@ -4354,6 +4354,9 @@ input[type="file"]::file-selector-button {
   min-height: 44px;
   cursor: pointer;
 }
+.company-faq summary svg {
+  flex-shrink: 0;
+}
 .company-faq details p {
   font-size: 13px;
   line-height: 1.85;

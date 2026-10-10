@@ -59,26 +59,34 @@ export function RecoveryPathways() {
   const [stage, setStage] = useState(0);
   const [branch, setBranch] = useState<number | null>(null);
   const root = useRef<HTMLElement>(null);
+  const keyboard = useRef(false);
+  const interacted = useRef(false);
   const id = useId();
   useEffect(() => {
     const host = root.current;
     if (!host) return;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+    const immediate = !interacted.current || keyboard.current || reduce.matches;
     const ctx = gsap.context(() => {
       const lines = host.querySelectorAll<SVGPathElement>("[data-flow]");
       const nodes = host.querySelectorAll<SVGGElement>("[data-station]");
       gsap.to(lines, {
         strokeDashoffset: (i) => (i < stage ? 0 : 1),
         opacity: (i) => (i < stage ? 1 : 0.22),
-        duration: reduce.matches ? 0 : 0.65,
-        stagger: reduce.matches ? 0 : 0.055,
+        duration: immediate ? 0 : 0.65,
+        stagger: immediate ? 0 : 0.055,
         ease: "power2.out",
       });
       gsap.to(nodes, {
         opacity: (i) => (i <= stage ? 1 : 0.34),
-        duration: reduce.matches ? 0 : 0.3,
+        duration: immediate ? 0 : 0.3,
       });
-      if (!reduce.matches) {
+      if (immediate) {
+        gsap.set(host.querySelector(".recovery-reading"), {
+          opacity: 1,
+          clearProps: "transform",
+        });
+      } else {
         gsap.fromTo(
           host.querySelector(".recovery-reading"),
           { opacity: 0.5, y: 5 },
@@ -93,6 +101,14 @@ export function RecoveryPathways() {
     <section
       className="recovery-pathways explorer"
       ref={root}
+      onKeyDownCapture={() => {
+        keyboard.current = true;
+        interacted.current = true;
+      }}
+      onPointerDownCapture={() => {
+        keyboard.current = false;
+        interacted.current = true;
+      }}
       aria-labelledby={`${id}-title`}
     >
       <header className="explorer-heading">
