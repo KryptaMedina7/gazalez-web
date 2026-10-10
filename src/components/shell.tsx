@@ -79,7 +79,6 @@ export function Header() {
 export function Footer() {
   return (
     <footer className="footer footer--landscape">
-      <FooterLandscape />
       <div className="footer-main">
         <div>
           <Brand />
@@ -123,6 +122,7 @@ export function Footer() {
           {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
         </div>
       </div>
+      <FooterLandscape />
       <div className="footer-bottom">
         <p>
           © {new Date().getFullYear()} {site.legalName} · RUT {site.rut}

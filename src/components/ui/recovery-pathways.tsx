@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { StageHighlight } from "./stage-highlight";
 import {
   ArrowRight,
   ArrowLeft,
@@ -175,13 +176,15 @@ export function RecoveryPathways() {
           </g>
         </svg>
         <div
-          className="recovery-stops"
+          className="recovery-stops stage-rail"
           role="group"
           aria-label="Etapas de evaluación"
         >
+          <StageHighlight index={stage} />
           {stages.map(({ label, icon: Icon }, i) => (
             <button
               key={label}
+              data-stage-option
               aria-pressed={stage === i}
               aria-controls={`${id}-detail`}
               onClick={() => {

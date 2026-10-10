@@ -19,5 +19,5 @@
     "quality": 84,
     "alphaQuality": 95
   },
-  "motion": "Transform only, background -18px and foreground +28px to 0; GSAP scroll scrub 0.6; static with reduced motion."
+  "motion": "Transform-only parallax at footer end, scrub 0.45, then bounded 20px desktop/11px compact rebound; static with reduced motion. Current timings: DESIGN.md and docs/GAZAL-FOOTER-RURAL-2026-10-09.md."
 }

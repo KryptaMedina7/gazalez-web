@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
+import { StageHighlight } from "./stage-highlight";
 import { hydrobacPlanePositions } from "@/lib/hydrobac-layout.mjs";
 import { Dna, Droplets, Network, Layers3, RotateCcw } from "lucide-react";
 
@@ -352,13 +353,15 @@ export function HydrobacExplorer() {
         </label>
       </div>
       <div
-        className="hydrobac-controls"
+        className="hydrobac-controls stage-rail"
         role="group"
         aria-label="Explorar componentes de HIDROBAC"
       >
+        <StageHighlight index={active} />
         {stages.map(({ label, icon: StageIcon }, index) => (
           <button
             key={label}
+            data-stage-option
             type="button"
             aria-pressed={active === index}
             onClick={() => select(index)}

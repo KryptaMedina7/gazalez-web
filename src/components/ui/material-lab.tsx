@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { StageHighlight } from "./stage-highlight";
 import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw } from "lucide-react";
 import {
   clampProgress,
@@ -545,13 +546,15 @@ export function MaterialLab({ variant }: { variant: keyof typeof stories }) {
       </div>
       <div className="material-controls">
         <div
-          className="material-chapters"
+          className="material-chapters stage-rail"
           role="group"
           aria-label="Etapas del recorrido"
         >
+          <StageHighlight index={stage} />
           {story.steps.map(([label], index) => (
             <button
               key={label}
+              data-stage-option
               aria-pressed={stage === index}
               aria-controls={`${id}-detail`}
               onClick={(e) => seek(index, e.detail === 0)}

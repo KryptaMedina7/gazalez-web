@@ -108,8 +108,13 @@
       },
       {
         "name": "footer-landscape",
-        "value": "-18px / 28px vertical offsets to zero; scrub 0.6; ease none",
-        "purpose": "Two decorative illustrated rural planes move with GSAP ScrollTrigger from top bottom to bottom center. Text remains fixed; reduced motion is static. No layout animation or closing DotGrid; informational-page light DotGrid remains."
+        "value": "Desktop 38/90px to -12/-30px; compact 24/54px to -6/-15px; scrub 0.45. End bounce: 20/11px compression 160ms, elastic return 850ms.",
+        "purpose": "Two decorative rural planes after footer links, before legal line. Native scroll remains untouched; bounce rearms after 65px upward. No text/layout motion. Reduced motion is static."
+      },
+      {
+        "name": "stage-selection",
+        "value": "380ms power3.inOut; transform-only moving surface",
+        "purpose": "Shared StageHighlight in Process, MaterialLab, RecoveryPathways and homepage HydrobacExplorer. Follows wrapped mobile rows; pale or dark green variants preserve contrast. Keyboard and reduced motion settle immediately. ResizeObserver keeps alignment; interrupted motion retargets."
       },
       {
         "name": "section-introduction",
@@ -153,8 +158,8 @@
       },
       {
         "name": "footer-landscape",
-        "value": "clamp(260px, 28vw, 440px) landscape and footer top padding",
-        "purpose": "Generated Cordillera and pasture illustrations above the forest footer. Transparent responsive WebP, lazy-loaded, decorative and aria-hidden. Two transform-only scroll planes, with a fixed fade into the solid reading surface. Provenance: docs/assets/footer-rural-20261009.json."
+        "value": "clamp(260px, 28vw, 440px) landscape after links; clamp(40px, 5vw, 76px) footer top padding",
+        "purpose": "Generated Cordillera and pasture illustrations close the forest footer. Transparent responsive WebP, lazy-loaded, decorative and aria-hidden. Two transform-only scroll planes and bounded end bounce. Provenance: docs/assets/footer-rural-20261009.json."
       }
     ],
     "breakpoints": [

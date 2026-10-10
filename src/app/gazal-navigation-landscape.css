@@ -242,20 +242,73 @@ body { padding-top: var(--site-header-height); }
 }
 
 /* Illustrated rural planes lead into the solid, legible contact surface. */
+.stage-rail {
+  position: relative;
+  isolation: isolate;
+}
+.stage-highlight {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+  background: #c5d9ba;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 0;
+}
+.stage-rail[data-stage-ready] .stage-highlight { visibility: visible; }
+.stage-rail[data-stage-ready] [data-stage-option] {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  color: var(--ink);
+  transition: border-color 200ms ease-out, color 200ms ease-out;
+}
+.stage-rail[data-stage-ready] [data-stage-option]::before { display: none; }
+.stage-rail[data-stage-ready] [data-stage-option][aria-pressed="true"] {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--body);
+}
+@media (hover: hover) and (pointer: fine) {
+  .stage-rail[data-stage-ready] [data-stage-option]:hover:not([aria-pressed="true"]) {
+    background: #78977414;
+    border-color: var(--body);
+  }
+}
+.stage-rail--dark .stage-highlight { background: #36583e; }
+.stage-rail--dark[data-stage-ready] [data-stage-option],
+.stage-rail--dark[data-stage-ready] [data-stage-option][aria-pressed="true"] {
+  color: var(--gazal-primary);
+}
+.stage-rail--dark[data-stage-ready] [data-stage-option][aria-pressed="true"] {
+  border-color: var(--sage);
+}
+.stage-rail--dark[data-stage-ready] .process-step-label span { color: #c9d9c2; }
+@media (prefers-reduced-motion: reduce) {
+  .stage-rail[data-stage-ready] [data-stage-option] { transition: none; }
+}
+
 .footer--landscape {
   position: relative;
-  padding-top: clamp(260px, 28vw, 440px);
+  padding-top: clamp(40px, 5vw, 76px);
   background: var(--forest);
   border-top: 0;
   overflow: clip;
 }
 .footer-landscape {
-  position: absolute;
-  inset: 0 0 auto;
+  position: relative;
+  margin-inline: calc(-1 * var(--space));
   height: clamp(260px, 28vw, 440px);
-  background: var(--canvas);
+  background: var(--forest);
   overflow: hidden;
   pointer-events: none;
+}
+.footer-landscape__planes {
+  position: absolute;
+  inset: -12% 0 -16%;
 }
 .footer-landscape picture {
   position: absolute;
@@ -270,7 +323,15 @@ body { padding-top: var(--site-header-height); }
   object-position: center bottom;
 }
 .footer-landscape__cordillera {
-  opacity: 0.82;
+  opacity: 0.66;
+}
+.footer-landscape::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 65%;
+  background: linear-gradient(var(--forest), #16302400);
+  pointer-events: none;
 }
 .footer-landscape::after {
   content: "";
@@ -286,6 +347,7 @@ body { padding-top: var(--site-header-height); }
 .footer--landscape .footer-main {
   position: relative;
   padding-top: 24px;
+  padding-bottom: 0;
 }
 .footer--landscape .footer-main > div:first-child p {
   max-width: 30ch;

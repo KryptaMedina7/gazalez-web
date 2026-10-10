@@ -5,6 +5,7 @@ import { Pause, RotateCcw } from "lucide-react";
 import { processSteps } from "@/lib/content";
 import { Icon } from "./icon";
 import Link from "next/link";
+import { StageHighlight } from "./ui/stage-highlight";
 
 import {
   processParticles as particles,
@@ -155,10 +156,15 @@ export function Process() {
           aplicación. La ruta se evalúa según cada necesidad.
         </p>
       </div>
-      <div className="process-controls" aria-label="Etapas de transformación">
+      <div
+        className="process-controls stage-rail stage-rail--dark"
+        aria-label="Etapas de transformación"
+      >
+        <StageHighlight index={step} />
         {processSteps.map((p, i) => (
           <button
             key={p.title}
+            data-stage-option
             aria-pressed={step === i}
             onClick={(event) => choose(i, event.detail === 0)}
           >
